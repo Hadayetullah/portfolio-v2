@@ -4,3 +4,12 @@
 /* * {
   font-family: Outfit;
 } */
+
+@theme {
+  --color-lighthover: #fcf4ff;
+  --color-darkhover: #2a004a;
+  --color-darktheme: #11001F;
+
+  --font-outfit: Outfit, sans-serif;
+  --font-ovo: Ovo, serif;
+}
