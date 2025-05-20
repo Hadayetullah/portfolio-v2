@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 
-* {
+/* * {
   font-family: Outfit, sans-serif;
-}
+} */
 
 @theme {
   --color-lighthover: #fcf4ff;
