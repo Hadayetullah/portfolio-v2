@@ -20,10 +20,8 @@ const Header = (props: Props) => {
             Frontend web developer
         </h1>
 
-        <p className='font-ovo mx-auto max-w-2xl leading-6 '>
-            I am a frontend web developer with over 1 year of experience in building responsive and user 
-            friendly websites. I have a strong passion for creating beautiful and functional web 
-            applications using the latest technologies and best practices.
+        <p className='font-ovo mx-auto max-w-2xl '>
+            High level experience in web design and development, producing quality work.
         </p>
 
         <div className='flex flex-col sm:flex-row items-center gap-4 mt-4'>
