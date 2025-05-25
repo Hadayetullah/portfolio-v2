@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 // import { backendSvgIcon, frontendSvgIcon } from '../../assets/svgIcons';
 import { assets, serviceData } from '@/assets/assets';
@@ -30,14 +32,14 @@ const Services = (props: Props) => {
             I offer a range of services to help you achieve your goals.
         </p>
 
-        <div className='flex justify-center gap-6 my-10 items-center'>
+        <div className='grid grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] gap-6 my-10'>
             {
                 serviceData.map(({icon, title, description, link}, index) => (
                     <div 
                         key={index}
                         className='border border-gray-400 rounded-lg px-8 py-12 hover:shadow-shadowblack cursor-pointer hover:bg-lighthover hover:-translate-y-1 duration-500'
                     >
-                        <div className={`w-10`}>
+                        <div className={`w-12 p-2 rounded-lg bg-[#ff388b] text-white`}>
                             {icon}
                         </div>
 
