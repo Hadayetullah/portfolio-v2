@@ -15,4 +15,6 @@
 
   --font-outfit: Outfit, sans-serif;
   --font-ovo: Ovo, serif;
+
+  --grid-auto: repeat(auto-fit, minmax(200px, 1fr));
 }
