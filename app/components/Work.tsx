@@ -8,7 +8,7 @@ type Props = {}
 
 const Work = (props: Props) => {
   return (
-    <div id="work" className='w-full px-[12%] py-10 scroll-mt-20 '>
+    <div id="work" className='w-full px-[12%] py-10 scroll-mt-20'>
         <h4 className='text-center mb-2 text-lg font-ovo '>My Portfolio</h4>
 
         <h2 className='text-5xl text-center font-ovo '>My latest work</h2>
