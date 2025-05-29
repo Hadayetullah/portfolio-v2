@@ -5,7 +5,9 @@ import React from 'react'
 import { assets, serviceData } from '@/assets/assets';
 import Image from 'next/image';
 
-type Props = {}
+type Props = {
+    isDarkMode: boolean;
+}
 
 const Services = (props: Props) => {
 

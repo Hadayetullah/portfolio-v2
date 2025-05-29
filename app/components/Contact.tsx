@@ -2,7 +2,9 @@ import { assets } from '@/assets/assets'
 import Image from 'next/image'
 import React from 'react'
 
-type Props = {}
+type Props = {
+    isDarkMode: boolean;
+}
 
 const Contact = (props: Props) => {
   return (
