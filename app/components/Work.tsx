@@ -20,7 +20,7 @@ const Work = (props: Props) => {
             my expertise in front-end development.
         </p>
 
-        <div className='grid grid-cols-[var(--grid-auto)] gap-5 my-10'>
+        <div className='grid grid-cols-[var(--grid-auto)] gap-5 my-10 dark:text-black'>
             {
                 workData.map((project, index) => (
                     <div 
@@ -49,9 +49,12 @@ const Work = (props: Props) => {
 
         <a 
             href=""
-            className='w-max flex items-center justify-center gap-2 text-gray-700 border-[0.5px] border-gray-700 rounded-full py-3 px-10 mx-auto my-20 hover:bg-lighthover duration-500'
+            className='w-max flex items-center justify-center gap-2 text-gray-700 border-[0.5px] 
+            border-gray-700 rounded-full py-3 px-10 mx-auto my-20 hover:bg-lighthover duration-500 
+            dark:text-white dark:border-white dark:hover:bg-darkhover'
         >
-            Show more <Image src={assets.right_arrow_bold} alt='' className='w-4' />
+            Show more 
+            <Image src={props.isDarkMode ? assets.right_arrow_bold_dark : assets.right_arrow_bold} alt='' className='w-4' />
         </a>
     </div>
   )
