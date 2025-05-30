@@ -19,7 +19,7 @@ const Footer = (props: Props) => {
             </a> */}
 
             <div className='w-max flex items-center gap-2 mx-auto'>
-                <Image src={assets.mail_icon} alt='' className='w-6' />
+                <Image src={props.isDarkMode ? assets.mail_icon_dark : assets.mail_icon} alt='' className='w-6' />
                 hadayetullah30@gmail.com
             </div>
         </div>
