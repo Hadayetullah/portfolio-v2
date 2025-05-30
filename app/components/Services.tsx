@@ -39,15 +39,17 @@ const Services = (props: Props) => {
                 serviceData.map(({icon, title, description, link}, index) => (
                     <div 
                         key={index}
-                        className='border border-gray-400 rounded-lg px-8 py-12 hover:shadow-shadowblack cursor-pointer hover:bg-lighthover hover:-translate-y-1 duration-500'
+                        className='border border-gray-400 rounded-lg px-8 py-12 hover:shadow-shadowblack 
+                        cursor-pointer hover:bg-lighthover hover:-translate-y-1 duration-500 
+                        dark:hover:bg-darkhover dark:hover:shadow-white'
                     >
                         <div className={`w-12 p-2 rounded-lg bg-[#ff388b] text-white`}>
                             {icon}
                         </div>
 
-                        <h3 className='text-lg my-5 text-gray-700'>{title}</h3>
+                        <h3 className='text-lg my-5 text-gray-700 dark:text-white'>{title}</h3>
 
-                        <p className='text-sm text-gray-600 leading-5'>{description}</p>
+                        <p className='text-sm text-gray-600 leading-5 dark:text-white/80'>{description}</p>
 
                         <a 
                             href={link}
