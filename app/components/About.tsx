@@ -57,10 +57,12 @@ const About = (props: Props) => {
                 transition={{ duration: 0.6, delay: 0.8 }}
                 className='flex-1'
             >
-                <p className='mb-10 max-w-2xl font-ovo '>
-                    I am a frontend web developer with over 1 year of experience in building responsive and user 
-                    friendly websites. I have a strong passion for creating beautiful and functional web 
-                    applications using the latest technologies and best practices. 
+                <p className='mb-10 max-w-2xl font-ovo text-justify'>
+                    I am a frontend web developer with 1 year of professional experience and over 7 years 
+                    of self-directed learning. I specialize in building responsive, user-friendly web 
+                    applications with a strong focus on modern technologies and best practices. I am 
+                    passionate about crafting clean, intuitive interfaces and continuously improving my 
+                    skills to deliver high-quality user experiences.
                 </p>
 
                 <motion.ul 
