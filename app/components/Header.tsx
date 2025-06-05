@@ -11,7 +11,8 @@ type Props = {
 
 const Header = (props: Props) => {
   return (
-    <div className='w-11/12 max-w-3xl text-center mx-auto h-screen flex flex-col items-center justify-center gap-4 '>
+    <>
+    {/* <div className='w-11/12 max-w-3xl text-center mx-auto h-screen flex flex-col items-center justify-center gap-4 '>
         <motion.div 
             initial={{ scale: 0 }}
             whileInView={{ scale: 1 }}
@@ -74,7 +75,24 @@ const Header = (props: Props) => {
                 <Image src={assets.download_icon} alt='' className='w-4' />
             </motion.a>
         </div>
+    </div> */}
+    <div className='w-full h-screen px-[12%] pt-[90px] md:pt-8 flex flex-col md:flex-row items-center justify-between'>
+        <div className='text-center xl:text-left'>
+            <span className='text-xl'>Software developer</span>
+            <h1 className='text-3xl sm:text-5xl lg:text-[66px]'>Hello I'm <br /><span>Hadayetullah</span></h1>
+            <motion.p 
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.7 }}
+                className='max-w-[500px] mb-9 text-white/80 '
+            >
+                High level skills and experience in web design and development, producing quality work.
+            </motion.p>
+        </div>
+
+        <div>Photo</div>
     </div>
+    </>
   )
 }
 
