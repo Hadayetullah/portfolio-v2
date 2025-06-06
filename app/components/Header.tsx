@@ -4,6 +4,7 @@ import { assets } from '@/assets/assets'
 import Image from 'next/image'
 import React from 'react'
 import { motion } from "motion/react";
+import Social from './Social';
 
 type Props = {
     isDarkMode: boolean;
@@ -79,15 +80,37 @@ const Header = (props: Props) => {
     <div className='w-full h-screen px-[12%] pt-[90px] md:pt-8 flex flex-col md:flex-row items-center justify-between'>
         <div className='text-center xl:text-left'>
             <span className='text-xl'>Software developer</span>
-            <h1 className='text-3xl sm:text-5xl lg:text-[66px]'>Hello I'm <br /><span>Hadayetullah</span></h1>
+            <h2 className='h2 mb-6'>Hello I'm <br /><span>Hadayetullah</span></h2>
             <motion.p 
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.7 }}
-                className='max-w-[500px] mb-9 text-white/80 '
+                className='max-w-[500px] mb-9'
             >
                 High level skills and experience in web design and development, producing quality work.
             </motion.p>
+
+            {/* CV button and Socials */}
+            <div className='flex flex-col md:flex-row items-center gap-8'>
+                <motion.a 
+                    initial={{ y: 30, opacity: 0 }}
+                    whileInView={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.6, delay: 1.2 }} 
+                    href="/Hadayetullah-CV.pdf" download
+                    className='px-10 py-3 flex items-center gap-2 border rounded-full border-gray-500 
+                    dark:text-black bg-white uppercase text-sm font-medium' 
+                >
+                    Download CV
+                    <Image src={assets.download_icon} alt='' className='w-4' />
+                </motion.a>
+
+                <div>
+                    <Social 
+                        containerStyles="flex gap-6" 
+                        iconStyles="w-9 h-9 border rounded-full flex justify-center items-center text-base " 
+                    />
+                </div>
+            </div>
         </div>
 
         <div>Photo</div>

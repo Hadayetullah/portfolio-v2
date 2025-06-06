@@ -7,6 +7,8 @@
 }
 
 @theme {
+  --breakpoint-xs: 380px;
+
   --color-lighthover: #fcf4ff;
   --color-darkhover: #2a004a;
   --color-darktheme: #11001F;
@@ -26,4 +28,37 @@
   --font-ovo: Ovo, serif;
 
   --grid-auto: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+/* @layer base {
+  h1 {
+    @apply text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-[66px];
+  }
+
+  h2 {
+    @apply text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-[66px];
+  }
+} */
+
+/* @layer components {
+  .h2 {
+    font-size: ; text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-[66px];
+  }
+} */
+@layer utilities {
+  .h2 {
+    @apply text-4xl sm:text-5xl font-medium leading-[1];
+  }
+
+  .h3 {
+    @apply text-2xl sm:text-3xl font-medium leading-[1];
+  }
+
+  .h4 {
+    @apply text-xl sm:text-2xl font-medium leading-[1];
+  }
+
+  .h5 {
+    @apply text-lg sm:text-xl font-medium leading-[1];
+  }
 }
