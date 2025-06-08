@@ -4,7 +4,11 @@ import { assets } from '@/assets/assets'
 import Image from 'next/image'
 import React from 'react'
 import { motion } from "motion/react";
+
+import { LuDownload } from "react-icons/lu";
+
 import Social from './Social';
+import Photo from './Photo';
 
 type Props = {
     isDarkMode: boolean;
@@ -77,14 +81,25 @@ const Header = (props: Props) => {
             </motion.a>
         </div>
     </div> */}
-    <div className='w-full h-screen px-[12%] pt-[90px] md:pt-8 flex flex-col md:flex-row items-center justify-between'>
+    <div className='w-full h-fit lg:h-screen px-[12%] pt-[90px] lg:pt-8 pb-10 mb-10 flex gap-y-10 flex-col-reverse lg:flex-row items-center justify-between'>
         <div className='text-center xl:text-left'>
-            <span className='text-xl'>Software developer</span>
-            <h2 className='h2 mb-6'>Hello I'm <br /><span>Hadayetullah</span></h2>
+            <motion.span 
+                initial={{ y: -20, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.4, delay: 0.3 }}
+                className='text-xl'>Frontend web developer
+            </motion.span>
+
+            <motion.h2 
+                initial={{ y: -20, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className='h2 mb-6'>Hello I'm <br /><span>Hadayetullah</span>
+            </motion.h2>
             <motion.p 
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
-                transition={{ duration: 0.6, delay: 0.7 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
                 className='max-w-[500px] mb-9'
             >
                 High level skills and experience in web design and development, producing quality work.
@@ -94,26 +109,41 @@ const Header = (props: Props) => {
             <div className='flex flex-col md:flex-row items-center gap-8'>
                 <motion.a 
                     initial={{ y: 30, opacity: 0 }}
-                    whileInView={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 0.6, delay: 1.2 }} 
+                    // whileInView={{ y: 0, opacity: 1 }}
+                    // transition={{ duration: 0.7, delay: 0.6 }}
+                    animate={{
+                        y: 0,
+                        opacity: 1,
+                        transition: {
+                            duration: 0.7,
+                            delay: 0.6,
+                        }
+                    }}
                     href="/Hadayetullah-CV.pdf" download
-                    className='px-10 py-3 flex items-center gap-2 border rounded-full border-gray-500 
-                    dark:text-black bg-white uppercase text-sm font-medium' 
+                    className='px-10 py-3 flex items-center gap-2 border hover:border-secondarylight 
+                    dark:hover:text-secondarydark hover:text-secondarylight dark:hover:border-secondarydark 
+                    rounded-full border-gray-500 dark:text-white bg-white dark:bg-transparent 
+                    uppercase text-sm font-medium duration-100' 
                 >
                     Download CV
-                    <Image src={assets.download_icon} alt='' className='w-4' />
+                    {/* <Image src={assets.download_icon} alt='' className='w-4' /> */}
+                    <LuDownload className='text-lg' />
                 </motion.a>
 
                 <div>
                     <Social 
                         containerStyles="flex gap-6" 
-                        iconStyles="w-9 h-9 border rounded-full flex justify-center items-center text-base " 
+                        iconStyles="w-9 h-9 border border-gray-500 hover:border-secondarylight rounded-full flex justify-center 
+                        items-center text-base hover:text-secondarylight duration-100 dark:hover:text-secondarydark 
+                        dark:hover:border-secondarydark" 
                     />
                 </div>
             </div>
         </div>
 
-        <div>Photo</div>
+        <div>
+            <Photo />
+        </div>
     </div>
     </>
   )

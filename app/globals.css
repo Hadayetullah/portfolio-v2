@@ -12,14 +12,9 @@
   --color-lighthover: #fcf4ff;
   --color-darkhover: #2a004a;
   --color-darktheme: #11001F;
-  --color-secondary: #4b0f6c;
-  --color-secondaryhover: #5c1a7f;
-  --color-secondarydark: #3c0b5a;
-  --color-secondarydarkhover: #4b0f6c;
-  --color-secondarylight: #6c1f8f;
-  --color-secondarylighthover: #7f2a9f;
-  --color-tertiary: #bbf451;
-
+  --color-secondary: #3cea19;
+  --color-secondarylight: #ff388b;
+  --color-secondarydark: #3cea19;
 
   --shadow-shadowblack: 4px 4px 0 #000000;
   --shadow-shadowwhite: 4px 4px 0 #ffffff;
@@ -47,7 +42,7 @@
 } */
 @layer utilities {
   .h2 {
-    @apply text-4xl sm:text-5xl font-medium leading-[1];
+    @apply text-4xl xs:text-5xl xl:text-[66px] font-medium leading-[1];
   }
 
   .h3 {
