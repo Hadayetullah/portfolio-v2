@@ -4,6 +4,8 @@ import Image from 'next/image'
 import React, { useEffect, useRef, useState } from 'react'
 
 import {assets} from '@/assets/assets'
+import CursorNavEvent from './CursorNavEvent';
+import CustomCursor from './CustomCursor';
 
 interface NavbarProps {
     isDarkMode: boolean;
@@ -13,6 +15,28 @@ interface NavbarProps {
 const Navbar = ({isDarkMode, setIsDarkMode}: NavbarProps) => {
     const sideMenuRef = useRef<HTMLUListElement>(null)
     const [isScrolled, setIsScrolled] = useState<boolean>(false)
+
+    const [hoverRect, setHoverRect] = useState<DOMRect | null>(null);
+    const [cursorPosition, setCursorPosition] = useState<{x: number, y: number}>({ x: 0, y: 0 });
+
+    const handleMouseEnter = (e: React.MouseEvent<HTMLLIElement>) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        setHoverRect(rect);
+    };
+
+    const handleMouseLeave = () => {
+        setHoverRect(null);
+    };
+
+    const handleMouseMove = (e: React.MouseEvent<HTMLUListElement>) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        console.log("ClientX : ",e.clientX)
+        console.log("Rect left : ",rect.left)
+        setCursorPosition({
+            x: e.clientX - rect.left,
+            y: e.clientY - rect.top,
+        });
+    };
 
     const openMenu = () => {
         if (sideMenuRef.current) {
@@ -38,8 +62,17 @@ const Navbar = ({isDarkMode, setIsDarkMode}: NavbarProps) => {
         }
     })
 
+    // useEffect(() => {
+    //     const move = (e: MouseEvent) => {
+    //     setCursorPosition({ x: e.clientX, y: e.clientY });
+    //     };
+    //     window.addEventListener("mousemove", move);
+    //     return () => window.removeEventListener("mousemove", move);
+    // }, []);
+
   return (
     <div className='w-full'>
+        <CursorNavEvent hoveredElementRect={hoverRect} />
         <div className='absolute top-0 right-0 -z-10 w-11/12 translate-y-[-80%] dark:hidden'>
             <Image src={assets.header_bg_color} alt='' className='w-full'/>
         </div>
@@ -57,14 +90,46 @@ const Navbar = ({isDarkMode, setIsDarkMode}: NavbarProps) => {
             </a> */}
 
             <ul 
-                className={`hidden md:flex items-center gap-6 lg:gap-8 rounded-full px-12 py-3 
-                ${isScrolled ? '' : 'bg-[#ffffff50] shadow-sm dark:border dark:border-white/50 dark:bg-transparent'}`}
+                onMouseMove={handleMouseMove}
+                className={`hidden cursor-none relative md:flex items-center gap-2 lg:gap-4 rounded-full px-12 py-3 
+                    ${isScrolled ? '' : 'bg-[#ffffff50] shadow-sm dark:border dark:border-white/50 dark:bg-transparent'}`}
             >
-                <li><a className='font-ovo' href="#home">Home</a></li>
-                <li><a className='font-ovo' href="#about">About me</a></li>
-                <li><a className='font-ovo' href="#services">Services</a></li>
-                <li><a className='font-ovo' href="#work">My Work</a></li>
-                <li><a className='font-ovo' href="#contact">Contact me</a></li>
+                <CustomCursor cursorPosition={cursorPosition} />
+                <li 
+                    className='cursor-none px-4 py-1'
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                >
+                    <a className='font-ovo cursor-none' href="#home">Home</a>
+                </li>
+                <li 
+                    className='cursor-none px-4 py-1'
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                >
+                    <a className='font-ovo cursor-none' href="#about">About me</a>
+                </li>
+                <li 
+                    className='cursor-none px-4 py-1'
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                >
+                    <a className='font-ovo cursor-none' href="#services">Services</a>
+                </li>
+                <li 
+                    className='cursor-none px-4 py-1'
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                >
+                    <a className='font-ovo cursor-none' href="#work">My Work</a>
+                </li>
+                <li 
+                    className='cursor-none px-4 py-1'
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                >
+                    <a className='font-ovo cursor-none' href="#contact">Contact me</a>
+                </li>
             </ul>
 
             <div className='flex items-center gap-4'>
