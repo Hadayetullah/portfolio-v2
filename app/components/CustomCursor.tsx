@@ -10,12 +10,13 @@ export default function CustomCursor({ cursorPosition }: Props) {
   
   return (
     <div
-      className="pointer-events-none z-[9999] w-4 h-4 bg-black rounded-full"
+      className="pointer-events-none z-[200] w-4 h-4 bg-black rounded-full"
       style={{
         position: "absolute",
         top: cursorPosition.y,
         left: cursorPosition.x,
         transform: "translate(-50%, -50%)",
+        transition: "transform 0.03s linear",
       }}
     />
   );
