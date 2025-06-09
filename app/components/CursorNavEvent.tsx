@@ -5,13 +5,11 @@ type Props = {
 };
 
 const CursorNavEvent = ({ hoveredElementRect }: Props) => {
-    // console.log(hoveredElementRect)
   return (
     <div>
         {hoveredElementRect && (
         <div
-          className="fixed pointer-events-none cursor-none border border-red-900 transition-all duration-300 ease-in-out"
-          style={{
+        style={{
             top: hoveredElementRect.top + window.scrollY,
             left: hoveredElementRect.left + window.scrollX,
             width: hoveredElementRect.width,
@@ -19,6 +17,7 @@ const CursorNavEvent = ({ hoveredElementRect }: Props) => {
             borderRadius: '8px',
             zIndex: 50,
           }}
+          className={`fixed pointer-events-none cursor-none border border-red-900 transition-all duration-300 ease-in-out`}
         />
       )}
     </div>

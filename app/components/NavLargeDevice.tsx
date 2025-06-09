@@ -7,74 +7,71 @@ type Props = {
 }
 
 const NavLargeDevice = ({isScrolled}: Props) => {
-        const [hoverRect, setHoverRect] = useState<DOMRect | null>(null);
+    const [hoverRect, setHoverRect] = useState<DOMRect | null>(null);
     const [cursorPosition, setCursorPosition] = useState<{x: number, y: number}>({ x: 0, y: 0 });
+    const [ulCursorVisibility, setULCursorVisibility] = useState<boolean>(false);
 
-    // console.log("first")
+    const handleMouseEnter = (e: React.MouseEvent<HTMLLIElement>) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        setHoverRect(rect);
+    };
 
+    const handleMouseLeave = () => {
+        setHoverRect(null);
+    };
 
-        const handleMouseEnter = (e: React.MouseEvent<HTMLLIElement>) => {
-            const rect = e.currentTarget.getBoundingClientRect();
-            setHoverRect(rect);
-        };
-    
-        const handleMouseLeave = () => {
-            setHoverRect(null);
-        };
-    
-        const handleMouseMove = (e: React.MouseEvent<HTMLUListElement>) => {
-            const rect = e.currentTarget.getBoundingClientRect();
-            console.log("ClientX : ",e.clientX)
-            console.log("Rect left : ",rect.left)
-            setCursorPosition({
-                x: e.clientX - rect.left,
-                y: e.clientY - rect.top,
-            });
-        };
+    const handleULCursorVisibility = (e: boolean) => {
+        setULCursorVisibility(e);
+    }
+
+    const handleMouseMove = (e: React.MouseEvent<HTMLUListElement>) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        setCursorPosition({
+            x: e.clientX - rect.left,
+            y: e.clientY - rect.top,
+        });
+    };
 
   return (
     <div>
         <CursorNavEvent hoveredElementRect={hoverRect} />
         <ul 
             onMouseMove={handleMouseMove}
+            onMouseEnter={() => handleULCursorVisibility(true)}
+            onMouseLeave={() => handleULCursorVisibility(false)}
             className={`hidden cursor-none relative md:flex items-center gap-2 lg:gap-4 rounded-full px-12 py-3 
                 ${isScrolled ? '' : 'bg-[#ffffff50] shadow-sm dark:border dark:border-white/50 dark:bg-transparent'}`}
         >
-            <CustomCursor cursorPosition={cursorPosition} />
+            <CustomCursor cursorPosition={cursorPosition} isULCursorVisible={ulCursorVisibility} />
             <li 
-                className='cursor-none px-4 py-1'
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
             >
-                <a className='font-ovo cursor-none' href="#home">Home</a>
+                <a className='font-ovo cursor-pointer px-4 py-1' href="#home">Home</a>
             </li>
             <li 
-                className='cursor-none px-4 py-1'
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
             >
-                <a className='font-ovo cursor-none' href="#about">About me</a>
+                <a className='font-ovo cursor-pointer px-4 py-1' href="#about">About me</a>
             </li>
             <li 
-                className='cursor-none px-4 py-1'
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
             >
-                <a className='font-ovo cursor-none' href="#services">Services</a>
+                <a className='font-ovo cursor-pointer px-4 py-1' href="#services">Services</a>
             </li>
             <li 
-                className='cursor-none px-4 py-1'
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
             >
-                <a className='font-ovo cursor-none' href="#work">My Work</a>
+                <a className='font-ovo cursor-pointer px-4 py-1' href="#work">My Work</a>
             </li>
             <li 
-                className='cursor-none px-4 py-1'
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
             >
-                <a className='font-ovo cursor-none' href="#contact">Contact me</a>
+                <a className='font-ovo cursor-pointer px-4 py-1' href="#contact">Contact me</a>
             </li>
         </ul>
     </div>
