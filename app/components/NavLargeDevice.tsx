@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CustomCursor from './CustomCursor'
 import CursorNavEvent from './CursorNavEvent';
 
@@ -9,6 +9,7 @@ type Props = {
 const NavLargeDevice = ({isScrolled}: Props) => {
     const [hoverRect, setHoverRect] = useState<DOMRect | null>(null);
     const [cursorPosition, setCursorPosition] = useState<{x: number, y: number}>({ x: 0, y: 0 });
+    const [listItemPosition, setListItemPosition] = useState<{x: number, y: number}>({ x: 0, y: 0 });
     const [ulCursorVisibility, setULCursorVisibility] = useState<boolean>(false);
     const [hoverDirection, setHoverDirection] = useState<null | string>(null);
 
@@ -33,6 +34,13 @@ const NavLargeDevice = ({isScrolled}: Props) => {
         return "center";
     };
 
+    const getCenterPosition = (rect: DOMRect) => {
+  return {
+    x: rect.left + rect.width / 2,
+    y: rect.top + rect.height / 2,
+  };
+};
+
 
     const handleMouseEnter = (e: React.MouseEvent<HTMLLIElement>) => {
         const rect = e.currentTarget.getBoundingClientRect();
@@ -53,21 +61,36 @@ const NavLargeDevice = ({isScrolled}: Props) => {
     }
 
     const handleMouseMove = (e: React.MouseEvent<HTMLUListElement>) => {
-        const rect = e.currentTarget.getBoundingClientRect();
-        setCursorPosition({
-            x: e.clientX - rect.left,
-            y: e.clientY - rect.top,
-        });
-    };
+  if (!hoverRect) {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setCursorPosition({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  }
+};
+
+useEffect(() => {
+  if (hoverRect) {
+    const ulRect = document.querySelector('ul')?.getBoundingClientRect();
+    if (ulRect) {
+      const center = getCenterPosition(hoverRect);
+      setCursorPosition({
+        x: center.x - ulRect.left,
+        y: center.y - ulRect.top,
+      });
+    }
+  }
+}, [hoverRect]);
 
   return (
     <div>
-        <CursorNavEvent hoveredElementRect={hoverRect} hoverDirection={hoverDirection} />
+        {/* <CursorNavEvent hoveredElementRect={hoverRect} hoverDirection={hoverDirection} /> */}
         <ul 
             onMouseMove={handleMouseMove}
             onMouseEnter={() => handleULCursorVisibility(true)}
             onMouseLeave={() => handleULCursorVisibility(false)}
-            className={`hidden cursor-none relative md:flex items-center gap-2 lg:gap-4 rounded-full px-12 py-3 
+            className={`hidden relative md:flex items-center gap-2 lg:gap-4 rounded-full px-12 py-3 
                 ${isScrolled ? '' : 'bg-[#ffffff50] shadow-sm dark:border dark:border-white/50 dark:bg-transparent'}`}
         >
             <CustomCursor cursorPosition={cursorPosition} isULCursorVisible={ulCursorVisibility} hoveredElementRect={hoverRect} />
