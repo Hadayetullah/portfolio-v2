@@ -1,24 +1,51 @@
-"use client";
-
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
 type Props = {
-  cursorPosition: {x: number, y: number};
+  cursorPosition: { x: number; y: number };
   isULCursorVisible: boolean;
+  hoveredElementRect?: DOMRect | null;
 };
 
-export default function CustomCursor({ cursorPosition, isULCursorVisible }: Props) {
-  
-  return (
-    <div
-      className={`pointer-events-none z-[200] w-4 h-4 bg-black rounded-full ${isULCursorVisible ? '' : 'hidden'}`}
-      style={{
-        position: "absolute",
-        top: cursorPosition.y,
-        left: cursorPosition.x,
-        transform: "translate(-50%, -50%)", // Will be overridden
-        transition: "transform 0.03s linear", // Optional: slight smoothing
-      }}
-    />
-  );
-}
+const CustomCursor = ({ cursorPosition, isULCursorVisible, hoveredElementRect }: Props) => {
+  const [style, setStyle] = useState<React.CSSProperties>({
+    position: 'absolute',
+    width: '16px',
+    height: '16px',
+    borderRadius: '50%',
+    backgroundColor: 'rgba(0,0,0,0.8)',
+    transform: 'translate(-50%, -50%)',
+    pointerEvents: 'none',
+    transition: 'width 0.3s ease, height 0.3s ease, background-color 0.3s ease',
+    zIndex: 100,
+  });
+
+  useEffect(() => {
+    let newWidth = 16;
+    let newHeight = 16;
+    let borderRadius = '50%';
+    let backgroundColor = 'rgba(0,0,0,0.8)';
+
+    if (hoveredElementRect) {
+      newWidth = hoveredElementRect.width;
+      newHeight = hoveredElementRect.height;
+      borderRadius = '8px';
+      backgroundColor = 'rgba(0,0,0,0.2)';
+    }
+
+    setStyle((prev) => ({
+      ...prev,
+      left: cursorPosition.x,
+      top: cursorPosition.y,
+      width: newWidth,
+      height: newHeight,
+      borderRadius,
+      backgroundColor,
+    }));
+  }, [cursorPosition, hoveredElementRect]);
+
+  if (!isULCursorVisible) return null;
+
+  return <div style={style} />;
+};
+
+export default CustomCursor;
