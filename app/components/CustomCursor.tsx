@@ -20,7 +20,7 @@ const CustomCursor = ({ cursorPosition, isULCursorVisible, hoveredElementRect }:
   const width = hoveredElementRect ? hoveredWidth : defaultSize;
   const height = hoveredElementRect ? hoveredHeight : defaultSize;
   const borderRadius = '8px';
-  const backgroundColor = hoveredElementRect ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.8)';
+  // const backgroundColor = hoveredElementRect ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.8)';
 
   // Update motion values on cursorPosition change
   React.useEffect(() => {
@@ -32,12 +32,12 @@ const CustomCursor = ({ cursorPosition, isULCursorVisible, hoveredElementRect }:
 
   return (
     <motion.div
+      className={`${hoveredElementRect ? 'bg-black/20 dark:bg-secondarydark/30' : 'bg-black/80 dark:bg-secondarydark'}`}
       style={{
         position: 'absolute',
         width,
         height,
         borderRadius,
-        backgroundColor,
         transform: 'translate(-50%, -50%)',
         pointerEvents: 'none',
         zIndex: 100,

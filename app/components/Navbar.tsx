@@ -17,12 +17,6 @@ interface NavbarProps {
 const Navbar = ({isDarkMode, setIsDarkMode, activeSection}: NavbarProps) => {
     const sideMenuRef = useRef<HTMLUListElement>(null);
     const [isScrolled, setIsScrolled] = useState<boolean>(false);
-    const [urlPath, setUrlPath] =  useState<string>("home");
-
-    const handleUrlPath = (e:any) => {
-        setUrlPath(e)
-        // console.log("Pathname : ", e)
-    }
 
     const openMenu = () => {
         if (sideMenuRef.current) {
@@ -80,7 +74,7 @@ const Navbar = ({isDarkMode, setIsDarkMode, activeSection}: NavbarProps) => {
                 <Image src={assets.logo} alt='' className='w-28 cursor-pointer mr-14'  />
             </a> */}
 
-            <NavLargeDevice isScrolled={isScrolled} handleUrlPath={handleUrlPath} activeSection={activeSection} />
+            <NavLargeDevice isScrolled={isScrolled} activeSection={activeSection} />
 
             <div className='flex items-center gap-4'>
                 <button 

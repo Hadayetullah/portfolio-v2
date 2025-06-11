@@ -4,11 +4,10 @@ import CursorNavEvent from './CursorNavEvent';
 
 type Props = {
     isScrolled: boolean;
-    handleUrlPath: (e: string) => void;
     activeSection: string;
 }
 
-const NavLargeDevice = ({ isScrolled, handleUrlPath, activeSection }: Props) => {
+const NavLargeDevice = ({ isScrolled, activeSection }: Props) => {
     const [hoverRect, setHoverRect] = useState<DOMRect | null>(null);
     const [cursorPosition, setCursorPosition] = useState<{x: number, y: number}>({ x: 0, y: 0 });
     const [listItemPosition, setListItemPosition] = useState<{x: number, y: number}>({ x: 0, y: 0 });
@@ -99,37 +98,37 @@ const NavLargeDevice = ({ isScrolled, handleUrlPath, activeSection }: Props) => 
             <li 
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
-                className={`${activeSection === "home" ? "bg-secondarylight text-white italic rounded-[8px] font-medium" : ""}`}
+                className={`${activeSection === "home" ? "bg-secondarylight text-white dark:bg-transparent dark:border-[0.5px] dark:border-secondarydark dark:text-secondarydark italic font-medium" : ""} rounded-[8px]`}
             >
-                <a onClick={() => handleUrlPath("#home")} className='font-ovo cursor-pointer px-4 py-1' href="#home">Home</a>
+                <a className='font-ovo cursor-pointer px-4 py-1' href="#home">Home</a>
             </li>
             <li 
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
-                className={`${activeSection === "about" ? "bg-secondarylight text-white italic rounded-[8px] font-medium" : ""}`}
+                className={`${activeSection === "about" ? "bg-secondarylight text-white dark:bg-transparent dark:border-[0.5px] dark:border-secondarydark dark:text-secondarydark italic font-medium" : ""} rounded-[8px]`}
             >
-                <a onClick={() => handleUrlPath("#about")} className='font-ovo cursor-pointer px-4 py-1' href="#about">About me</a>
+                <a className='font-ovo cursor-pointer px-4 py-1' href="#about">About me</a>
             </li>
             <li 
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
-                className={`${activeSection === "services" ? "bg-secondarylight text-white italic rounded-[8px] font-medium" : ""}`}
+                className={`${activeSection === "services" ? "bg-secondarylight text-white dark:bg-transparent dark:border-[0.5px] dark:border-secondarydark dark:text-secondarydark italic font-medium" : ""} rounded-[8px]`}
             >
-                <a onClick={() => handleUrlPath("#services")} className='font-ovo cursor-pointer px-4 py-1' href="#services">Services</a>
+                <a className='font-ovo cursor-pointer px-4 py-1' href="#services">Services</a>
             </li>
             <li 
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
-                className={`${activeSection === "work" ? "bg-secondarylight text-white italic rounded-[8px] font-medium" : ""}`}
+                className={`${activeSection === "work" ? "bg-secondarylight text-white dark:bg-transparent dark:border-[0.5px] dark:border-secondarydark dark:text-secondarydark italic font-medium" : ""} rounded-[8px]`}
             >
-                <a onClick={() => handleUrlPath("#work")} className='font-ovo cursor-pointer px-4 py-1' href="#work">My Work</a>
+                <a className='font-ovo cursor-pointer px-4 py-1' href="#work">My Work</a>
             </li>
             <li 
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
-                className={`${activeSection === "contact" ? "bg-secondarylight text-white italic rounded-[8px] font-medium" : ""}`}
+                className={`${activeSection === "contact" ? "bg-secondarylight text-white dark:bg-transparent dark:border-[0.5px] dark:border-secondarydark dark:text-secondarydark italic font-medium" : ""} rounded-[8px]`}
             >
-                <a onClick={() => handleUrlPath("#contact")} className='font-ovo cursor-pointer px-4 py-1' href="#contact">Contact me</a>
+                <a className='font-ovo cursor-pointer px-4 py-1' href="#contact">Contact me</a>
             </li>
         </ul>
     </div>
