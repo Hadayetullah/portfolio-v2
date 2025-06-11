@@ -4,9 +4,11 @@ import CursorNavEvent from './CursorNavEvent';
 
 type Props = {
     isScrolled: boolean;
+    handleUrlPath: (e: string) => void;
+    activeSection: string;
 }
 
-const NavLargeDevice = ({isScrolled}: Props) => {
+const NavLargeDevice = ({ isScrolled, handleUrlPath, activeSection }: Props) => {
     const [hoverRect, setHoverRect] = useState<DOMRect | null>(null);
     const [cursorPosition, setCursorPosition] = useState<{x: number, y: number}>({ x: 0, y: 0 });
     const [listItemPosition, setListItemPosition] = useState<{x: number, y: number}>({ x: 0, y: 0 });
@@ -35,11 +37,11 @@ const NavLargeDevice = ({isScrolled}: Props) => {
     };
 
     const getCenterPosition = (rect: DOMRect) => {
-  return {
-    x: rect.left + rect.width / 2,
-    y: rect.top + rect.height / 2,
-  };
-};
+        return {
+            x: rect.left + rect.width / 2,
+            y: rect.top + rect.height / 2,
+        };
+    };
 
 
     const handleMouseEnter = (e: React.MouseEvent<HTMLLIElement>) => {
@@ -61,27 +63,27 @@ const NavLargeDevice = ({isScrolled}: Props) => {
     }
 
     const handleMouseMove = (e: React.MouseEvent<HTMLUListElement>) => {
-  if (!hoverRect) {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setCursorPosition({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-  }
-};
+        if (!hoverRect) {
+            const rect = e.currentTarget.getBoundingClientRect();
+            setCursorPosition({
+            x: e.clientX - rect.left,
+            y: e.clientY - rect.top,
+            });
+        }
+    };
 
-useEffect(() => {
-  if (hoverRect) {
-    const ulRect = document.querySelector('ul')?.getBoundingClientRect();
-    if (ulRect) {
-      const center = getCenterPosition(hoverRect);
-      setCursorPosition({
-        x: center.x - ulRect.left,
-        y: center.y - ulRect.top,
-      });
-    }
-  }
-}, [hoverRect]);
+    useEffect(() => {
+        if (hoverRect) {
+            const ulRect = document.querySelector('ul')?.getBoundingClientRect();
+            if (ulRect) {
+                const center = getCenterPosition(hoverRect);
+                setCursorPosition({
+                    x: center.x - ulRect.left,
+                    y: center.y - ulRect.top,
+                });
+            }
+        }
+    }, [hoverRect]);
 
   return (
     <div>
@@ -97,32 +99,37 @@ useEffect(() => {
             <li 
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
+                className={`${activeSection === "home" ? "bg-secondarylight text-white italic rounded-[8px] font-medium" : ""}`}
             >
-                <a className='font-ovo cursor-pointer px-4 py-1' href="#home">Home</a>
+                <a onClick={() => handleUrlPath("#home")} className='font-ovo cursor-pointer px-4 py-1' href="#home">Home</a>
             </li>
             <li 
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
+                className={`${activeSection === "about" ? "bg-secondarylight text-white italic rounded-[8px] font-medium" : ""}`}
             >
-                <a className='font-ovo cursor-pointer px-4 py-1' href="#about">About me</a>
+                <a onClick={() => handleUrlPath("#about")} className='font-ovo cursor-pointer px-4 py-1' href="#about">About me</a>
             </li>
             <li 
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
+                className={`${activeSection === "services" ? "bg-secondarylight text-white italic rounded-[8px] font-medium" : ""}`}
             >
-                <a className='font-ovo cursor-pointer px-4 py-1' href="#services">Services</a>
+                <a onClick={() => handleUrlPath("#services")} className='font-ovo cursor-pointer px-4 py-1' href="#services">Services</a>
             </li>
             <li 
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
+                className={`${activeSection === "work" ? "bg-secondarylight text-white italic rounded-[8px] font-medium" : ""}`}
             >
-                <a className='font-ovo cursor-pointer px-4 py-1' href="#work">My Work</a>
+                <a onClick={() => handleUrlPath("#work")} className='font-ovo cursor-pointer px-4 py-1' href="#work">My Work</a>
             </li>
             <li 
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
+                className={`${activeSection === "contact" ? "bg-secondarylight text-white italic rounded-[8px] font-medium" : ""}`}
             >
-                <a className='font-ovo cursor-pointer px-4 py-1' href="#contact">Contact me</a>
+                <a onClick={() => handleUrlPath("#contact")} className='font-ovo cursor-pointer px-4 py-1' href="#contact">Contact me</a>
             </li>
         </ul>
     </div>

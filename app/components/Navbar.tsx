@@ -11,11 +11,18 @@ import NavLargeDevice from './NavLargeDevice';
 interface NavbarProps {
     isDarkMode: boolean;
     setIsDarkMode: (value: boolean) => void;
+    activeSection: string;
 }
 
-const Navbar = ({isDarkMode, setIsDarkMode}: NavbarProps) => {
-    const sideMenuRef = useRef<HTMLUListElement>(null)
-    const [isScrolled, setIsScrolled] = useState<boolean>(false)
+const Navbar = ({isDarkMode, setIsDarkMode, activeSection}: NavbarProps) => {
+    const sideMenuRef = useRef<HTMLUListElement>(null);
+    const [isScrolled, setIsScrolled] = useState<boolean>(false);
+    const [urlPath, setUrlPath] =  useState<string>("home");
+
+    const handleUrlPath = (e:any) => {
+        setUrlPath(e)
+        // console.log("Pathname : ", e)
+    }
 
     const openMenu = () => {
         if (sideMenuRef.current) {
@@ -37,9 +44,15 @@ const Navbar = ({isDarkMode, setIsDarkMode}: NavbarProps) => {
                 } else if (window.scrollY <= 50 && isScrolled) {
                     setIsScrolled(false);
                 }
+
+                // console.log(window.location.assign("/#home"))
             });
         }
     })
+
+    // useEffect(() => {
+    //     console.log(window.location.hash)
+    // }, [])
 
     // useEffect(() => {
     //     const move = (e: MouseEvent) => {
@@ -67,7 +80,7 @@ const Navbar = ({isDarkMode, setIsDarkMode}: NavbarProps) => {
                 <Image src={assets.logo} alt='' className='w-28 cursor-pointer mr-14'  />
             </a> */}
 
-            <NavLargeDevice isScrolled={isScrolled} />
+            <NavLargeDevice isScrolled={isScrolled} handleUrlPath={handleUrlPath} activeSection={activeSection} />
 
             <div className='flex items-center gap-4'>
                 <button 

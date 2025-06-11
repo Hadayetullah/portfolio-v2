@@ -2,7 +2,7 @@
 
 import { assets } from '@/assets/assets'
 import Image from 'next/image'
-import React from 'react'
+import React, { ForwardedRef } from 'react'
 import { motion } from "motion/react";
 
 import { LuDownload } from "react-icons/lu";
@@ -12,6 +12,8 @@ import Photo from './Photo';
 
 type Props = {
     isDarkMode: boolean;
+    id: string;
+    ref: ForwardedRef<HTMLDivElement>;
 }
 
 const Header = (props: Props) => {
@@ -81,7 +83,11 @@ const Header = (props: Props) => {
             </motion.a>
         </div>
     </div> */}
-    <div className='w-full h-fit lg:h-screen px-[12%] pt-[90px] lg:pt-8 pb-10 mb-10 flex gap-y-10 flex-col-reverse lg:flex-row items-center justify-between'>
+    <div 
+        id={props.id} 
+        ref={props.ref} 
+        className='w-full h-fit lg:h-screen px-[12%] pt-[90px] lg:pt-8 pb-10 mb-10 flex gap-y-10 flex-col-reverse lg:flex-row items-center justify-between'
+    >
         <div className='text-center lg:text-left'>
             <motion.span 
                 initial={{ y: -20, opacity: 0 }}

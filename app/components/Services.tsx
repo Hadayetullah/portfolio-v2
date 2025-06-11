@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { ForwardedRef } from 'react'
 // import { backendSvgIcon, frontendSvgIcon } from '../../assets/svgIcons';
 import { assets, serviceData } from '@/assets/assets';
 import Image from 'next/image';
@@ -8,6 +8,8 @@ import { motion } from 'motion/react'
 
 type Props = {
     isDarkMode: boolean;
+    id: string;
+    ref: ForwardedRef<HTMLDivElement>;
 }
 
 const Services = (props: Props) => {
@@ -30,7 +32,8 @@ const Services = (props: Props) => {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 1 }}
-        id="services" 
+        id={props.id} 
+        ref={props.ref} 
         className='w-full px-[12%] py-10 scroll-mt-20'
     >
         <motion.h4 

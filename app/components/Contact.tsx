@@ -1,10 +1,12 @@
 import { assets } from '@/assets/assets'
 import Image from 'next/image'
-import React from 'react'
+import React, { ForwardedRef } from 'react'
 import { motion } from 'motion/react'
 
 type Props = {
     isDarkMode: boolean;
+    id: string;
+    ref: ForwardedRef<HTMLDivElement>;
 }
 
 const Contact = (props: Props) => {
@@ -13,7 +15,8 @@ const Contact = (props: Props) => {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 1 }}
-        id="contact" 
+        id={props.id} 
+        ref={props.ref} 
         className='w-full px-[12%] py-10 scroll-mt-20 bg-[url("/footer-bg-color.png")] bg-no-repeat 
         bg-center bg-[90%_auto] dark:bg-none'
     >

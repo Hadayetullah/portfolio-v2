@@ -2,11 +2,13 @@
 
 import { assets, workData } from '@/assets/assets'
 import Image from 'next/image'
-import React from 'react'
+import React, { ForwardedRef } from 'react'
 import { motion } from 'motion/react'
 
 type Props = {
     isDarkMode: boolean;
+    id: string;
+    ref: ForwardedRef<HTMLDivElement>;
 }
 
 const Work = (props: Props) => {
@@ -15,7 +17,8 @@ const Work = (props: Props) => {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 1 }}
-        id="work" 
+        id={props.id} 
+        ref={props.ref} 
         className='w-full px-[12%] py-10 scroll-mt-20'
     >
         <motion.h4 

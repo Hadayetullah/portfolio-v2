@@ -12,14 +12,14 @@ const CustomCursor = ({ cursorPosition, isULCursorVisible, hoveredElementRect }:
   const cursorY = useMotionValue(cursorPosition.y);
 
   const springX = useSpring(cursorX, { stiffness: 120, damping: 20 });
-const springY = useSpring(cursorY, { stiffness: 120, damping: 20 });
+  const springY = useSpring(cursorY, { stiffness: 120, damping: 20 });
 
   const defaultSize = 16;
   const hoveredWidth = hoveredElementRect?.width ?? defaultSize;
   const hoveredHeight = hoveredElementRect?.height ?? defaultSize;
   const width = hoveredElementRect ? hoveredWidth : defaultSize;
   const height = hoveredElementRect ? hoveredHeight : defaultSize;
-  const borderRadius = hoveredElementRect ? '8px' : '50%';
+  const borderRadius = '8px';
   const backgroundColor = hoveredElementRect ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.8)';
 
   // Update motion values on cursorPosition change
@@ -43,7 +43,7 @@ const springY = useSpring(cursorY, { stiffness: 120, damping: 20 });
         zIndex: 100,
         left: springX,
         top: springY,
-        transition: 'width 0.1s ease, height 0.1s ease, background-color 0.1s ease, top 0.1s ease, left 0.1s ease',
+        transition: 'width 0.1s ease, height 0.1s ease, background-color 0.1s ease',
       }}
     />
   );
