@@ -91,7 +91,7 @@ const NavLargeDevice = ({ isScrolled, activeSection }: Props) => {
             onMouseMove={handleMouseMove}
             onMouseEnter={() => handleULCursorVisibility(true)}
             onMouseLeave={() => handleULCursorVisibility(false)}
-            className={`hidden relative md:flex items-center gap-2 lg:gap-4 rounded-full px-12 py-3 
+            className={`hidden relative md:flex items-center gap-2 lg:gap-4 rounded-full px-4 lg:px-8 xl:px-12 py-3 
                 ${isScrolled ? '' : 'bg-[#ffffff50] shadow-sm dark:border dark:border-white/50 dark:bg-transparent'}`}
         >
             <CustomCursor cursorPosition={cursorPosition} isULCursorVisible={ulCursorVisibility} hoveredElementRect={hoverRect} />
