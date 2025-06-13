@@ -51,6 +51,7 @@ export default function Home() {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             // Clear any previous timeout
+            console.log(entry.target.id)
           clearTimeout(timeoutId);
 
           activeSectionList.push(entry.target.id);

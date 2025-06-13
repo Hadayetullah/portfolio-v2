@@ -7,7 +7,7 @@ type Props = {}
 
 const Photo = (props: Props) => {
   return (
-    <div className='w-full h-full'>
+    <div className='w-full h-full pb-5 lg:pb-0'>
         <motion.div 
             initial={{ scale: 0 }}
             whileInView={{ scale: 1 }}
