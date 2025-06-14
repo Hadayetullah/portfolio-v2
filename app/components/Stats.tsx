@@ -38,7 +38,7 @@ const Stats = (props: Props) => {
             {
                 stats.map((item, index) => {
                     return (
-                        <div key={index} className='flex-1 flex gap-4 items-center justify-center lg:justify-start'>
+                        <div key={index} className='flex-1 flex gap-4 items-center justify-center lg:first-of-type:justify-start lg:nth-3:justify-end xl:nth-3:justify-center xl:last-of-type:justify-end'>
                             <div className='flex flex-row'>
                                 <p  className='text-3xl lg:text-5xl'>
                                     {
