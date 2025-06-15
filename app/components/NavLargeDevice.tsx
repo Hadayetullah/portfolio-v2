@@ -105,16 +105,16 @@ const NavLargeDevice = ({ isScrolled, activeSection }: Props) => {
             <li 
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
-                className={`${activeSection === "about" ? "bg-secondarylight text-white dark:bg-transparent dark:border-[0.5px] dark:border-secondarydark dark:text-secondarydark italic font-medium" : ""} rounded-[8px]`}
+                className={`${activeSection === "services" ? "bg-secondarylight text-white dark:bg-transparent dark:border-[0.5px] dark:border-secondarydark dark:text-secondarydark italic font-medium" : ""} rounded-[8px]`}
             >
-                <a className='font-ovo cursor-pointer px-4 py-1' href="#about">About me</a>
+                <a className='font-ovo cursor-pointer px-4 py-1' href="#services">Services</a>
             </li>
             <li 
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
-                className={`${activeSection === "services" ? "bg-secondarylight text-white dark:bg-transparent dark:border-[0.5px] dark:border-secondarydark dark:text-secondarydark italic font-medium" : ""} rounded-[8px]`}
+                className={`${activeSection === "resume" ? "bg-secondarylight text-white dark:bg-transparent dark:border-[0.5px] dark:border-secondarydark dark:text-secondarydark italic font-medium" : ""} rounded-[8px]`}
             >
-                <a className='font-ovo cursor-pointer px-4 py-1' href="#services">Services</a>
+                <a className='font-ovo cursor-pointer px-4 py-1' href="#resume">Resume</a>
             </li>
             <li 
                 onMouseEnter={handleMouseEnter}

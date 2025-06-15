@@ -112,8 +112,8 @@ const Navbar = ({isDarkMode, setIsDarkMode, activeSection}: NavbarProps) => {
                     className={`${activeSection === "home" ? "text-secondarylight dark:bg-transparent dark:border-[0.5px] dark:border-secondarydark dark:text-secondarydark italic font-medium" : ""} rounded-[8px]`}
                 ><a onClick={closeMenu} className='font-ovo' href="#home">Home</a></li>
                 <li 
-                    className={`${activeSection === "about" ? "text-secondarylight dark:bg-transparent dark:border-[0.5px] dark:border-secondarydark dark:text-secondarydark italic font-medium" : ""} rounded-[8px]`}
-                ><a onClick={closeMenu} className='font-ovo' href="#about">About me</a></li>
+                    className={`${activeSection === "resume" ? "text-secondarylight dark:bg-transparent dark:border-[0.5px] dark:border-secondarydark dark:text-secondarydark italic font-medium" : ""} rounded-[8px]`}
+                ><a onClick={closeMenu} className='font-ovo' href="#resume">Resume</a></li>
                 <li 
                     className={`${activeSection === "services" ? "text-secondarylight dark:bg-transparent dark:border-[0.5px] dark:border-secondarydark dark:text-secondarydark italic font-medium" : ""} rounded-[8px]`}
                 ><a onClick={closeMenu} className='font-ovo' href="#services">Services</a></li>

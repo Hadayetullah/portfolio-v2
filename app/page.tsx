@@ -8,6 +8,7 @@ import Work from "./components/Work";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import { useEffect, useRef, useState } from "react";
+import Resume from "./components/Resume";
 
 export default function Home() {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
@@ -36,7 +37,7 @@ export default function Home() {
 
   const sectionRefs = {
     home: useRef(null),
-    about: useRef(null),
+    resume: useRef(null),
     services: useRef(null),
     work: useRef(null),
     contact: useRef(null),
@@ -90,8 +91,9 @@ export default function Home() {
     <>
       <Navbar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} activeSection={activeSection} />
       <Header id={"home"} ref={sectionRefs.home} isDarkMode={isDarkMode} />
-      <About id={"about"} ref={sectionRefs.about} isDarkMode={isDarkMode} />
+      {/* <About id={"about"} ref={sectionRefs.about} isDarkMode={isDarkMode} /> */}
       <Services id={"services"} ref={sectionRefs.services} isDarkMode={isDarkMode} />
+      <Resume id={"resume"} ref={sectionRefs.resume} isDarkMode={isDarkMode} />
       <Work id={"work"} ref={sectionRefs.work} isDarkMode={isDarkMode} />
       <Contact id={"contact"} ref={sectionRefs.contact} isDarkMode={isDarkMode} />
       <Footer isDarkMode={isDarkMode} />
