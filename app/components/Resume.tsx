@@ -14,6 +14,7 @@ import {
     SiTailwindcss, 
     SiNextdotjs
 } from "react-icons/si";
+import Experience from './Experience';
 
 type Props = {
     isDarkMode: boolean;
@@ -52,31 +53,6 @@ const about = {
         {
             fieldName: "Languages",
             fieldValue: "Bangla, English",
-        },
-    ]
-};
-
-// Experience data
-const experience = {
-    icon: "",
-    title: "My experience",
-    description: 
-        "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis non quas maxime debitis nam quidem cum commodi.", 
-    items: [
-        {
-            company: "KaizenTech Business Development Agency",
-            position: "Web Developer",
-            duration: "November 2023 - June 2024"
-        },
-        {
-            company: "D-bug Station Limited",
-            position: "Junior Front-end Developer (Intern)",
-            duration: "November 2023 - June 2024"
-        },
-        {
-            company: "Self-directed learning and practicing journey",
-            position: "Web development",
-            duration: "2019 - Present"
         },
     ]
 };
@@ -230,7 +206,9 @@ const Resume = (props: Props) => {
                 >About me</button>
             </div>
 
-            <div>Right</div>
+            <div>
+                <Experience />
+            </div>
         </div>
     </motion.div>
   )
