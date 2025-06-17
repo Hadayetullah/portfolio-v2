@@ -15,6 +15,7 @@ import {
     SiNextdotjs
 } from "react-icons/si";
 import Experience from './Experience';
+import Education from './Education';
 
 type Props = {
     isDarkMode: boolean;
@@ -55,46 +56,6 @@ const about = {
             fieldValue: "Bangla, English",
         },
     ]
-};
-
-// Education data
-const education = {
-    icon: "",
-    title: "My education",
-    description: 
-        "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis non quas maxime debitis nam quidem cum commodi.", 
-    types: {
-        academic: [
-            {
-                institution: "Southeast University",
-                degree: "Computer Science and Engineering (CSE)",
-                year: "Passing year - 2021"
-            },
-            {
-                institution: "Sirajganj Police Lines School and College",
-                degree: "Higher Secondary Certificate (HSC)",
-                year: "Passing year - 2014"
-            },
-        ],
-
-        technical: [
-            {
-                institution: "Online Course (Bohubrihi)",
-                degree: "Full Stack Web Development",
-                duration: "2020 - 2021"
-            },
-            {
-                institution: "Online Course (Bohubrihi)",
-                degree: "Front-end Web Development",
-                duration: "2019"
-            },
-            {
-                institution: "MDN Web Docs and Youtube",
-                degree: "Web Design",
-                duration: "2018 - Present"
-            },
-        ]
-    }
 };
 
 // Skills data
@@ -139,6 +100,14 @@ const skills = {
 
 const Resume = (props: Props) => {
     const [activeTab, setActiveTab] = useState<TabKey>('experience');
+
+    const renderedTabContent = (): ReactElement => {
+        switch (activeTab) {
+            case 'experience': return <Experience />
+            case 'education': return <Education />
+            default: return <div>Not found</div>
+        }
+    }
 
     const tabClass = (tab: TabKey) => 
         `w-full border-[0.5px] flex items-center justify-center p-3 rounded-lg shadow-sm font-medium 
@@ -186,7 +155,7 @@ const Resume = (props: Props) => {
             Take a brief look at my background, experience, and the skills I bring to the table.
         </motion.p>
 
-        <div className='w-full flex flex-col lg:flex-row gap-10 items-center lg:items-start'>
+        <div className='w-full flex flex-col lg:flex-row gap-10 items-center justify-center lg:items-start'>
             <div className='w-full max-w-[380px] flex flex-col gap-3'>
                 <button 
                     onClick={() => setActiveTab('experience')}
@@ -207,7 +176,7 @@ const Resume = (props: Props) => {
             </div>
 
             <div>
-                <Experience />
+                {renderedTabContent()}
             </div>
         </div>
     </motion.div>
