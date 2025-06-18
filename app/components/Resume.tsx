@@ -1,21 +1,9 @@
 import React, { ForwardedRef, ReactElement, useState } from 'react'
 import { motion } from 'motion/react';
 
-import { 
-    FaHtml5, 
-    FaCss3, 
-    FaJs, 
-    FaReact, 
-    FaFigma, 
-    FaNodeJs
-} from "react-icons/fa";
-
-import { 
-    SiTailwindcss, 
-    SiNextdotjs
-} from "react-icons/si";
 import Experience from './Experience';
 import Education from './Education';
+import Skills from './Skills';
 
 type Props = {
     isDarkMode: boolean;
@@ -58,46 +46,6 @@ const about = {
     ]
 };
 
-// Skills data
-const skills = {
-    title: "My skills", 
-    description: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis non quas maxime debitis nam quidem cum commodi.", 
-    skillList: [
-        {
-            icon: <FaHtml5 />,
-            name: "html 5"
-        },
-        {
-            icon: <FaCss3 />,
-            name: "css 3"
-        },
-        {
-            icon: <FaJs />,
-            name: "JavaScript"
-        },
-        {
-            icon: <FaReact />,
-            name: "React.js"
-        },
-        {
-            icon: <SiNextdotjs />,
-            name: "Next.js"
-        },
-        {
-            icon: <SiTailwindcss />,
-            name: "Tailwind css"
-        },
-        {
-            icon: <FaNodeJs />,
-            name: "Node.js"
-        },
-        {
-            icon: <FaFigma />,
-            name: "Figma"
-        },
-    ]
-};
-
 const Resume = (props: Props) => {
     const [activeTab, setActiveTab] = useState<TabKey>('experience');
 
@@ -105,6 +53,7 @@ const Resume = (props: Props) => {
         switch (activeTab) {
             case 'experience': return <Experience />
             case 'education': return <Education />
+            case 'skills': return <Skills />
             default: return <div>Not found</div>
         }
     }
