@@ -60,25 +60,23 @@ const Skills = (props: Props) => {
   return (
     <div className='w-full flex flex-col gap-[30px] text-center lg:text-left'>
         <h3 className='text-4xl font-medium'>{skills.title}</h3>
-        <p className='max-w-[600px] mx-auto lg:mx-0 leading-[1.5] text-black/80'>{skills.description}</p>
+        <p className='max-w-[600px] mx-auto lg:mx-0 leading-[1.5] text-black/80 dark:text-white'>{skills.description}</p>
 
-        <ul className='h-[410px] md:h-full grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-4 xl:gap-[30px] overflow-auto rounded-xl'>
+        <ul className='h-[410px] md:h-full grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-2 xxs:gap-4 xl:gap-[30px] overflow-auto rounded-xl'>
             {skills.skillList.map((item, index) => (
                 <li key={index} 
-                    className='h-[150px] w-full flex items-center justify-center rounded-xl bg-gray-100 shadow-md'
+                    className='relative h-[100px] pb-2 xs:h-[150px] w-full flex items-center 
+                    justify-center rounded-xl bg-gray-100 dark:bg-[#232329] shadow-md cursor-pointer 
+                    duration-300 hover:text-secondarylight dark:hover:text-secondarydark'
                 >
-                    {/* <span className='text-secondarylight'>{item.duration}</span>
-                    <h3 className='text-xl mb-5'>{item.degree}</h3>
-
-                    <div className='flex items-center gap-3'>
-                        <span className='w-[7px] h-[7px] rounded-full bg-secondarylight'></span>
-                        <p className='text-black/60 text-base'>{item.institution}</p>
-                    </div> */}
-                    <div className='text-6xl'>
+                    <span className='text-4xl xs:text-6xl'>
                         {item.icon}
-                    </div>
-                    
-                    {/* <span className='absolute w-full text-center z-50 bg-black'>{item.name}</span> */}
+                    </span>
+
+                    <span 
+                        className='absolute w-full left-0 bottom-2 text-center leading-[0.8] 
+                        xs:leading-[1.5] text-sm xs:text-base'
+                    >{item.name}</span>
                 </li>
             ))}
         </ul>

@@ -70,7 +70,7 @@ const Resume = (props: Props) => {
     <motion.div 
         id={props.id} 
         ref={props.ref} 
-        className='w-full px-[12%] py-10 scroll-mt-20'
+        className='w-full px-[1%] xxs:px-[12%] py-10 scroll-mt-20'
         initial={{ opacity: 0 }}
         animate={{ 
             opacity: 1, 
