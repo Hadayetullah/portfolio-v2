@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import Experience from './Experience';
 import Education from './Education';
 import Skills from './Skills';
+import Aboutme from './Aboutme';
 
 type Props = {
     isDarkMode: boolean;
@@ -13,39 +14,6 @@ type Props = {
 
 type TabKey = 'experience' | 'education' | 'skills' | 'about';
 
-// About data
-const about = {
-    title: "About me",
-    description: 
-    "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis non quas maxime debitis nam quidem cum commodi.",
-    info: [
-        {
-            fieldName: "Name",
-            fieldValue: "Hadayetullah",
-        },
-        {
-            fieldName: "Phone",
-            fieldValue: "880 1846857388",
-        },
-        {
-            fieldName: "Experience",
-            fieldValue: "01 Year",
-        },
-        {
-            fieldName: "Nationality",
-            fieldValue: "Bangladesh",
-        },
-        {
-            fieldName: "Email",
-            fieldValue: "hadayetullah30@gmail.com",
-        },
-        {
-            fieldName: "Languages",
-            fieldValue: "Bangla, English",
-        },
-    ]
-};
-
 const Resume = (props: Props) => {
     const [activeTab, setActiveTab] = useState<TabKey>('experience');
 
@@ -54,6 +22,7 @@ const Resume = (props: Props) => {
             case 'experience': return <Experience />
             case 'education': return <Education />
             case 'skills': return <Skills />
+            case 'about': return <Aboutme />
             default: return <div>Not found</div>
         }
     }
