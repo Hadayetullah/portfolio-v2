@@ -30,21 +30,23 @@ type Props = {}
 const Experience = (props: Props) => {
   return (
     <div className='w-full flex flex-col gap-[30px] text-center lg:text-left'>
-        <h3 className='text-4xl font-medium'>{experience.title}</h3>
-        <p className='max-w-[600px] mx-auto lg:mx-0 leading-[1.5] text-black/80'>{experience.description}</p>
+        <div className='w-full flex flex-col gap-3 text-black/80 dark:text-white/90'>
+            <h3 className='text-2xl font-semibold'>{experience.title}</h3>
+            <p className='max-w-[600px] mx-auto lg:mx-0 leading-[1.5]'>{experience.description}</p>
+        </div>
 
-        <ul className='h-[410px] grid grid-cols-1 xl:grid-cols-2 gap-[30px] overflow-auto bg-gray-50 rounded-xl'>
+        <ul className='h-[410px] grid grid-cols-1 xl:grid-cols-2 gap-[30px] overflow-auto bg-gray-50 dark:bg-transparent rounded-xl'>
             {experience.items.map((item, index) => (
                 <li key={index} 
                     className='flex flex-col items-center justify-center sm:items-start rounded-xl bg-gray-100 
-                    py-6 px-10 shadow-md gap-1'
+                    dark:bg-secondarydarklight py-6 px-10 shadow-md gap-1'
                 >
-                    <span className='text-secondarylight'>{item.duration}</span>
+                    <span className='text-secondarylight dark:text-secondarydark'>{item.duration}</span>
                     <h3 className='text-xl mb-5'>{item.position}</h3>
 
                     <div className='flex items-center gap-3'>
-                        <span className='w-[7px] h-[7px] rounded-full bg-secondarylight'></span>
-                        <p className='text-black/60 text-base'>{item.company}</p>
+                        <span className='w-[7px] h-[7px] rounded-full bg-secondarylight dark:bg-secondarydark'></span>
+                        <p className='text-black/60 dark:text-white/90 text-base'>{item.company}</p>
                     </div>
                 </li>
             ))}

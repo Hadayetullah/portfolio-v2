@@ -60,8 +60,10 @@ const skills = {
 const Skills = (props: Props) => {
   return (
     <div className='w-full flex flex-col gap-[30px] text-center lg:text-left'>
-        <h3 className='text-4xl font-medium'>{skills.title}</h3>
-        <p className='max-w-[600px] mx-auto lg:mx-0 leading-[1.5] text-black/80 dark:text-white'>{skills.description}</p>
+        <div className='w-full flex flex-col gap-3 text-black/80 dark:text-white/90'>
+            <h3 className='text-2xl font-semibold'>{skills.title}</h3>
+            <p className='max-w-[600px] mx-auto lg:mx-0 leading-[1.5]'>{skills.description}</p>
+        </div>
 
         <ul className='h-[410px] md:h-full grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-2 xxs:gap-4 xl:gap-[30px] overflow-auto rounded-xl'>
             {skills.skillList.map((item, index) => (

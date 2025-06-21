@@ -29,10 +29,10 @@ const Resume = (props: Props) => {
 
     const tabClass = (tab: TabKey) => 
         `w-full border-[0.5px] flex items-center justify-center p-3 rounded-lg shadow-sm font-medium 
-        cursor-pointer hover:border-secondarylight hover:text-secondarylight transition-colors 
-        duration-300 ${
+        cursor-pointer hover:border-secondarylight dark:hover:border-secondary hover:text-secondarylight 
+        dark:hover:text-secondarydark transition-colors duration-300 ${
             activeTab === tab 
-            && 'italic bg-secondarylight text-white hover:text-white dark:bg-transparent dark:border-[0.5px] dark:border-secondarydark dark:text-secondarydark'
+            && 'italic bg-secondarylight dark:bg-transparent text-white dark:text-secondarydark hover:text-white dark:border-secondarydark'
         }`;
     
   return (
@@ -75,6 +75,11 @@ const Resume = (props: Props) => {
 
         <div className='w-full flex flex-col lg:flex-row gap-10 items-center justify-center lg:items-start'>
             <div className='w-full max-w-[380px] flex flex-col gap-3'>
+                <h2 className='text-4xl font-medium text-black/90 dark:text-white/95'>Why hire me?</h2>
+                <p className='leading-[1.5] py-3 text-black/70 dark:text-white/90 text-lg'>
+                    Each tab highlights my qualifications and strengths, explore them to see why I'd 
+                    be a great fit for your project.
+                </p>
                 <button 
                     onClick={() => setActiveTab('experience')}
                     className={tabClass('experience')}

@@ -44,10 +44,10 @@ const about = {
 const Aboutme = (props: Props) => {
   return (
     <div className='w-full flex flex-col gap-[30px] text-center lg:text-left'>
-        <h3 className='text-4xl font-medium'>{about.title}</h3>
-        <p className='max-w-[600px] mx-auto lg:mx-0 leading-[1.5] text-black/80'>
-            {about.description}
-        </p>
+        <div className='w-full flex flex-col gap-3 text-black/80 dark:text-white/90'>
+            <h3 className='text-2xl font-semibold'>{about.title}</h3>
+            <p className='max-w-[600px] mx-auto lg:mx-0 leading-[1.5]'>{about.description}</p>
+        </div>
 
         <div className='grid grid-cols-1 xl:grid-cols-2 gap-2 xl:gap-[20px] overflow-auto rounded-xl'>
             <ul className='w-[280px] sm:w-full p-0 mx-auto flex flex-col gap-1 lg:gap-2'>
