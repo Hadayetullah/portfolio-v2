@@ -7,7 +7,7 @@ const education = {
     icon: "",
     title: "My education",
     description: 
-        "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis non quas maxime debitis nam quidem cum commodi.", 
+    "My educational background reflects a strong foundation in computer science and web development. From formal academic achievements to hands-on online courses and continuous self-study, I've built a diverse skill set tailored for real-world challenges.",
     items: [
         {
             institution: "Southeast University",

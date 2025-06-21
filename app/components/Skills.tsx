@@ -19,7 +19,8 @@ type Props = {}
 // Skills data
 const skills = {
     title: "My skills", 
-    description: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis non quas maxime debitis nam quidem cum commodi.", 
+    description: 
+    "I have hands-on expertise in a range of core web technologies and tools. My skill set empowers me to design and build responsive, accessible, and maintainable user interfaces with modern frameworks and best practices.",
     skillList: [
         {
             icon: <FaHtml5 />,

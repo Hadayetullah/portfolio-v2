@@ -6,7 +6,7 @@ type Props = {}
 const about = {
     title: "About me",
     description: 
-    "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis non quas maxime debitis nam quidem cum commodi.",
+    "I'm a passionate web developer with a proven ability to craft engaging digital experiences. My background spans both front-end and back-end technologies, allowing me to contribute efficiently across the full web development lifecycle.",
     info1: [
         {
             fieldName: "Name",
