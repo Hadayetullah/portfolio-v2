@@ -70,7 +70,7 @@ const Skills = (props: Props) => {
                 <li key={index} 
                     className='relative h-[100px] pb-2 xs:h-[150px] w-full flex items-center 
                     justify-center rounded-xl bg-gray-100 dark:bg-[#232329] shadow-md cursor-pointer 
-                    duration-300 hover:text-secondarylight dark:hover:text-secondarydark'
+                    duration-300 hover:text-primarylight dark:hover:text-secondary'
                 >
                     <span className='text-4xl xs:text-6xl'>
                         {item.icon}

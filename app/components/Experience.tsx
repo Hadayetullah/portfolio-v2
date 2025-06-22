@@ -41,11 +41,11 @@ const Experience = (props: Props) => {
                     className='flex flex-col items-center justify-center sm:items-start rounded-xl bg-gray-100 
                     dark:bg-secondarydarklight py-6 px-10 shadow-md gap-1'
                 >
-                    <span className='text-secondarylight dark:text-secondarydark'>{item.duration}</span>
+                    <span className='text-primarylight dark:text-secondarydark'>{item.duration}</span>
                     <h3 className='text-xl mb-5'>{item.position}</h3>
 
                     <div className='flex items-center gap-3'>
-                        <span className='w-[7px] h-[7px] rounded-full bg-secondarylight dark:bg-secondarydark'></span>
+                        <span className='w-[7px] h-[7px] rounded-full bg-primarylight dark:bg-secondarydark'></span>
                         <p className='text-black/60 dark:text-white/90 text-base'>{item.company}</p>
                     </div>
                 </li>

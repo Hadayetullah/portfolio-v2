@@ -30,9 +30,9 @@ const Resume = (props: Props) => {
     const tabClass = (tab: TabKey) => 
         `w-full border-[0.5px] flex items-center justify-center p-3 rounded-lg shadow-sm font-medium 
         cursor-pointer hover:border-secondarylight dark:hover:border-secondary hover:text-secondarylight 
-        dark:hover:text-secondarydark transition-colors duration-300 ${
+        dark:hover:text-secondary transition-colors duration-300 ${
             activeTab === tab 
-            && 'italic bg-secondarylight dark:bg-transparent text-white dark:text-secondarydark hover:text-white dark:border-secondarydark'
+            && 'italic bg-secondarylight dark:bg-transparent text-white dark:text-secondary hover:text-white dark:border-secondary'
         }`;
     
   return (
@@ -73,7 +73,7 @@ const Resume = (props: Props) => {
             Take a brief look at my background, experience, and the skills I bring to the table.
         </motion.p>
 
-        <div className='w-full flex flex-col lg:flex-row gap-10 items-center justify-center lg:items-start'>
+        <div className='w-full flex flex-col lg:flex-row gap-10 items-center justify-between lg:items-start'>
             <div className='w-full max-w-[380px] flex flex-col gap-3'>
                 <h2 className='text-4xl font-medium text-black/90 dark:text-white/95'>Why hire me?</h2>
                 <p className='leading-[1.5] py-3 text-black/70 dark:text-white/90 text-lg'>
@@ -98,7 +98,7 @@ const Resume = (props: Props) => {
                 >About me</button>
             </div>
 
-            <div>
+            <div className='w-full'>
                 {renderedTabContent()}
             </div>
         </div>

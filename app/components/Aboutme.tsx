@@ -49,30 +49,30 @@ const Aboutme = (props: Props) => {
             <p className='max-w-[600px] mx-auto lg:mx-0 leading-[1.5]'>{about.description}</p>
         </div>
 
-        <div className='grid grid-cols-1 xl:grid-cols-2 gap-2 xl:gap-[20px] overflow-auto rounded-xl'>
-            <ul className='w-[280px] sm:w-full p-0 mx-auto flex flex-col gap-1 lg:gap-2'>
+        <div className='w-full grid grid-cols-1 xl:grid-cols-[280px_280px] gap-2 xl:gap-[20px] overflow-auto rounded-xl'>
+            <ul className='p-0 mx-auto sm:mx-0 flex flex-col gap-1 lg:gap-2'>
                 {
                     about.info1.map((item, index) => (
                         <li 
                             key={index} 
                             className='flex flex-row gap-4 justify-start xs:justify-center lg:justify-start mx-1 xs:mx-0'
                         >
-                            <span className='text-black/70'>{item.fieldName}</span>
-                            <span className='text-lg font-medium text-black/75'>{item.fieldValue}</span>
+                            <span className='text-black/70 dark:text-white/70'>{item.fieldName}</span>
+                            <span className='text-lg font-medium text-black/75 dark:text-white/80'>{item.fieldValue}</span>
                         </li>
                     ))
                 }
             </ul>
 
-            <ul className='w-[280px] sm:w-full p-0 mx-auto flex flex-col gap-1 lg:gap-2'>
+            <ul className='p-0 mx-auto sm:mx-0 flex flex-col gap-1 lg:gap-2'>
                 {
                     about.info2.map((item, index) => (
                         <li 
                             key={index} 
                             className='flex flex-row gap-4 justify-start xs:justify-center lg:justify-start mx-1 xs:mx-0'
                         >
-                            <span className='text-black/70'>{item.fieldName}</span>
-                            <span className='text-lg font-medium text-black/75'>{item.fieldValue}</span>
+                            <span className='text-black/70 dark:text-white/70'>{item.fieldName}</span>
+                            <span className='text-lg font-medium text-black/75 dark:text-white/80'>{item.fieldValue}</span>
                         </li>
                     ))
                 }
