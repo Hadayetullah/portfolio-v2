@@ -5,7 +5,10 @@ import Image from 'next/image'
 import React, { ForwardedRef, useState } from 'react'
 import { motion } from 'motion/react'
 
+import { BsArrowUpRight, BsGithub } from "react-icons/bs";
+
 import { Swiper, SwiperSlide } from 'swiper/react'
+import Link from 'next/link'
 
 const projects = [
     {
@@ -95,16 +98,16 @@ const MyWork = (props: Props) => {
             className='my-10 w-full flex flex-col lg:flex-row lg:gap-[30px] pt-10'
         >
             <div className='w-full lg:h-[460px] flex flex-col lg:justify-between order-2 lg:order-none '>
-                <div>
+                <div className='flex flex-col gap-[20px]'>
                     <div 
-                        className='text-8xl leading-[1.2] font-bold text-transparent text-shadow-neutral-50' 
+                        className='text-8xl font-bold text-transparent text-shadow-neutral-50' 
                         style={{ WebkitTextStroke: "2px var(--color-primarylight)"}}
                     >
                         {project.num}
                     </div>
 
                     <h2 
-                        className='text-[42px] font-medium leading-[1] transition-all duration-300 
+                        className='text-[42px] font-medium transition-all duration-300 
                         capitalize '
                     >
                         {project.category} project
@@ -125,6 +128,29 @@ const MyWork = (props: Props) => {
                     </ul>
 
                     <div className='border border-black/20 dark:border-white/20'></div>
+
+                    {/* Linked buttons */}
+                    <div className='flex items-center gap-4'>
+                        <div className='w-13 h-13 rounded-full bg-gray-300 text-black dark:text-white'>
+                            <Link 
+                                href={project.live} 
+                                title='Live Project'
+                                target='_blank'
+                            >
+                                <BsArrowUpRight className='w-full h-auto p-3' />
+                            </Link>
+                        </div>
+
+                        <div className='w-13 h-13 rounded-full bg-gray-300 text-black dark:text-white'>
+                            <Link 
+                                href={project.live} 
+                                title='GitHub Repository'
+                                target='_blank'
+                            >
+                                <BsGithub className='w-full h-auto p-3' />
+                            </Link>
+                        </div>
+                    </div>
                 </div>
             </div>
 
