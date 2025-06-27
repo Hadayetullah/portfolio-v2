@@ -4,6 +4,7 @@ import { assets, workData } from '@/assets/assets'
 import Image from 'next/image'
 import React, { ForwardedRef, useState } from 'react'
 import { motion } from 'motion/react'
+import 'swiper/css';
 
 import { BsArrowUpRight, BsGithub } from "react-icons/bs";
 
@@ -24,12 +25,12 @@ const projects = [
     },
     {
         num: "02",
-        category: "Frontend",
+        category: "Full-stack",
         title: "Project two",
         description: 
         "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Beatae ut necessitatibus ratione voluptates quibusdam id quo vitae qui, aliquid voluptatem at aut aspernatur.",
         stack: ["HTML", "CSS", "JavaScript"],
-        image: "/work/thumb1.png",
+        image: "/work/thumb2.png",
         live: "",
         github: "",
     },
@@ -40,7 +41,7 @@ const projects = [
         description: 
         "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Beatae ut necessitatibus ratione voluptates quibusdam id quo vitae qui, aliquid voluptatem at aut aspernatur.",
         stack: ["HTML", "CSS", "JavaScript"],
-        image: "/work/thumb1.png",
+        image: "/work/thumb3.png",
         live: "",
         github: "",
     },
@@ -54,11 +55,17 @@ type Props = {
 
 const MyWork = (props: Props) => {
     const [project, setProject] = useState<any>(projects[0]);
+
+    const handleSlideChange = (swiper:any) => {
+        const currentIndex = swiper.activeIndex;
+        setProject(projects[currentIndex]);
+    }
+
   return (
     <motion.div 
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        transition={{ duration: 1 }}
+        transition={{ duration: 1, ease: "easeIn" }}
         id={props.id} 
         ref={props.ref} 
         className='w-full px-[12%] py-10 scroll-mt-20'
@@ -97,7 +104,7 @@ const MyWork = (props: Props) => {
             transition={{ duration: 0.5, delay: 0.3 }}
             className='my-10 w-full flex flex-col lg:flex-row lg:gap-[30px] pt-10'
         >
-            <div className='w-full lg:h-[460px] flex flex-col lg:justify-between order-2 lg:order-none '>
+            <div className='w-full lg:w-[50%] lg:h-[460px] flex flex-col lg:justify-between order-2 lg:order-none '>
                 <div className='flex flex-col gap-[20px]'>
                     <div 
                         className='text-8xl font-bold text-transparent text-shadow-neutral-50' 
@@ -154,7 +161,33 @@ const MyWork = (props: Props) => {
                 </div>
             </div>
 
-            <div className='w-full'>Slider</div>
+            <div className='w-full lg:w-[50%]'>
+                <Swiper 
+                    slidesPerView={1} 
+                    spaceBetween={30}
+                    className='w-full h-[460px] mb-12'
+                    onSlideChange={handleSlideChange}
+                >
+                    {
+                        projects.map((project, index) => {
+                            return (
+                                <SwiperSlide 
+                                    key={index}
+                                >
+                                    <div className='w-full h-full flex items-center justify-center bg-pink-50/20'>
+                                        {/* Overlay */}
+                                        <div className='absolute inset-0 bg-black/10 z-10'></div>
+
+                                        <div className='relative w-full h-full'>
+                                            <Image src={project.image} alt='' fill className='object-cover' />
+                                        </div>
+                                    </div>
+                                </SwiperSlide>
+                            )
+                        })
+                    }
+                </Swiper>
+            </div>
         </motion.div>
     </motion.div>
   )
