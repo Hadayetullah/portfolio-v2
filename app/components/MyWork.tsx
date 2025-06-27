@@ -6,10 +6,11 @@ import React, { ForwardedRef, useState } from 'react'
 import { motion } from 'motion/react'
 import 'swiper/css';
 
-import { BsArrowUpRight, BsGithub } from "react-icons/bs";
+import { BsArrowUpRight, BsGithub, } from "react-icons/bs";
 
 import { Swiper, SwiperSlide } from 'swiper/react'
 import Link from 'next/link'
+import WorkSliderBtns from './WorkSliderBtns'
 
 const projects = [
     {
@@ -108,7 +109,7 @@ const MyWork = (props: Props) => {
                 <div className='flex flex-col gap-[20px]'>
                     <div 
                         className='text-8xl font-bold text-transparent text-shadow-neutral-50' 
-                        style={{ WebkitTextStroke: "2px var(--color-primarylight)"}}
+                        style={{ WebkitTextStroke: `2px var(--color-${props.isDarkMode ? 'secondary' : 'primarylight'})`}}
                     >
                         {project.num}
                     </div>
@@ -124,11 +125,11 @@ const MyWork = (props: Props) => {
                         {project.description}
                     </p>
 
-                    <ul className='flex gap-4 text-xl text-primarylight'>
+                    <ul className='flex gap-4 text-xl text-primarylight dark:text-secondary'>
                         {
                             project.stack.map((item:string, index:number) => (
                                 <li key={index}>
-                                    {item} {index !== project.stack.length - 1 && ','}
+                                    {item}{index !== project.stack.length - 1 && ','}
                                 </li>
                             ))
                         }
@@ -138,7 +139,7 @@ const MyWork = (props: Props) => {
 
                     {/* Linked buttons */}
                     <div className='flex items-center gap-4'>
-                        <div className='w-13 h-13 rounded-full bg-gray-300 text-black dark:text-white'>
+                        <div className='w-13 h-13 rounded-full bg-gray-300 dark:bg-secondarydarklight text-black dark:text-secondary'>
                             <Link 
                                 href={project.live} 
                                 title='Live Project'
@@ -148,7 +149,7 @@ const MyWork = (props: Props) => {
                             </Link>
                         </div>
 
-                        <div className='w-13 h-13 rounded-full bg-gray-300 text-black dark:text-white'>
+                        <div className='w-13 h-13 rounded-full bg-gray-300 dark:bg-secondarydarklight text-black dark:text-secondary'>
                             <Link 
                                 href={project.live} 
                                 title='GitHub Repository'
@@ -165,7 +166,7 @@ const MyWork = (props: Props) => {
                 <Swiper 
                     slidesPerView={1} 
                     spaceBetween={30}
-                    className='w-full h-[460px] mb-12'
+                    className='w-full h-[520px]'
                     onSlideChange={handleSlideChange}
                 >
                     {
@@ -174,7 +175,9 @@ const MyWork = (props: Props) => {
                                 <SwiperSlide 
                                     key={index}
                                 >
-                                    <div className='w-full h-full flex items-center justify-center bg-pink-50/20'>
+                                    <div 
+                                        className='relative w-full h-[460px] flex items-center 
+                                        cursor-grab justify-center'>
                                         {/* Overlay */}
                                         <div className='absolute inset-0 bg-black/10 z-10'></div>
 
@@ -186,6 +189,9 @@ const MyWork = (props: Props) => {
                             )
                         })
                     }
+
+                    {/* Slider buttons */}
+                    <WorkSliderBtns />
                 </Swiper>
             </div>
         </motion.div>
