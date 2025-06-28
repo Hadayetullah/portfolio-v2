@@ -8,7 +8,7 @@ type Props = {
 
 const Footer = (props: Props) => {
   return (
-    <div className='mt-20'>
+    <div className='container mt-20'>
         <div className='text-center'>
             <a href="#home" className='w-36 text-[28px] cursor-pointer mx-auto mb-2'>
                 Hadayetullah

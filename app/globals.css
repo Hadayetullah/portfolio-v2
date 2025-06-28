@@ -59,4 +59,12 @@
   .h5 {
     @apply text-lg sm:text-xl font-medium leading-[1];
   }
+
+  .container {
+    @apply w-full max-w-[1200px] 2xl:max-w-[1400px] mx-auto px-[3%];
+  }
+
+  .nav-container {
+    @apply w-full max-w-[1400px] 2xl:max-w-[1600px] mx-auto px-[3%];
+  }
 }

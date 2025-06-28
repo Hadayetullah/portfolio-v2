@@ -69,7 +69,7 @@ const MyWork = (props: Props) => {
         transition={{ duration: 1, ease: "easeIn" }}
         id={props.id} 
         ref={props.ref} 
-        className='w-full px-[12%] py-10 scroll-mt-20'
+        className='container py-10 scroll-mt-20'
     >
         <motion.h4 
             initial={{ opacity: 0, y: -20 }}

@@ -17,7 +17,7 @@ const Contact = (props: Props) => {
         transition={{ duration: 1 }}
         id={props.id} 
         ref={props.ref} 
-        className='w-full px-[12%] py-10 scroll-mt-20 bg-[url("/footer-bg-color.png")] bg-no-repeat 
+        className='container py-10 scroll-mt-20 bg-[url("/footer-bg-color.png")] bg-no-repeat 
         bg-center bg-[90%_auto] dark:bg-none'
     >
         <motion.h4 
