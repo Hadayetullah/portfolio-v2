@@ -34,11 +34,15 @@ const Stats = (props: Props) => {
     }, [])
   return (
     <div className='w-full'>
-        <div className='w-full mt-15 flex flex-wrap gap-8'>
+        <div className='w-full mt-10 xxs:mt-15 flex flex-wrap gap-8'>
             {
                 stats.map((item, index) => {
                     return (
-                        <div key={index} className='flex-1 flex gap-4 items-center justify-center lg:first-of-type:justify-start lg:nth-3:justify-end xl:nth-3:justify-center xl:last-of-type:justify-end'>
+                        <div key={index} 
+                            className='flex-1 flex flex-col xxs:flex-row gap-2 xxs:gap-4 items-center justify-center 
+                            lg:first-of-type:justify-start lg:nth-3:justify-end xl:nth-3:justify-center 
+                            xl:last-of-type:justify-end'
+                        >
                             <div className='flex flex-row'>
                                 <p  className='text-3xl lg:text-5xl'>
                                     {
@@ -54,7 +58,7 @@ const Stats = (props: Props) => {
                             </div>
 
                             <p 
-                                className={`leading-[1.4] ${item.text.length < 15 ? 'w-[100px]' : 'w-[155px]'}`}
+                                className={`leading-[1.4] text-center xxs:text-start ${item.text.length < 15 ? 'w-[100px]' : 'w-[155px]'}`}
                             >{item.text}</p>
                         </div>
                     )
