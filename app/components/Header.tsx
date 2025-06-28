@@ -88,7 +88,7 @@ const Header = (props: Props) => {
     <div 
         id={props.id} 
         ref={props.ref} 
-        className='container h-fit lg:h-screen pt-[90px] lg:pt-8 flex flex-col items-center justify-center'
+        className='container h-fit lg:h-screen pt-[90px] flex flex-col items-center justify-center'
     >
         <div 
             className='w-full flex flex-col-reverse lg:flex-row items-center justify-between'

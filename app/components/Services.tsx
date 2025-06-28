@@ -75,8 +75,7 @@ const Services = (props: Props) => {
                         whileHover={{ scale: 1.05 }}
                         key={index}
                         className='border border-gray-400 rounded-lg px-8 py-12 hover:shadow-shadowblack 
-                        cursor-pointer hover:bg-lighthover hover:-translate-y-1 duration-500 
-                        dark:hover:bg-darkhover dark:hover:shadow-white'
+                        cursor-pointer hover:-translate-y-1 duration-500 dark:hover:shadow-white'
                     >
                         <div className={`w-12 p-2 rounded-lg bg-[#ff388b] text-white`}>
                             {icon}

@@ -46,8 +46,7 @@ const Education = (props: Props) => {
             <p className='max-w-[600px] mx-auto lg:mx-0 leading-[1.5]'>{education.description}</p>
         </div>
 
-        <ul className='h-[410px] grid grid-cols-1 xl:grid-cols-2 gap-[30px] overflow-auto bg-gray-50 
-            dark:bg-transparent rounded-xl'
+        <ul className='h-[410px] grid grid-cols-1 xl:grid-cols-2 gap-[30px] overflow-auto'
         >
             {education.items.map((item, index) => (
                 <li key={index} 
