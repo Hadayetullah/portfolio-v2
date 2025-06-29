@@ -19,8 +19,8 @@
   --color-secondarydark: #3cea19;
   --color-secondarydarklight: #232329;
 
-  --shadow-shadowblack: 4px 4px 0 #000000;
-  --shadow-shadowwhite: 4px 4px 0 #ffffff;
+  --shadow-shadowblack: 1px 3px 1px #000000;
+  --shadow-shadowwhite: 1px 3px 1px #ffffff;
 
   --font-outfit: Outfit, sans-serif;
   --font-ovo: Ovo, serif;
