@@ -32,7 +32,7 @@ const Experience = (props: Props) => {
     <div className='w-full flex flex-col gap-[30px] text-center lg:text-left'>
         <div className='w-full flex flex-col gap-3 text-black/80 dark:text-white/90'>
             <h3 className='text-2xl font-semibold'>{experience.title}</h3>
-            <p className='max-w-[600px] mx-auto lg:mx-0 leading-[1.5]'>{experience.description}</p>
+            <p className='max-w-[600px] mx-auto lg:mx-0 text-sm xxs:text-base leading-[1.5]'>{experience.description}</p>
         </div>
 
         <ul className='h-[410px] grid grid-cols-1 xl:grid-cols-2 gap-[30px] overflow-auto rounded-xl'>
@@ -48,6 +48,7 @@ const Experience = (props: Props) => {
                         <div className='flex h-full w-[8px] items-center'>
                             <span className='w-[7px] h-[7px] rounded-full bg-primarylight dark:bg-secondarydark'></span>
                         </div>
+
                         <p className='text-black/60 dark:text-white/90 text-base'>{item.company}</p>
                     </div>
                 </li>

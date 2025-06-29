@@ -46,7 +46,7 @@ const Aboutme = (props: Props) => {
     <div className='w-full flex flex-col gap-[30px] text-center lg:text-left'>
         <div className='w-full flex flex-col gap-3 text-black/80 dark:text-white/90'>
             <h3 className='text-2xl font-semibold'>{about.title}</h3>
-            <p className='max-w-[600px] mx-auto lg:mx-0 leading-[1.5]'>{about.description}</p>
+            <p className='max-w-[600px] mx-auto lg:mx-0 text-sm xxs:text-base leading-[1.5]'>{about.description}</p>
         </div>
 
         <div className='w-full grid grid-cols-1 xl:grid-cols-[280px_280px] gap-2 xl:gap-[20px] overflow-auto rounded-xl'>

@@ -62,7 +62,7 @@ const Skills = (props: Props) => {
     <div className='w-full flex flex-col gap-[30px] text-center lg:text-left'>
         <div className='w-full flex flex-col gap-3 text-black/80 dark:text-white/90'>
             <h3 className='text-2xl font-semibold'>{skills.title}</h3>
-            <p className='max-w-[600px] mx-auto lg:mx-0 leading-[1.5]'>{skills.description}</p>
+            <p className='max-w-[600px] mx-auto lg:mx-0 text-sm xxs:text-base leading-[1.5]'>{skills.description}</p>
         </div>
 
         <ul className='h-[410px] md:h-full grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-2 xxs:gap-4 xl:gap-[30px] overflow-auto rounded-xl'>

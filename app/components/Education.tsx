@@ -43,7 +43,7 @@ const Education = (props: Props) => {
     <div className='w-full flex flex-col gap-[30px] text-center lg:text-left'>
         <div className='w-full flex flex-col gap-3 text-black/80 dark:text-white/90'>
             <h3 className='text-2xl font-semibold'>{education.title}</h3>
-            <p className='max-w-[600px] mx-auto lg:mx-0 leading-[1.5]'>{education.description}</p>
+            <p className='max-w-[600px] mx-auto lg:mx-0 text-sm xxs:text-base leading-[1.5]'>{education.description}</p>
         </div>
 
         <ul className='h-[410px] grid grid-cols-1 xl:grid-cols-2 gap-[30px] overflow-auto'
@@ -51,13 +51,16 @@ const Education = (props: Props) => {
             {education.items.map((item, index) => (
                 <li key={index} 
                     className='flex flex-col items-center justify-center sm:items-start rounded-xl bg-gray-100 
-                    dark:bg-secondarydarklight py-6 px-10 shadow-md gap-1'
+                    dark:bg-secondarydarklight py-3 xxs:py-6 px-2 xxs:px-10 shadow-md gap-1'
                 >
                     <span className='text-primarylight dark:text-secondarydark'>{item.duration}</span>
                     <h3 className='text-xl mb-5'>{item.degree}</h3>
 
-                    <div className='flex items-center gap-3'>
-                        <span className='w-[7px] h-[7px] rounded-full bg-primarylight dark:bg-secondarydark'></span>
+                    <div className='flex items-center gap-1 xxs:gap-3'>
+                        <div className='flex h-full w-[8px] items-center'>
+                            <span className='w-[7px] h-[7px] rounded-full bg-primarylight dark:bg-secondarydark'></span>
+                        </div>
+
                         <p className='text-black/60 text-base dark:text-white/90'>{item.institution}</p>
                     </div>
                 </li>
