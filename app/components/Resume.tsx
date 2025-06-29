@@ -50,7 +50,7 @@ const Resume = (props: Props) => {
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className='text-center mb-2 text-lg font-ovo '
+            className='text-center mb-2 text-base xxs:text-lg font-ovo'
         >
             Personal details
         </motion.h4>
@@ -59,7 +59,7 @@ const Resume = (props: Props) => {
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.5 }}
-            className='text-5xl text-center font-ovo'
+            className='h2 text-center font-ovo'
         >
             My Resume
         </motion.h2>
@@ -68,18 +68,20 @@ const Resume = (props: Props) => {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.7 }}
-            className='text-center max-w-2xl mx-auto mt-5 mb-12 font-ovo'
+            className='w-full max-w-[500px] text-sm xxs:text-base text-center mx-auto mt-5 mb-6 xxs:mb-12 font-ovo'
         >
             Take a brief look at my background, experience, and the skills I bring to the table.
         </motion.p>
 
-        <div className='w-full flex flex-col lg:flex-row gap-10 items-center justify-between lg:items-start'>
+        <div className='w-full flex flex-col md:flex-row gap-10 items-center justify-between lg:items-start'>
             <div className='w-full max-w-[380px] flex flex-col gap-3'>
-                <h2 className='text-4xl font-medium text-black/90 dark:text-white/95'>Why hire me?</h2>
-                <p className='leading-[1.5] py-3 text-black/70 dark:text-white/90 text-lg'>
+                <h2 className='hidden md:flex text-4xl font-medium text-black/90 dark:text-white/95'>Why hire me?</h2>
+                
+                <p className='hidden md:flex leading-[1.5] py-3 text-black/70 dark:text-white/90 text-lg'>
                     Each tab highlights my qualifications and strengths, explore them to see why I'd 
                     be a great fit for your project.
                 </p>
+
                 <button 
                     onClick={() => setActiveTab('experience')}
                     className={tabClass('experience')}
