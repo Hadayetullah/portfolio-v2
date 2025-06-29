@@ -75,7 +75,7 @@ const MyWork = (props: Props) => {
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className='text-center mb-2 text-lg font-ovo'
+            className='text-center mb-2 text-base xxs:text-lg font-ovo'
         >
             My Portfolio
         </motion.h4>
@@ -84,7 +84,7 @@ const MyWork = (props: Props) => {
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className='text-5xl text-center font-ovo'
+            className='h2 text-center font-ovo'
             >
                 My latest work
         </motion.h2>
@@ -93,7 +93,7 @@ const MyWork = (props: Props) => {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className='text-center max-w-2xl mx-auto mt-5 mb-12 font-ovo'
+            className='w-full max-w-[500px] text-sm xxs:text-base text-center mx-auto mt-5 mb-6 xxs:mb-12 font-ovo'
         >
             Welcome to my web development portfolio! Explore a collection of projects showcasing
             my expertise in web development.
@@ -103,29 +103,29 @@ const MyWork = (props: Props) => {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className='my-10 w-full flex flex-col lg:flex-row lg:gap-[30px] pt-10'
+            className='my-10 w-full flex flex-col lg:flex-row gap-[30px] pt-2 lg:pt-10'
         >
             <div className='w-full lg:w-[50%] lg:h-[460px] flex flex-col lg:justify-between order-2 lg:order-none '>
-                <div className='flex flex-col gap-[20px]'>
+                <div className='flex flex-col gap-[10px] xs:gap-[20px]'>
                     <div 
-                        className='text-8xl font-bold text-transparent text-shadow-neutral-50' 
+                        className='text-4xl xxs:text-6xl xs:text-8xl font-bold text-transparent text-shadow-neutral-50' 
                         style={{ WebkitTextStroke: `2px var(--color-${props.isDarkMode ? 'secondary' : 'primarylight'})`}}
                     >
                         {project.num}
                     </div>
 
                     <h2 
-                        className='text-[42px] font-medium transition-all duration-300 
+                        className='text-[20px] xxs:text-[30px] xs:text-[42px] font-medium transition-all duration-300 
                         capitalize '
                     >
                         {project.category} project
                     </h2>
 
-                    <p className='py-4 leading-[1.5] text-black/80 dark:text-white/80'>
+                    <p className='py-2 xs:py-4 text-sm xxs:text-base leading-[1.5] text-black/80 dark:text-white/80'>
                         {project.description}
                     </p>
 
-                    <ul className='flex gap-4 text-xl text-primarylight dark:text-secondary'>
+                    <ul className='w-full flex flex-wrap gap-1 xxs:gap-2 xs:gap-4 leading-[1.2] xs:leading-[1.5] text-base xxs:text-lg xs:text-xl text-primarylight dark:text-secondary'>
                         {
                             project.stack.map((item:string, index:number) => (
                                 <li key={index}>
@@ -139,7 +139,7 @@ const MyWork = (props: Props) => {
 
                     {/* Linked buttons */}
                     <div className='flex items-center gap-4'>
-                        <div className='w-13 h-13 rounded-full bg-gray-300 dark:bg-secondarydarklight text-black dark:text-secondary'>
+                        <div className='w-10 xxs:w-13 h-10 xxs:h-13 rounded-full bg-gray-300 dark:bg-secondarydarklight text-black dark:text-secondary'>
                             <Link 
                                 href={project.live} 
                                 title='Live Project'
@@ -149,7 +149,7 @@ const MyWork = (props: Props) => {
                             </Link>
                         </div>
 
-                        <div className='w-13 h-13 rounded-full bg-gray-300 dark:bg-secondarydarklight text-black dark:text-secondary'>
+                        <div className='w-10 xxs:w-13 h-10 xxs:h-13 rounded-full bg-gray-300 dark:bg-secondarydarklight text-black dark:text-secondary'>
                             <Link 
                                 href={project.live} 
                                 title='GitHub Repository'
@@ -166,7 +166,7 @@ const MyWork = (props: Props) => {
                 <Swiper 
                     slidesPerView={1} 
                     spaceBetween={30}
-                    className='w-full h-[520px]'
+                    className='w-full h-[300px] xxs:h-[410px] xs:h-[520px]'
                     onSlideChange={handleSlideChange}
                 >
                     {
@@ -176,7 +176,7 @@ const MyWork = (props: Props) => {
                                     key={index}
                                 >
                                     <div 
-                                        className='relative w-full h-[460px] flex items-center 
+                                        className='relative w-full h-full xs:h-[460px] flex items-center 
                                         cursor-grab justify-center'>
                                         {/* Overlay */}
                                         <div className='absolute inset-0 bg-black/10 z-10'></div>
