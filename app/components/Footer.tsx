@@ -10,24 +10,20 @@ const Footer = (props: Props) => {
   return (
     <div className='container mt-20'>
         <div className='text-center'>
-            <a href="#home" className='w-36 text-[28px] cursor-pointer mx-auto mb-2'>
+            <a href="#home" className='w-36 text-[22px] xxs:text-[28px] xs:text-[32px] cursor-pointer mx-auto'>
                 Hadayetullah
             </a>
 
-            {/* <a href="">
-                <Image src={assets.logo} alt='' className='w-36 cursor-pointer mx-auto mb-2'  />
-            </a> */}
-
-            <div className='w-max flex items-center gap-2 mx-auto'>
-                <Image src={props.isDarkMode ? assets.mail_icon_dark : assets.mail_icon} alt='' className='w-6' />
+            <div className='w-max flex items-center gap-1 xxs:gap-2 mx-auto text-xs xxs:text-sm xs:text-base mt-0 xxs:mt-1 xs:mt-2'>
+                <Image src={props.isDarkMode ? assets.mail_icon_dark : assets.mail_icon} alt='' className='w-3 xxs:w-4 xs:w-6' />
                 hadayetullah30@gmail.com
             </div>
         </div>
 
-        <div className='text-center sm:flex items-center justify-between border-t border-gray-400 mx-[10%] mt-12 py-6'>
+        <div className='text-center flex flex-col md:flex-row items-center justify-center xxs:justify-between border-t border-gray-400 mx-[5%] md:mx-[10%] mt-6 xxs:mt-12 py-6'>
             <p>@ 2025 Md. Hadayetullah. All rights reserved.</p>
 
-            <ul className='flex items-center gap-10 justify-center mt-4 sm:mt-0'>
+            <ul className='flex flex-col xxs:flex-row items-center gap-2 sm:gap-10 justify-center mt-4 sm:mt-0'>
                 <li>
                     <a target='_blank' href="https://github.com/Hadayetullah">GitHub</a>
                 </li>
