@@ -10,6 +10,7 @@ import Footer from "./components/Footer";
 import { useEffect, useRef, useState } from "react";
 import Resume from "./components/Resume";
 import MyWork from "./components/MyWork";
+import Contactme from "./components/Contactme";
 
 export default function Home() {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
@@ -97,7 +98,8 @@ export default function Home() {
       <Resume id={"resume"} ref={sectionRefs.resume} isDarkMode={isDarkMode} />
       <MyWork id={"work"} ref={sectionRefs.work} isDarkMode={isDarkMode} />
       {/* <Contact id={"contact"} ref={sectionRefs.contact} isDarkMode={isDarkMode} /> */}
-      <Footer isDarkMode={isDarkMode} />
+      <Contactme id={"contact"} ref={sectionRefs.contact} isDarkMode={isDarkMode} />
+      {/* <Footer isDarkMode={isDarkMode} /> */}
     </>
   );
 }
