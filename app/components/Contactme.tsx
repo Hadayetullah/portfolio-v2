@@ -10,7 +10,7 @@ type Props = {
     ref: ForwardedRef<HTMLDivElement>;
 }
 
-const infor = [
+const info = [
     {
         icon: <FaPhoneAlt />,
         title: "Phone",
@@ -67,15 +67,15 @@ const Contactme = (props: Props) => {
           form below.
       </motion.p>
 
-      <div className='flex flex-col lg:flex-row gap-[30px]'>
+      <div className='flex flex-col lg:flex-row gap-[30px] items-center'>
         {/* Form */}
-        <div className='order-2 lg:order-none'>
+        <div className='order-2 lg:order-none flex justify-end'>
           <form 
-            className='flex flex-col gap-6 p-10 dark:bg-[#27272c] rounded-xl'
+            className='flex flex-col gap-3 xxs:gap-6 p-0 sm:p-4 lg:p-10 dark:bg-[#27272c] rounded-xl'
           >
-            <h3 className='text-4xl text-black dark:text-secondary'>Let's work together</h3>
+            <h3 className='text-2xl xxs:text-3xl xs:text-4xl xxs:leading-[1] text-black dark:text-secondary'>Let's work together</h3>
 
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magni, voluptas voluptate soluta amet dolores veniam doloremque eligendi molestias, excepturi aperiam fugit ratione saepe voluptatum sapiente modi illum! Aut, soluta! Officia?</p>
+            <p className='text-sm xxs:text-base font-ovo'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magni, voluptas voluptate soluta amet dolores veniam doloremque eligendi molestias, excepturi aperiam fugit ratione saepe voluptatum sapiente modi illum! Aut, soluta! Officia?</p>
 
             <div>
               <Form />
@@ -84,7 +84,35 @@ const Contactme = (props: Props) => {
         </div>
 
         {/* Info */}
-        <div className='flex-1 flex items-center lg:justify-end order-1 lg:order-none mb-8 lg:mb-0'>Info</div>
+        <div className='flex-1 flex items-center lg:justify-start order-1 lg:order-none mb-3 xxs:mb-8 lg:mb-0'>
+          <ul className='flex flex-col gap-5 xs:gap-10'>
+            {
+              info.map((item, index) => {
+                return (
+                  <li 
+                    key={index}
+                    className='flex items-center gap-0 xxs:gap-2 xs:gap-6'
+                  >
+                    <div 
+                      className='hidden w-[40px] xs:w-[52px] xl:w-[60px] h-[40px] xs:h-[52px] xl:h-[60px] border border-primarylight/30 dark:border-[#1c1c22] dark:bg-[#1c1c22] text-primarylight dark:text-secondary 
+                      rounded-md xxs:flex items-center justify-center'
+                    >
+                      <div className='w-[40px] xs:w-[52px] xl:w-[60px] flex items-center justify-center text-[20px] xs:text-[28px]'>{item.icon}</div>
+                    </div>
+
+                    <div className='flex-1 flex flex-col gap-0 xxs:gap-1'>
+                      <div className='flex flex-row gap-1 items-center'>
+                        <div className='text-sm xxs:hidden text-primarylight dark:text-secondary'>{item.icon}</div>
+                        <p className='text-sm xs:text-base text-black/60 dark:text-white/60'>{item.title}</p>
+                      </div>
+                      <h3 className='text-sm xs:text-lg text-black/85 dark:text-white/85'>{item.description}</h3>
+                    </div>
+                  </li>
+                )
+              })
+            }
+          </ul>
+        </div>
       </div>
     </motion.div>
   )

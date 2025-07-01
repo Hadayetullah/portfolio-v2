@@ -8,7 +8,7 @@
 
 @theme {
   --breakpoint-xs: 380px;
-  --breakpoint-xxs: 220px;
+  --breakpoint-xxs: 250px;
 
   --color-lighthover: #fcf4ff;
   --color-darkhover: #2a004a;
