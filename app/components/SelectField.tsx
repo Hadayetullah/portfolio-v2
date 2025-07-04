@@ -1,14 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { FaChevronDown } from 'react-icons/fa'
 
+// options array for the select field
 const options = [
-  { label: 'Option One', value: 'one' },
-  { label: 'Option Two', value: 'two' },
-  { label: 'Option Three', value: 'three' },
+  { label: 'Frontend Development', value: 'frontend' },
+  { label: 'Backend Development', value: 'backend' },
+  { label: 'Full Stack Development', value: 'fullstack' },
+  { label: 'General Purpose', value: 'general' },
+  { label: 'Other', value: 'other' },
 ]
 
 const placeholderText = 'Select an option';
 
+// Type declaration
 type Props = {
     optionsList?: { label: string, value: string }[];
     placeholder?: string;
@@ -48,7 +52,7 @@ const SelectField = ({optionsList = options, placeholder = placeholderText, fiel
             onClick={() => setIsOpen(!isOpen)}
             className={fieldStyle + ' items-center justify-between cursor-pointer'}>
             <span className='text-black/60 dark:text-white/60'>{selected?.label || placeholder}</span>
-            <FaChevronDown className='text-black/60 dark:text-white/60' />
+            <FaChevronDown className={`text-black/60 dark:text-white/60 ${openAbove ? 'rotate-180' : ''}`} />
         </div>
 
         {isOpen && (

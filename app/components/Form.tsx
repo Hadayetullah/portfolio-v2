@@ -39,6 +39,7 @@ const Form = (props: Props) => {
             className={inputStyle}
         />
 
+        {/* Custom SelectField component */}
         <div className='col-span-1 sm:col-span-2'>
             <SelectField fieldStyle={inputStyle} />
         </div>
