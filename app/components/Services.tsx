@@ -36,6 +36,7 @@ const Services = (props: Props) => {
         ref={props.ref} 
         className='container py-10 scroll-mt-20'
     >
+        {/* Subheading */}
         <motion.h4 
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -45,6 +46,7 @@ const Services = (props: Props) => {
             What I offer
         </motion.h4>
 
+        {/* Main heading */}
         <motion.h2 
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -54,6 +56,7 @@ const Services = (props: Props) => {
                 My Services
         </motion.h2>
 
+        {/* Introductory paragraph */}
         <motion.p 
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -63,6 +66,7 @@ const Services = (props: Props) => {
             I offer a range of services to help you achieve your goals.
         </motion.p>
 
+        {/* Services info */}
         <motion.div 
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -77,7 +81,7 @@ const Services = (props: Props) => {
                         className='border border-gray-400 rounded-lg px-2 xxs:px-8 py-6 xxs:py-12 hover:shadow-shadowblack 
                         cursor-pointer hover:-translate-y-1 duration-300 dark:hover:shadow-white'
                     >
-                        <div className={`w-12 p-2 rounded-lg bg-[#ff388b] text-white`}>
+                        <div aria-label={title} className={`w-12 p-2 border border-transparent dark:border-secondary rounded-lg bg-[#ff388b] dark:bg-transparent dark:text-secondary text-white`}>
                             {icon}
                         </div>
 

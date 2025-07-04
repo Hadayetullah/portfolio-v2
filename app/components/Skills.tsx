@@ -5,14 +5,19 @@ import {
     FaCss3, 
     FaJs, 
     FaReact, 
-    FaFigma, 
-    FaNodeJs
+    FaPython,
 } from "react-icons/fa";
 
 import { 
     SiTailwindcss, 
-    SiNextdotjs
+    SiNextdotjs,
+    SiTypescript,
+    SiRedux,
+    SiDjango,
+    SiSqlite
 } from "react-icons/si";
+
+import { BiLogoPostgresql } from "react-icons/bi";
 
 type Props = {}
 
@@ -35,8 +40,16 @@ const skills = {
             name: "JavaScript"
         },
         {
+            icon: <SiTypescript />,
+            name: "TypeScript"
+        },
+        {
             icon: <FaReact />,
             name: "React.js"
+        },
+        {
+            icon: <SiRedux />,
+            name: "Redux"
         },
         {
             icon: <SiNextdotjs />,
@@ -47,12 +60,20 @@ const skills = {
             name: "Tailwind css"
         },
         {
-            icon: <FaNodeJs />,
-            name: "Node.js"
+            icon: <FaPython />,
+            name: "Python"
         },
         {
-            icon: <FaFigma />,
-            name: "Figma"
+            icon: <SiDjango />,
+            name: "Django"
+        },
+        {
+            icon: <SiSqlite />,
+            name: "SQLite"
+        },
+        {
+            icon: <BiLogoPostgresql />,
+            name: "PostgreSQL"
         },
     ]
 };
@@ -65,14 +86,14 @@ const Skills = (props: Props) => {
             <p className='max-w-[600px] mx-auto lg:mx-0 text-sm xxs:text-base leading-[1.5]'>{skills.description}</p>
         </div>
 
-        <ul className='h-[410px] md:h-full grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-2 xxs:gap-4 xl:gap-[30px] overflow-auto rounded-xl'>
+        <ul className='h-[410px] grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-2 xxs:gap-4 xl:gap-[30px] overflow-auto rounded-xl'>
             {skills.skillList.map((item, index) => (
                 <li key={index} 
                     className='relative h-[100px] pb-2 xs:h-[150px] w-full flex items-center 
                     justify-center rounded-xl bg-gray-100 dark:bg-[#232329] shadow-md cursor-pointer 
                     duration-300 hover:text-primarylight dark:hover:text-secondary'
                 >
-                    <span className='text-4xl xs:text-6xl'>
+                    <span aria-label={item.name} className='text-4xl xs:text-6xl'>
                         {item.icon}
                     </span>
 

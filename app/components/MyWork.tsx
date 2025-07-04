@@ -105,6 +105,7 @@ const MyWork = (props: Props) => {
             transition={{ duration: 0.5, delay: 0.3 }}
             className='my-10 w-full flex flex-col lg:flex-row gap-[30px] pt-2 lg:pt-10'
         >
+            {/* Project details section */}
             <div className='w-full lg:w-[50%] lg:h-[460px] flex flex-col lg:justify-between order-2 lg:order-none '>
                 <div className='flex flex-col gap-[10px] xs:gap-[20px]'>
                     <div 
@@ -145,7 +146,7 @@ const MyWork = (props: Props) => {
                                 title='Live Project'
                                 target='_blank'
                             >
-                                <BsArrowUpRight className='w-full h-auto p-3' />
+                                <BsArrowUpRight aria-label='Live Project' className='w-full h-auto p-3' />
                             </Link>
                         </div>
 
@@ -155,13 +156,14 @@ const MyWork = (props: Props) => {
                                 title='GitHub Repository'
                                 target='_blank'
                             >
-                                <BsGithub className='w-full h-auto p-3' />
+                                <BsGithub aria-label='GitHub Repository' className='w-full h-auto p-3' />
                             </Link>
                         </div>
                     </div>
                 </div>
             </div>
 
+            {/* Swiper slider section */}
             <div className='w-full lg:w-[50%]'>
                 <Swiper 
                     slidesPerView={1} 

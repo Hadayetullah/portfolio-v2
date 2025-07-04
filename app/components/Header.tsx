@@ -94,6 +94,7 @@ const Header = (props: Props) => {
             className='w-full flex flex-col-reverse lg:flex-row items-center justify-between'
         >
             <div className='text-center lg:text-left'>
+                {/* Subheading */}
                 <motion.span 
                     initial={{ y: -20, opacity: 0 }}
                     whileInView={{ y: 0, opacity: 1 }}
@@ -104,6 +105,7 @@ const Header = (props: Props) => {
                         Web developer
                 </motion.span>
 
+                {/* Main heading */}
                 <motion.h2 
                     initial={{ y: -20, opacity: 0 }}
                     whileInView={{ y: 0, opacity: 1 }}
@@ -112,6 +114,7 @@ const Header = (props: Props) => {
                     className='h2 mb-6 mt-2'>Hello I'm <br /><span>Hadayetullah</span>
                 </motion.h2>
 
+                {/* Introductory paragraph */}
                 <motion.p 
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
@@ -119,7 +122,7 @@ const Header = (props: Props) => {
                     viewport={{ once: true, amount: 0.5 }}
                     className='w-full max-w-[500px] mb-6 xxs:mb-9 text-sm xxs:text-base'
                 >
-                    High level skills and experience in web design and development, producing quality work.
+                    High level skills and experience in web development, producing quality work.
                 </motion.p>
 
                 {/* CV button and Socials */}
@@ -137,7 +140,7 @@ const Header = (props: Props) => {
                     >
                         Download CV
                         {/* <Image src={assets.download_icon} alt='' className='w-4' /> */}
-                        <LuDownload className='text-base xxs:text-lg' />
+                        <LuDownload aria-label='Download CV' className='text-base xxs:text-lg' />
                     </motion.a>
 
                     <div>

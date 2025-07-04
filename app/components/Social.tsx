@@ -9,9 +9,9 @@ type Props = {
 }
 
 const socials = [
-    { icon:<FaGithub />, link: "" },
-    { icon:<FaLinkedinIn />, link: "" },
-    { icon:<FaFacebookF />, link: "" },
+    { icon:<FaGithub />, link: "", ariaLabel: "GitHub profile" },
+    { icon:<FaLinkedinIn />, link: "", ariaLabel: "LinkedIn profile" },
+    { icon:<FaFacebookF />, link: "", ariaLabel: "Facebook profile" },
 ]
 
 const Social = (props: Props) => {
@@ -24,7 +24,7 @@ const Social = (props: Props) => {
         className={props.containerStyles}
     >
         {socials.map((item, index) => (
-            <a key={index} target='_blank' href={item.link} className={props.iconStyles}>
+            <a aria-label={item.ariaLabel} key={index} target='_blank' href={item.link} className={props.iconStyles}>
                 {item.icon}
             </a>
         ))}

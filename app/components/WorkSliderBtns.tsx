@@ -6,7 +6,6 @@ type Props = {}
 
 const WorkSliderBtns = (props: Props) => {
     const swiper = useSwiper();
-    console.log(swiper)
 
     const btnsStyle = `text-[18px] xxs:text-[22px] xs:text-[28px] rounded w-[30px] xxs:w-[38px] xs:w-[44px] h-[30px] xxs:h-[38px] xs:h-[44px] justify-center items-center flex transition-all duration-300`;
 
@@ -16,6 +15,7 @@ const WorkSliderBtns = (props: Props) => {
         z-20 w-full lg:w-auto justify-between lg:justify-normal'
     >
         <button 
+            aria-label='Previous Slide'
             className={`${btnsStyle} ${swiper.isBeginning ? 
                 'bg-[#990f48] dark:bg-[#59b544] cursor-not-allowed' : 
                 'bg-primarylight dark:bg-secondary cursor-pointer'}`
@@ -26,6 +26,7 @@ const WorkSliderBtns = (props: Props) => {
         </button>
 
         <button 
+            aria-label='Next Slide'
             className={`${btnsStyle} ${swiper.isEnd ? 
                 'bg-[#990f48] dark:bg-[#59b544] cursor-not-allowed' : 
                 'bg-primarylight dark:bg-secondary cursor-pointer'}`
