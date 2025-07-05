@@ -99,7 +99,7 @@ export default function Home() {
       <MyWork id={"work"} ref={sectionRefs.work} isDarkMode={isDarkMode} />
       {/* <Contact id={"contact"} ref={sectionRefs.contact} isDarkMode={isDarkMode} /> */}
       <Contactme id={"contact"} ref={sectionRefs.contact} isDarkMode={isDarkMode} />
-      {/* <Footer isDarkMode={isDarkMode} /> */}
+      <Footer isDarkMode={isDarkMode} />
     </>
   );
 }

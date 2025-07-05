@@ -14,11 +14,11 @@ const stats = [
         text: "Years of self-directed practice"
     },
     {
-        num: 10,
+        num: 20,
         text: "Practiced projects"
     },
     {
-        num: 9,
+        num: 12,
         text: "Technologies mastered"
     },
 ]
