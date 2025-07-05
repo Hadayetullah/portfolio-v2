@@ -15,25 +15,23 @@ const WorkSliderBtns = (props: Props) => {
         z-20 w-full lg:w-auto justify-between lg:justify-normal'
     >
         <button 
-            aria-label='Previous Slide'
             className={`${btnsStyle} ${swiper.isBeginning ? 
                 'bg-[#990f48] dark:bg-[#59b544] cursor-not-allowed' : 
                 'bg-primarylight dark:bg-secondary cursor-pointer'}`
             }
             onClick={() => swiper.slidePrev()}
         >
-            <PiCaretLeftBold className={`text-white`} />
+            <PiCaretLeftBold aria-label='Previous Slide' className={`text-white`} />
         </button>
 
         <button 
-            aria-label='Next Slide'
             className={`${btnsStyle} ${swiper.isEnd ? 
                 'bg-[#990f48] dark:bg-[#59b544] cursor-not-allowed' : 
                 'bg-primarylight dark:bg-secondary cursor-pointer'}`
             }
             onClick={() => swiper.slideNext()}
         >
-            <PiCaretRightBold className={`text-white`} />
+            <PiCaretRightBold aria-label='Next Slide' className={`text-white`} />
         </button>
     </div>
   )

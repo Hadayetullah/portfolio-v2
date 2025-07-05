@@ -98,7 +98,7 @@ const Contactme = (props: Props) => {
 
         {/* Contact Information List */}
         <div className='flex-1 flex items-center lg:justify-start order-1 lg:order-none mb-3 xxs:mb-8 lg:mb-0'>
-          <ul aria-label="Contact information list" className='flex flex-col gap-5 xs:gap-10'>
+          <ul className='flex flex-col gap-5 xs:gap-10'>
             {
               info.map((item, index) => {
                 return (
@@ -111,7 +111,7 @@ const Contactme = (props: Props) => {
                       className='hidden w-[40px] xs:w-[52px] xl:w-[60px] h-[40px] xs:h-[52px] xl:h-[60px] border border-primarylight/30 dark:border-[#1c1c22] dark:bg-[#1c1c22] text-primarylight dark:text-secondary 
                       rounded-md xxs:flex items-center justify-center'
                     >
-                      <div className='w-[40px] xs:w-[52px] xl:w-[60px] flex items-center justify-center text-[20px] xs:text-[28px]'>{item.icon}</div>
+                      <div aria-hidden='true' className='w-[40px] xs:w-[52px] xl:w-[60px] flex items-center justify-center text-[20px] xs:text-[28px]'>{item.icon}</div>
                     </div>
 
                     {/* Text info */}
@@ -119,8 +119,11 @@ const Contactme = (props: Props) => {
                       <div className='flex flex-row gap-1 items-center'>
                         {/* Inline icon on small screens */}
                         <div 
-                          aria-label={item.ariaLabel}
-                          className='text-sm xxs:hidden text-primarylight dark:text-secondary'>{item.icon}</div>
+                          aria-hidden='true' 
+                          className='text-sm xxs:hidden text-primarylight dark:text-secondary'
+                        >
+                            {item.icon}
+                        </div>
                         <p className='text-sm xs:text-base text-black/60 dark:text-white/60'>{item.title}</p>
                       </div>
                       <h3 className='text-sm xs:text-lg text-black/85 dark:text-white/85'>{item.description}</h3>

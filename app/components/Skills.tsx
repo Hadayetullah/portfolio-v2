@@ -28,51 +28,51 @@ const skills = {
     "I have hands-on expertise in a range of core web technologies and tools. My skill set empowers me to design and build responsive, accessible, and maintainable user interfaces with modern frameworks and best practices.",
     skillList: [
         {
-            icon: <FaHtml5 />,
+            icon: <FaHtml5 aria-label="html 5" />,
             name: "html 5"
         },
         {
-            icon: <FaCss3 />,
+            icon: <FaCss3 aria-label="css 3" />,
             name: "css 3"
         },
         {
-            icon: <FaJs />,
+            icon: <FaJs aria-label="JavaScript" />,
             name: "JavaScript"
         },
         {
-            icon: <SiTypescript />,
+            icon: <SiTypescript aria-label="TypeScript" />,
             name: "TypeScript"
         },
         {
-            icon: <FaReact />,
+            icon: <FaReact aria-label="React.js" />,
             name: "React.js"
         },
         {
-            icon: <SiRedux />,
+            icon: <SiRedux aria-label="Redux" />,
             name: "Redux"
         },
         {
-            icon: <SiNextdotjs />,
+            icon: <SiNextdotjs aria-label="Next.js" />,
             name: "Next.js"
         },
         {
-            icon: <SiTailwindcss />,
+            icon: <SiTailwindcss aria-label="Tailwind CSS" />,
             name: "Tailwind css"
         },
         {
-            icon: <FaPython />,
+            icon: <FaPython aria-label="Python" />,
             name: "Python"
         },
         {
-            icon: <SiDjango />,
+            icon: <SiDjango aria-label="Django" />,
             name: "Django"
         },
         {
-            icon: <SiSqlite />,
+            icon: <SiSqlite aria-label="SQLite" />,
             name: "SQLite"
         },
         {
-            icon: <BiLogoPostgresql />,
+            icon: <BiLogoPostgresql aria-label="PostgreSQL" />,
             name: "PostgreSQL"
         },
     ]
@@ -93,14 +93,16 @@ const Skills = (props: Props) => {
                     justify-center rounded-xl bg-gray-100 dark:bg-[#232329] shadow-md cursor-pointer 
                     duration-300 hover:text-primarylight dark:hover:text-secondary'
                 >
-                    <span aria-label={item.name} className='text-4xl xs:text-6xl'>
+                    <span className='text-4xl xs:text-6xl'>
                         {item.icon}
                     </span>
 
                     <span 
                         className='absolute w-full left-0 bottom-2 text-center leading-[0.8] 
                         xs:leading-[1.5] text-sm xs:text-base'
-                    >{item.name}</span>
+                    >
+                        {item.name}
+                    </span>
                 </li>
             ))}
         </ul>

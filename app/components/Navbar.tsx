@@ -80,7 +80,8 @@ const Navbar = ({isDarkMode, setIsDarkMode, activeSection}: NavbarProps) => {
                 <div className='flex items-center gap-2 xxs:gap-4'>
                     <button 
                         onClick={()=> setIsDarkMode(!isDarkMode)} 
-                        className='cursor-pointer'
+                        className='cursor-pointer' 
+                        aria-label='Toggle theme'
                     >
                         <Image src={isDarkMode ? assets.sun_icon : assets.moon_icon} alt='' className='w-5 xxs:w-6' />
                     </button>
@@ -94,7 +95,7 @@ const Navbar = ({isDarkMode, setIsDarkMode, activeSection}: NavbarProps) => {
                         <Image src={isDarkMode ? assets.arrow_icon_dark : assets.arrow_icon} alt='' className='w-3' />
                     </a>
 
-                    <button onClick={openMenu} className='block md:hidden ml-0 xs:ml-3 cursor-pointer'>
+                    <button aria-label='Open menu' onClick={openMenu} className='block md:hidden ml-0 xs:ml-3 cursor-pointer'>
                         <Image src={isDarkMode ? assets.menu_white : assets.menu_black} alt='' className='w-5 xxs:w-6' />
                     </button>
                 </div>
@@ -105,7 +106,7 @@ const Navbar = ({isDarkMode, setIsDarkMode, activeSection}: NavbarProps) => {
                     className='flex md:hidden shadow-2xl border-l-[0.5px] border-gray-300 z-50 flex-col gap-4 py-20 px-10 fixed -right-64 top-0 bottom-0 w-64 
                     h-screen bg-gray-100 transition duration-500 dark:bg-darkhover dark:text-white'
                 >
-                    <button className='absolute right-6 top-6' onClick={closeMenu}>
+                    <button aria-label='Close menu' className='absolute right-6 top-6' onClick={closeMenu}>
                         <Image src={isDarkMode ? assets.close_white : assets.close_black} alt='' className='w-5 cursor-pointer' />
                     </button>
 

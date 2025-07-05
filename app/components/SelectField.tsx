@@ -50,9 +50,10 @@ const SelectField = ({optionsList = options, placeholder = placeholderText, fiel
     <div ref={containerRef} className="relative w-full select-none">
         <div 
             onClick={() => setIsOpen(!isOpen)}
-            className={fieldStyle + ' items-center justify-between cursor-pointer'}>
+            className={fieldStyle + ' items-center justify-between cursor-pointer'}
+        >
             <span className='text-black/60 dark:text-white/60'>{selected?.label || placeholder}</span>
-            <FaChevronDown className={`text-black/60 dark:text-white/60 ${openAbove ? 'rotate-180' : ''}`} />
+            <FaChevronDown aria-label='Toggle dropdown' className={`text-black/60 dark:text-white/60 ${openAbove ? 'rotate-180' : ''}`} />
         </div>
 
         {isOpen && (
