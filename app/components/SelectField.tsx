@@ -58,7 +58,7 @@ const SelectField = ({optionsList = options, placeholder = placeholderText, fiel
 
         {isOpen && (
             <div
-                className={`absolute z-10 w-full bg-white dark:bg-[#1c1c22] border border-black/20 dark:border-white/20 rounded-md shadow-lg max-h-60 overflow-auto ${
+                className={`absolute z-10 w-full bg-white dark:bg-[#1c1c22] border border-black/20 dark:border-white/20 rounded-md shadow-lg max-h-50 overflow-auto ${
                     openAbove ? 'bottom-full mb-1' : 'mt-1'
                 }`}
             >
