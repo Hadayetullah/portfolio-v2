@@ -1,5 +1,6 @@
 import React from 'react'
 import SelectField from './SelectField';
+import UserVerificationField from './UserVerificationField';
 
 type Props = {}
 
@@ -26,12 +27,12 @@ const Form = (props: Props) => {
             placeholder='Last name'
             className={inputStyle}
         />
-        <input 
+        {/* <input 
             type='email' 
             name='email' 
             placeholder='Email address'
             className={inputStyle}
-        />
+        /> */}
         <input 
             type='text' 
             name='phone' 
@@ -40,8 +41,13 @@ const Form = (props: Props) => {
         />
 
         {/* Custom SelectField component */}
-        <div className='col-span-1 sm:col-span-2'>
+        <div className=''>
             <SelectField fieldStyle={inputStyle} />
+        </div>
+
+        {/* User Verification Field */}
+        <div className='col-span-1 sm:col-span-2'>
+            <UserVerificationField />
         </div>
 
         <textarea 
