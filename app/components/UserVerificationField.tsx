@@ -19,8 +19,6 @@ const UserVerificationField = ({optionsList=options}: Props) => {
     const [openAbove, setOpenAbove] = useState<boolean>(false)
     const [belowPosition, setBelowPosition] = useState<number>(0)
 
-    console.log(belowPosition)
-
     const containerRef = useRef<HTMLDivElement>(null);
 
     const handleSelect = (option:any) => {
@@ -32,7 +30,6 @@ const UserVerificationField = ({optionsList=options}: Props) => {
     useEffect(() => {
         if (isOpen && containerRef.current) {
             const rect = containerRef.current.getBoundingClientRect()
-            console.log(rect)
             const spaceBelow = window.innerHeight - rect.bottom
             const dropdownHeight = Math.min(100, optionsList.length * 48) // approx height
 

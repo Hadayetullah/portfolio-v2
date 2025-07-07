@@ -33,6 +33,7 @@ const SelectField = ({optionsList = options, placeholder = placeholderText, fiel
     }
 
     useEffect(() => {
+        // Calculate if the dropdown should open above based on available space
         if (isOpen && containerRef.current) {
             const rect = containerRef.current.getBoundingClientRect()
             const spaceBelow = window.innerHeight - rect.bottom
