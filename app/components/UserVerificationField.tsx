@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useRef, useState } from 'react'
+import { useSession, signIn } from 'next-auth/react'
 import { FaChevronDown } from 'react-icons/fa'
 
 // options array for the select field to select verification type
@@ -14,12 +15,20 @@ type Props = {
 }
 
 const UserVerificationField = ({optionsList=options}: Props) => {
+    const { data } = useSession()
+    console.log("Data : ", data)
+
     const [selected, setSelected] = useState<{label: string, value:string} | null>(null)
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [openAbove, setOpenAbove] = useState<boolean>(false)
     const [belowPosition, setBelowPosition] = useState<number>(0)
 
     const containerRef = useRef<HTMLDivElement>(null);
+
+    const handleSignIn = (e:any) => {
+        e.preventDefault();
+        signIn()
+    }
 
     const handleSelect = (option:any) => {
         setSelected(option)
@@ -71,7 +80,7 @@ const UserVerificationField = ({optionsList=options}: Props) => {
             </div>
 
             <div className='bg-green-500 w-full sm:w-[50%] h-[35] xxs:h-[42px] xs:h-[48px] sm:h-full rounded-bl-md sm:rounded-bl-none rounded-tr-none sm:rounded-tr-md rounded-br-md px-1 xxs:pl-4 flex items-center'>
-                Social Icons
+                <button onClick={(e) => handleSignIn(e)}>Sign in</button>
             </div>
         </div>
 
