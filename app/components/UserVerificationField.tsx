@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useEffect, useRef, useState } from 'react'
-import { useSession, signIn } from 'next-auth/react'
 import { FaChevronDown } from 'react-icons/fa'
 
 // options array for the select field to select verification type
@@ -15,8 +14,6 @@ type Props = {
 }
 
 const UserVerificationField = ({optionsList=options}: Props) => {
-    const { data } = useSession()
-    console.log("Data : ", data)
 
     const [selected, setSelected] = useState<{label: string, value:string} | null>(null)
     const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -27,7 +24,6 @@ const UserVerificationField = ({optionsList=options}: Props) => {
 
     const handleSignIn = (e:any) => {
         e.preventDefault();
-        signIn()
     }
 
     const handleSelect = (option:any) => {
