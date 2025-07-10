@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react'
 import { FaChevronDown } from 'react-icons/fa'
+import SocialSignInForm from './SocialSignInOptions'
 
 // options array for the select field to select verification type
 const options = [
@@ -76,7 +77,8 @@ const UserVerificationField = ({optionsList=options}: Props) => {
             </div>
 
             <div className='bg-green-500 w-full sm:w-[50%] h-[35] xxs:h-[42px] xs:h-[48px] sm:h-full rounded-bl-md sm:rounded-bl-none rounded-tr-none sm:rounded-tr-md rounded-br-md px-1 xxs:pl-4 flex items-center'>
-                <button onClick={(e) => handleSignIn(e)}>Sign in</button>
+                {/* <button onClick={(e) => handleSignIn(e)}>Sign in</button> */}
+                <SocialSignInForm />
             </div>
         </div>
 
