@@ -1,10 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import SelectField from './SelectField';
 import UserVerificationField from './UserVerificationField';
+import { googleLoginCredential } from '../actions/AccountCredentials';
 
 type Props = {}
 
 const Form = (props: Props) => {
+
+    useEffect(() => {
+        const promise = googleLoginCredential();
+        promise.then((credentials) => {
+            console.log("Credentials : ", credentials)
+        })
+    }, [])
+
     const inputStyle = `flex h-[35] xxs:h-[42px] xs:h-[48px] border-[0.5px] border-black/20 dark:border-white/20 focus:border-primarylight/50 dark:focus:border-secondary/50 px-1 xxs:px-4 py-2 xxs:py-5 text-base text-black 
     dark:text-white placeholder:text-black/60 dark:placeholder:text-white/60 outline-none bg-white 
     dark:bg-[#1c1c22] rounded-md placeholder:text-sm xxs:placeholder:text-base shadow-sm`;

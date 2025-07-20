@@ -7,9 +7,9 @@ const SocialSignInOptions = (props: Props) => {
   return (
     <div>
         <button 
-            onClick={(e) => {
+            onClick={async(e) => {
                 e.preventDefault();
-                socialLogin("google");
+                await socialLogin("google");
             }}
             className='cursor-pointer'
         >

@@ -3,6 +3,6 @@
 import { signIn } from "@/auth";
 
 export async function socialLogin(data:string) {
-    // console.log(data);
+    console.log(data);
     await signIn(data, {redirectTo: '/#contact'})
 }
