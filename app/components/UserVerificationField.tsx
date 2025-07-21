@@ -70,13 +70,16 @@ const UserVerificationField = ({optionsList=options}: Props) => {
                 className='cursor-pointer select-none flex items-center justify-between w-full sm:w-[50%] 
                 h-[35] xxs:h-[42px] xs:h-[48px] sm:h-full rounded-tl-md rounded-bl-none sm:rounded-bl-md rounded-tr-md sm:rounded-tr-none bg-gray-100'
             >
-                <span className='min-w-[200px] max-w-full text-nowrap text-black/70 dark:text-white/70 px-1 xxs:pl-4'>{selected?.label || options[0].label}</span>
-                <div className='bg-gray-100 w-[32px] h-full flex items-center justify-center ml-2 border-0 sm:border-r-[0.5px] border-black/20 dark:border-white/20'>
+                <span className='min-w-[200px] max-w-full text-nowrap overflow-hidden text-black/70 dark:text-white/70 px-1 xxs:pl-4'>{selected?.label || options[0].label}</span>
+                
+                <div className='bg-gray-100 w-[33px] h-full flex items-center justify-center ml-2 
+                    border-0 sm:border-r-[0.5px] border-black/20 dark:border-white/20 pr-1 xxs:pr-4'
+                >
                     <FaChevronDown aria-label='Toggle dropdown' className={`text-black/60 dark:text-white/60 ${openAbove ? 'rotate-180' : ''}`} />
                 </div>
             </div>
 
-            <div className='bg-green-500 w-full sm:w-[50%] h-[35] xxs:h-[42px] xs:h-[48px] sm:h-full rounded-bl-md sm:rounded-bl-none rounded-tr-none sm:rounded-tr-md rounded-br-md px-1 xxs:pl-4 flex items-center'>
+            <div className='w-full sm:w-[50%] h-[35] xxs:h-[42px] xs:h-[48px] sm:h-full rounded-bl-md sm:rounded-bl-none rounded-tr-none sm:rounded-tr-md rounded-br-md px-1 xxs:pl-4 sm:px-0 flex items-center'>
                 {/* <button onClick={(e) => handleSignIn(e)}>Sign in</button> */}
                 <SocialSignInForm />
             </div>
