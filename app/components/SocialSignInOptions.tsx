@@ -14,60 +14,39 @@ const content = [
     icon: <FaFacebookF title='Sign in with Facebook' />,
     provider: 'facebook'
   },
-  {
-    icon: <FaLinkedinIn title='Sign in with Linkedin' />,
-    provider: 'linkedin'
-  },
+  // {
+  //   icon: <FaLinkedinIn title='Sign in with Linkedin' />,
+  //   provider: 'linkedin'
+  // },
   {
     icon: <FiGithub title='Sign in with GitHub' />,
     provider: 'github'
   },
 ]
 
-type Props = {}
+type Props = {
+  authInfo?: {icon: React.ReactNode; provider: string}[];
+}
 
-const SocialSignInOptions = (props: Props) => {
+const SocialSignInOptions = ({authInfo=content}: Props) => {
   return (
-    <div className='flex items-center justify-start gap-4 text-[25px]'>
-        <button 
+    <div className='flex items-center justify-start gap-4'>
+      {
+        authInfo.map((item, index) => (
+          <button 
+            key={index} 
             onClick={async(e) => {
-                e.preventDefault();
-                await socialLogin("google");
-            }} 
-            className='cursor-pointer'
-        >
-            <FaGoogle title='Sign in with Google' />
-        </button>
-
-        <button 
-            onClick={async(e) => {
-                e.preventDefault();
-                await socialLogin("facebook");
-            }} 
-            className='cursor-pointer'
-        >
-            <FaFacebookF title='Sign in with Facebook' />
-        </button>
-
-        <button 
-            onClick={async(e) => {
-                e.preventDefault();
-                await socialLogin("linkedin");
-            }} 
-            className='cursor-pointer'
-        >
-            <FaLinkedinIn title='Sign in with Linkedin' />
-        </button>
-
-        <button 
-            onClick={async(e) => {
-                e.preventDefault();
-                await socialLogin("github");
-            }} 
-            className='cursor-pointer'
-        >
-            <FiGithub title='Sign in with GitHub' />
-        </button>
+              e.preventDefault();
+              await socialLogin(item.provider);
+            }}
+            className='cursor-pointer text-[22px] rounded-full p-1.5 border-[0.5px] border-black/50 
+            dark:border-white/50 hover:border-primarylight hover:text-primarylight 
+            dark:hover:border-secondary dark:hover:text-secondary duration-300'
+          >
+            {item.icon}
+          </button>
+        ))
+      }
     </div>
   )
 }
