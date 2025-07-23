@@ -10,12 +10,19 @@ const options = [
   { label: 'User verification with email (manually)', value: 'manual' },
 ]
 
-type Props = {
-    optionsList?: { label: string, value: string }[];
-    isDarkMode: boolean;
+export type ProviderInfoType = {
+    icon: React.ReactNode;
+    provider: string;
+    title: string;
 }
 
-const UserVerificationField = ({optionsList=options, isDarkMode}: Props) => {
+type Props = {
+    optionsList?: { label: string, value: string }[];
+    UserVerificationFieldStyle: string;
+    providerInfo: ProviderInfoType[];
+}
+
+const UserVerificationField = ({optionsList=options, UserVerificationFieldStyle, providerInfo}: Props) => {
 
     const [selected, setSelected] = useState<{label: string, value:string} | null>(null)
     const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -57,10 +64,7 @@ const UserVerificationField = ({optionsList=options, isDarkMode}: Props) => {
   return (
     <div ref={containerRef} className='relative w-full select-none'>
         <div 
-            className='h-auto sm:h-[48px] border-[0.5px] border-black/20 dark:border-white/20 focus:border-primarylight/50 dark:focus:border-secondary/50 text-base text-black 
-            dark:text-white placeholder:text-black/60 dark:placeholder:text-white/60 outline-none bg-white 
-            dark:bg-[#1c1c22] rounded-md placeholder:text-sm xxs:placeholder:text-base shadow-sm flex 
-            flex-col sm:flex-row items-center justify-between gap-1 sm:gap-6'
+            className={UserVerificationFieldStyle + ` flex flex-col sm:flex-row items-center justify-between gap-1 sm:gap-6`}
         >
             {/* Dropdown bar to select user verification type */}
             <div 
@@ -84,7 +88,7 @@ const UserVerificationField = ({optionsList=options, isDarkMode}: Props) => {
                 sm:rounded-bl-none rounded-tr-none sm:rounded-tr-md rounded-br-md px-1 xxs:pl-4 sm:px-0 
                 flex items-center'
             >
-                <SocialSignInOptions isDarkMode={isDarkMode} />
+                <SocialSignInOptions providerInfo={providerInfo} />
             </div>
         </div>
 
