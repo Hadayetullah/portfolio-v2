@@ -4,20 +4,21 @@ import React, { useEffect, useState } from 'react'
 import SelectField from './SelectField';
 import UserVerificationField from './UserVerificationField';
 import { getAuthInfo } from '../actions/getAuthInfo';
+import AuthenticatedUser from './AuthenticatedUser';
 
 type Props = {
     isDarkMode: boolean
 }
 
 const Form = (props: Props) => {
-    const [verifiedInfo, setVerified] = useState<any>(null);
+    const [verifiedInfo, setVerifiedInfo] = useState<any>(null);
     
     useEffect(() => {
         // Fetch authentication information when the component mounts
         const promise = getAuthInfo();
         promise.then((credentials) => {
             console.log("Credentials : ", credentials);
-            setVerified(credentials);
+            setVerifiedInfo(credentials);
         })
     }, [])
 
@@ -58,9 +59,9 @@ const Form = (props: Props) => {
         dark:text-white placeholder:text-black/60 dark:placeholder:text-white/60 outline-none bg-white 
         dark:bg-[#1c1c22] rounded-md placeholder:text-sm xxs:placeholder:text-base`;
 
-    const UserVerificationFieldStyle = `h-auto sm:h-[48px] border-[0.5px] border-black/20 dark:border-white/20 focus:border-primarylight/50 dark:focus:border-secondary/50 text-base text-black 
-        dark:text-white placeholder:text-black/60 dark:placeholder:text-white/60 outline-none bg-white 
-        dark:bg-[#1c1c22] rounded-md placeholder:text-sm xxs:placeholder:text-base shadow-sm`
+    const UserVerificationFieldStyle = `h-auto sm:h-[48px] border-[0.5px] border-black/20 
+        dark:border-white/20 focus:border-primarylight/50 dark:focus:border-secondary/50 text-base 
+        text-black dark:text-white outline-none bg-white dark:bg-[#1c1c22] rounded-md shadow-sm`
 
   return (
     <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 xxs:gap-6'>
@@ -96,7 +97,8 @@ const Form = (props: Props) => {
 
         {/* User Verification Field */}
         <div className='col-span-1 sm:col-span-2'>
-            <UserVerificationField UserVerificationFieldStyle={UserVerificationFieldStyle} providerInfo={providerInfo} />
+            {/* <UserVerificationField UserVerificationFieldStyle={UserVerificationFieldStyle} providerInfo={providerInfo} /> */}
+            <AuthenticatedUser UserVerificationFieldStyle={UserVerificationFieldStyle} providerInfo={providerInfo} verifiedInfo={verifiedInfo} />
         </div>
 
         <textarea 
@@ -106,8 +108,8 @@ const Form = (props: Props) => {
         />
 
         <button 
-            className='max-w-40 border border-black/30 text-black/95 cursor-pointer rounded py-1 
-            dark:border-secondary/50 dark:text-secondary/95'
+            className='max-w-40 border border-black/30 text-black/85 cursor-pointer rounded py-1 
+            dark:border-secondary/50 dark:text-secondary/95 text-lg font-medium'
         >
             Send Message
         </button>

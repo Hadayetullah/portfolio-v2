@@ -14,6 +14,7 @@ export type ProviderInfoType = {
     icon: React.ReactNode;
     provider: string;
     title: string;
+    title2: string;
 }
 
 type Props = {
