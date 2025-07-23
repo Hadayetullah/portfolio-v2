@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react'
 import { FaChevronDown } from 'react-icons/fa'
-import SocialSignInForm from './SocialSignInOptions'
+import SocialSignInOptions from './SocialSignInOptions'
 
 // options array for the select field to select verification type
 const options = [
@@ -12,9 +12,10 @@ const options = [
 
 type Props = {
     optionsList?: { label: string, value: string }[];
+    isDarkMode: boolean;
 }
 
-const UserVerificationField = ({optionsList=options}: Props) => {
+const UserVerificationField = ({optionsList=options, isDarkMode}: Props) => {
 
     const [selected, setSelected] = useState<{label: string, value:string} | null>(null)
     const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -23,10 +24,6 @@ const UserVerificationField = ({optionsList=options}: Props) => {
 
     const containerRef = useRef<HTMLDivElement>(null);
 
-    const handleSignIn = (e:any) => {
-        e.preventDefault();
-    }
-
     const handleSelect = (option:any) => {
         setSelected(option)
         setIsOpen(false)
@@ -34,6 +31,7 @@ const UserVerificationField = ({optionsList=options}: Props) => {
     }
 
     useEffect(() => {
+        // Calculate if the dropdown should open above based on available space
         if (isOpen && containerRef.current) {
             const rect = containerRef.current.getBoundingClientRect()
             const spaceBelow = window.innerHeight - rect.bottom
@@ -64,6 +62,7 @@ const UserVerificationField = ({optionsList=options}: Props) => {
             dark:bg-[#1c1c22] rounded-md placeholder:text-sm xxs:placeholder:text-base shadow-sm flex 
             flex-col sm:flex-row items-center justify-between gap-1 sm:gap-6'
         >
+            {/* Dropdown bar to select user verification type */}
             <div 
                 onClick={() => setIsOpen(!isOpen)}
                 role='button' 
@@ -80,12 +79,16 @@ const UserVerificationField = ({optionsList=options}: Props) => {
                 </div>
             </div>
 
-            <div className='w-full sm:w-[50%] h-[35] xxs:h-[42px] xs:h-[48px] sm:h-full rounded-bl-md sm:rounded-bl-none rounded-tr-none sm:rounded-tr-md rounded-br-md px-1 xxs:pl-4 sm:px-0 flex items-center'>
-                {/* <button onClick={(e) => handleSignIn(e)}>Sign in</button> */}
-                <SocialSignInForm />
+            {/* SocialSignInOptions component to handle social sign-in */}
+            <div className='w-full sm:w-[50%] h-[35] xxs:h-[42px] xs:h-[48px] sm:h-full rounded-bl-md 
+                sm:rounded-bl-none rounded-tr-none sm:rounded-tr-md rounded-br-md px-1 xxs:pl-4 sm:px-0 
+                flex items-center'
+            >
+                <SocialSignInOptions isDarkMode={isDarkMode} />
             </div>
         </div>
 
+        {/* Dropdown menu items to select user verification type */}
         {isOpen && (
             <div
                 className={`absolute z-10 w-full bg-white dark:bg-[#1c1c22] border border-black/20 dark:border-white/20 rounded-md shadow-lg max-h-60 overflow-auto ${

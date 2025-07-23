@@ -3,7 +3,9 @@ import SelectField from './SelectField';
 import UserVerificationField from './UserVerificationField';
 import { googleLoginCredential } from '../actions/AccountCredentials';
 
-type Props = {}
+type Props = {
+    isDarkMode: boolean
+}
 
 const Form = (props: Props) => {
 
@@ -19,7 +21,7 @@ const Form = (props: Props) => {
     xxs:py-5 text-base text-black dark:text-white placeholder:text-black/60 dark:placeholder:text-white/60 
     outline-none bg-white dark:bg-[#1c1c22] rounded-md placeholder:text-sm xxs:placeholder:text-base shadow-sm`;
 
-    const inputAreaStyle = `flex border-[0.5px] border-black/20 dark:border-white/20 focus:border-primarylight/50 dark:focus:border-secondary/50 px-1 xxs:px-4 py-2 xxs:py-5 text-base text-black 
+    const textAreaStyle = `flex border-[0.5px] border-black/20 dark:border-white/20 focus:border-primarylight/50 dark:focus:border-secondary/50 px-1 xxs:px-4 py-2 xxs:py-5 text-base text-black 
     dark:text-white placeholder:text-black/60 dark:placeholder:text-white/60 outline-none bg-white 
     dark:bg-[#1c1c22] rounded-md placeholder:text-sm xxs:placeholder:text-base`;
 
@@ -57,13 +59,13 @@ const Form = (props: Props) => {
 
         {/* User Verification Field */}
         <div className='col-span-1 sm:col-span-2'>
-            <UserVerificationField />
+            <UserVerificationField isDarkMode={props.isDarkMode} />
         </div>
 
         <textarea 
             name='message' 
             placeholder='Type your message here...'
-            className={`${inputAreaStyle} col-span-1 sm:col-span-2 h-[140px] xxs:h-[160px] resize-none`}
+            className={`${textAreaStyle} col-span-1 sm:col-span-2 h-[140px] xxs:h-[160px] resize-none`}
         />
 
         <button 

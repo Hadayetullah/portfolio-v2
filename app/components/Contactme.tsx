@@ -91,7 +91,7 @@ const Contactme = (props: Props) => {
 
             {/* Form component */}
             <div>
-              <Form />
+              <Form isDarkMode={props.isDarkMode} />
             </div>
           </form>
         </div>
