@@ -78,7 +78,7 @@ const Contactme = (props: Props) => {
       <div className='flex flex-col lg:flex-row gap-[30px] items-center'>
         {/* Form section */}
         <div className='order-2 lg:order-none flex justify-end'>
-          <form 
+          <div 
             className='flex flex-col gap-3 xxs:gap-6 p-0 sm:p-4 lg:p-10 dark:bg-[#27272c] rounded-xl'
           >
             {/* Form heading */}
@@ -93,7 +93,7 @@ const Contactme = (props: Props) => {
             <div>
               <Form isDarkMode={props.isDarkMode} />
             </div>
-          </form>
+          </div>
         </div>
 
         {/* Contact Information List */}

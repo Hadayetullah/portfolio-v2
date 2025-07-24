@@ -5,6 +5,7 @@ import SelectField from './SelectField';
 import UserVerificationField from './UserVerificationField';
 import { getAuthInfo } from '../actions/getAuthInfo';
 import AuthenticatedUser from './AuthenticatedUser';
+import { socialLogout } from '../actions/SocialAuth';
 
 type Props = {
     isDarkMode: boolean
@@ -18,9 +19,21 @@ const Form = (props: Props) => {
         const promise = getAuthInfo();
         promise.then((credentials) => {
             console.log("Credentials : ", credentials);
-            setVerifiedInfo(credentials);
+            if (credentials?.user) {
+                setVerifiedInfo(credentials);
+            } else {
+                setVerifiedInfo(null);
+            }
         })
     }, [])
+
+    // Logout from social account
+    const handleLogout = async(e: React.FormEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        console.log("first")
+        setVerifiedInfo(null);
+        await socialLogout();
+    }
 
 
     // Social icons
@@ -64,7 +77,7 @@ const Form = (props: Props) => {
         text-black dark:text-white outline-none bg-white dark:bg-[#1c1c22] rounded-md shadow-sm`
 
   return (
-    <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 xxs:gap-6'>
+    <form className='grid grid-cols-1 sm:grid-cols-2 gap-4 xxs:gap-6'>
         <input 
             type='text' 
             name='firstname' 
@@ -97,8 +110,13 @@ const Form = (props: Props) => {
 
         {/* User Verification Field */}
         <div className='col-span-1 sm:col-span-2'>
-            {/* <UserVerificationField UserVerificationFieldStyle={UserVerificationFieldStyle} providerInfo={providerInfo} /> */}
-            <AuthenticatedUser UserVerificationFieldStyle={UserVerificationFieldStyle} providerInfo={providerInfo} verifiedInfo={verifiedInfo} />
+            {
+                verifiedInfo?.provider 
+                ?
+                <AuthenticatedUser handleLogout={handleLogout} UserVerificationFieldStyle={UserVerificationFieldStyle} providerInfo={providerInfo} verifiedInfo={verifiedInfo} />
+                :
+                <UserVerificationField UserVerificationFieldStyle={UserVerificationFieldStyle} providerInfo={providerInfo} />
+            }
         </div>
 
         <textarea 
@@ -113,7 +131,7 @@ const Form = (props: Props) => {
         >
             Send Message
         </button>
-    </div>
+    </form>
   )
 }
 
