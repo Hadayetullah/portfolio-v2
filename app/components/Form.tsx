@@ -30,7 +30,6 @@ const Form = (props: Props) => {
     // Logout from social account
     const handleLogout = async(e: React.FormEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        console.log("first")
         setVerifiedInfo(null);
         await socialLogout();
     }

@@ -8,5 +8,5 @@ export async function socialLogin(data:string) {
 }
 
 export async function socialLogout() {
-    await signOut();
+    await signOut({ redirect: false });
 }
