@@ -11,8 +11,31 @@ type Props = {
     isDarkMode: boolean
 }
 
+interface FormDataType {
+    name: string;
+    phone: string;
+    message: string;
+}
+
+interface FormInputErrorsType {
+    name: string;
+    phone: string;
+    message: string;
+}
+
 const Form = (props: Props) => {
     const [verifiedInfo, setVerifiedInfo] = useState<any>(null);
+    const [formInputErrors, setFormInputErrors] = useState<FormInputErrorsType>({
+        name: "",
+        phone: "",
+        message: "",
+    });
+
+    const [formData, setFormData] = useState<FormDataType>({
+        name: "",
+        phone: "",
+        message: "",
+    });
     
     useEffect(() => {
         // Fetch authentication information when the component mounts
@@ -26,6 +49,59 @@ const Form = (props: Props) => {
             }
         })
     }, [])
+
+    // Validate form data
+    const validate = (formData: FormDataType) => {
+    if (!formData.name) {
+      setFormInputErrors({...formInputErrors, name: "Please provide your name"});
+    } else if (formData.name.length <= 3) {
+      setFormInputErrors({...formInputErrors, name: "Please provide your full name"});
+    }
+
+    if (!formData.message) {
+      setFormInputErrors({...formInputErrors, message: "Please leave a message"});
+    } else if (formData.message.length <= 30) {
+      setFormInputErrors({...formInputErrors, message: "The message must be at least 30 characters long"});
+    }
+
+    // if (!formData.phone) {
+    //   setFormInputErrors({...formInputErrors, phone: "Please provide your phone number"});
+    // } else if (
+    //   !/(^(\+88|88)?(01){1}[3456789]{1}(\d){8})$/.test(formData.phone)
+    // ) {
+    //   setFormInputErrors({...formInputErrors, phone: "Invalid phone number"});
+    // }
+
+    // if (!formData.email) {
+    //   setFormInputErrors({...formInputErrors, email: "Please provide your email address"});
+    // } else if (
+    //   !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(formData.email)
+    // ) {
+    //   setFormInputErrors({...formInputErrors, email: "Invalid email address"});
+    // }
+
+    // if (!formData.password) {
+    //   setFormInputErrors({...formInputErrors, password: "Please provide password"});
+    // } else if (formData.password.length < 8) {
+    //   setFormInputErrors({...formInputErrors, password: "Password must be at least 8 characters long"});
+    // }
+
+    // if (!formData.password2) {
+    //   setFormInputErrors({...formInputErrors, password2: "Please provide password again"});
+    // } else if (formData.password2.length < 8) {
+    //   setFormInputErrors({...formInputErrors, password2: "Password must be at least 8 characters long"});
+    // } else if (formData.password2 != formData.password) {
+    //   setFormInputErrors({...formInputErrors, password2: "Password doesn't match"});
+    // }
+  };
+
+    // Handle form data change
+    const handleChange = (e: any) => {
+        setFormData({
+        ...formData,
+        [e.target.name]: e.target.value,
+        });
+    };
 
     // Logout from social account
     const handleLogout = async(e: React.FormEvent<HTMLButtonElement>) => {
@@ -76,37 +152,7 @@ const Form = (props: Props) => {
         text-black dark:text-white outline-none bg-white dark:bg-[#1c1c22] rounded-md shadow-sm`
 
   return (
-    <form className='grid grid-cols-1 sm:grid-cols-2 gap-4 xxs:gap-6'>
-        <input 
-            type='text' 
-            name='firstname' 
-            placeholder='First name'
-            className={inputStyle}
-        />
-        <input 
-            type='text' 
-            name='lastname' 
-            placeholder='Last name'
-            className={inputStyle}
-        />
-        {/* <input 
-            type='email' 
-            name='email' 
-            placeholder='Email address'
-            className={inputStyle}
-        /> */}
-        <input 
-            type='text' 
-            name='phone' 
-            placeholder='Phone number'
-            className={inputStyle}
-        />
-
-        {/* Custom SelectField component */}
-        <div className=''>
-            <SelectField fieldStyle={inputStyle} />
-        </div>
-
+    <form className='grid grid-cols-1 sm:grid-cols-2 gap-x-4 xxs:gap-x-6'>
         {/* User Verification Field */}
         <div className='col-span-1 sm:col-span-2'>
             {
@@ -118,18 +164,68 @@ const Form = (props: Props) => {
             }
         </div>
 
-        <textarea 
-            name='message' 
-            placeholder='Type your message here...'
-            className={`${textAreaStyle} col-span-1 sm:col-span-2 h-[140px] xxs:h-[160px] resize-none`}
-        />
+        <div className='flex flex-col'>
+            <span className='h-4 xxs:h-6 w-full leading-[1] text-xs xxs:text-sm flex items-end text-red-600'>This is required</span>
+            <input 
+                type='text' 
+                name='name' 
+                placeholder='Your name' 
+                value={formData.name} 
+                onChange={(e) => handleChange(e)}
+                className={inputStyle}
+            />
+        </div>
+        {/* <input 
+            type='text' 
+            name='lastname' 
+            placeholder='Last name'
+            className={inputStyle}
+        /> */}
+        {/* <input 
+            type='email' 
+            name='email' 
+            placeholder='Email address'
+            className={inputStyle}
+        /> */}
 
-        <button 
-            className='max-w-40 border border-black/30 text-black/85 cursor-pointer rounded py-1 
-            dark:border-secondary/50 dark:text-secondary/95 text-lg font-medium'
-        >
-            Send Message
-        </button>
+        <div className='flex flex-col'>
+            <span className='h-4 xxs:h-6 w-full leading-[1] text-xs xxs:text-sm flex items-end text-red-600'>This is required</span>
+            <input 
+                type='text' 
+                name='phone' 
+                placeholder='Phone number'
+                value={formData.phone}
+                onChange={(e) => handleChange(e)}
+                className={inputStyle}
+            />
+        </div>
+
+        {/* Custom SelectField component */}
+        <div className='col-span-1 sm:col-span-2 flex flex-col'>
+            <span className='h-4 xxs:h-6 w-full leading-[1] text-xs xxs:text-sm flex items-end text-red-600'>This is required</span>
+            <SelectField fieldStyle={inputStyle} />
+        </div>
+
+        <div className='col-span-1 sm:col-span-2 flex flex-col'>
+            <span className='h-4 xxs:h-6 w-full leading-[1] text-xs xxs:text-sm flex items-end text-red-600'>This is required</span>
+            <textarea 
+                name='message' 
+                placeholder='Type your message here...'
+                value={formData.message}
+                onChange={(e) => handleChange(e)}
+                className={`${textAreaStyle} h-[140px] xxs:h-[160px] resize-none`}
+            />
+        </div>
+
+        <div className='flex flex-col'>
+            <span className='h-4 xxs:h-6 w-full leading-[1] text-xs xxs:text-sm flex items-end text-red-600'></span>
+            <button 
+                className='max-w-40 border border-black/30 text-black/85 cursor-pointer rounded py-1 
+                dark:border-secondary/50 dark:text-secondary/95 text-lg font-medium'
+            >
+                Send Message
+            </button>
+        </div>
     </form>
   )
 }

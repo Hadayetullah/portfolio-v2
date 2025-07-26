@@ -10,7 +10,7 @@ const options = [
   { label: 'Other', value: 'other' },
 ]
 
-const placeholderText = 'Select an option';
+const placeholderText = 'Purpose';
 
 // Type declaration
 type Props = {

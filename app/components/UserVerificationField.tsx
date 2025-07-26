@@ -75,7 +75,7 @@ const UserVerificationField = ({optionsList=options, UserVerificationFieldStyle,
                 h-[35] xxs:h-[42px] xs:h-[48px] sm:h-full rounded-tl-md rounded-bl-none sm:rounded-bl-md 
                 rounded-tr-md sm:rounded-tr-none bg-gray-100 dark:bg-[#23232c]'
             >
-                <span className='min-w-[200px] max-w-full text-nowrap overflow-hidden text-black/70 dark:text-white/70 px-1 xxs:pl-4'>{selected?.label || options[0].label}</span>
+                <span className='min-w-[100px] max-w-full text-nowrap overflow-hidden text-black/70 dark:text-white/70 px-1 xxs:pl-4'>{selected?.label || options[0].label}</span>
                 
                 <div className='bg-gray-100 dark:bg-[#23232c] w-[33px] h-full flex items-center justify-center ml-2 
                     border-0 sm:border-r-[0.5px] border-black/20 dark:border-white/20 pr-1 xxs:pr-4'
