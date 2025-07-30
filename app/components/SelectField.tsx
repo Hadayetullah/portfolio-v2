@@ -17,9 +17,10 @@ type Props = {
     optionsList?: { label: string, value: string }[];
     placeholder?: string;
     fieldStyle: string;
+    handlePurposeFieldChange: (value: string) => void;
 }
 
-const SelectField = ({optionsList = options, placeholder = placeholderText, fieldStyle}: Props) => {
+const SelectField = ({optionsList = options, placeholder = placeholderText, fieldStyle, handlePurposeFieldChange}: Props) => {
     const [selected, setSelected] = useState<{label: string, value:string} | null>(null)
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [openAbove, setOpenAbove] = useState<boolean>(false)
@@ -27,8 +28,9 @@ const SelectField = ({optionsList = options, placeholder = placeholderText, fiel
     const containerRef = useRef<HTMLDivElement>(null)
 
     const handleSelect = (option:any) => {
-        setSelected(option)
-        setIsOpen(false)
+        setSelected(option);
+        setIsOpen(false);
+        handlePurposeFieldChange(option.label);
         // onChange?.(option.value)
     }
 

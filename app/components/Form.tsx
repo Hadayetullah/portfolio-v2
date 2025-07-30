@@ -12,28 +12,36 @@ type Props = {
 }
 
 interface FormDataType {
+    verified: string;
     name: string;
     phone: string;
+    purpose: string;
     message: string;
 }
 
 interface FormInputErrorsType {
+    verified: string;
     name: string;
-    phone: string;
+    // phone: string;
+    purpose: string;
     message: string;
 }
 
 const Form = (props: Props) => {
     const [verifiedInfo, setVerifiedInfo] = useState<any>(null);
     const [formInputErrors, setFormInputErrors] = useState<FormInputErrorsType>({
+        verified: "",
         name: "",
-        phone: "",
+        // phone: "",
+        purpose: "",
         message: "",
     });
 
     const [formData, setFormData] = useState<FormDataType>({
+        verified: "",
         name: "",
         phone: "",
+        purpose: "",
         message: "",
     });
     
@@ -52,48 +60,78 @@ const Form = (props: Props) => {
 
     // Validate form data
     const validate = (formData: FormDataType) => {
-    if (!formData.name) {
-      setFormInputErrors({...formInputErrors, name: "Please provide your name"});
-    } else if (formData.name.length <= 3) {
-      setFormInputErrors({...formInputErrors, name: "Please provide your full name"});
-    }
+        const errors: FormInputErrorsType = {
+            verified: "",
+            name: "",
+            // phone: "",
+            purpose: "",
+            message: "",
+        };
 
-    if (!formData.message) {
-      setFormInputErrors({...formInputErrors, message: "Please leave a message"});
-    } else if (formData.message.length <= 30) {
-      setFormInputErrors({...formInputErrors, message: "The message must be at least 30 characters long"});
-    }
+        if (verifiedInfo === null) {
+            errors.verified = "Verification required";
+        }
 
-    // if (!formData.phone) {
-    //   setFormInputErrors({...formInputErrors, phone: "Please provide your phone number"});
-    // } else if (
-    //   !/(^(\+88|88)?(01){1}[3456789]{1}(\d){8})$/.test(formData.phone)
-    // ) {
-    //   setFormInputErrors({...formInputErrors, phone: "Invalid phone number"});
-    // }
+        if (!formData.name) {
+            errors.name = "Please enter your name";
+        } else if (formData.name.length <= 3) {
+            errors.name = "Please provide your full name";
+        }
 
-    // if (!formData.email) {
-    //   setFormInputErrors({...formInputErrors, email: "Please provide your email address"});
-    // } else if (
-    //   !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(formData.email)
-    // ) {
-    //   setFormInputErrors({...formInputErrors, email: "Invalid email address"});
-    // }
+        if (!formData.purpose) {
+            errors.purpose = "Please select a purpose";
+        }
 
-    // if (!formData.password) {
-    //   setFormInputErrors({...formInputErrors, password: "Please provide password"});
-    // } else if (formData.password.length < 8) {
-    //   setFormInputErrors({...formInputErrors, password: "Password must be at least 8 characters long"});
-    // }
+        if (!formData.message) {
+            errors.message = "Please leave a message";
+        } else if (formData.message.length <= 20) {
+            errors.message = "The message must be at least 20 characters long";
+        }
 
-    // if (!formData.password2) {
-    //   setFormInputErrors({...formInputErrors, password2: "Please provide password again"});
-    // } else if (formData.password2.length < 8) {
-    //   setFormInputErrors({...formInputErrors, password2: "Password must be at least 8 characters long"});
-    // } else if (formData.password2 != formData.password) {
-    //   setFormInputErrors({...formInputErrors, password2: "Password doesn't match"});
-    // }
-  };
+        // if (!formData.name) {
+        // setFormInputErrors({...formInputErrors, name: "Please enter your name"});
+        // } else if (formData.name.length <= 3) {
+        // setFormInputErrors({...formInputErrors, name: "Please provide your full name"});
+        // }
+
+        // if (!formData.message) {
+        // setFormInputErrors({...formInputErrors, message: "Please leave a message"});
+        // } else if (formData.message.length <= 20) {
+        // setFormInputErrors({...formInputErrors, message: "The message must be at least 20 characters long"});
+        // }
+
+        // if (!formData.phone) {
+        //   setFormInputErrors({...formInputErrors, phone: "Please provide your phone number"});
+        // } else if (
+        //   !/(^(\+88|88)?(01){1}[3456789]{1}(\d){8})$/.test(formData.phone)
+        // ) {
+        //   setFormInputErrors({...formInputErrors, phone: "Invalid phone number"});
+        // }
+
+        // if (!formData.email) {
+        //   setFormInputErrors({...formInputErrors, email: "Please provide your email address"});
+        // } else if (
+        //   !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(formData.email)
+        // ) {
+        //   setFormInputErrors({...formInputErrors, email: "Invalid email address"});
+        // }
+
+        // if (!formData.password) {
+        //   setFormInputErrors({...formInputErrors, password: "Please provide password"});
+        // } else if (formData.password.length < 8) {
+        //   setFormInputErrors({...formInputErrors, password: "Password must be at least 8 characters long"});
+        // }
+
+        // if (!formData.password2) {
+        //   setFormInputErrors({...formInputErrors, password2: "Please provide password again"});
+        // } else if (formData.password2.length < 8) {
+        //   setFormInputErrors({...formInputErrors, password2: "Password must be at least 8 characters long"});
+        // } else if (formData.password2 != formData.password) {
+        //   setFormInputErrors({...formInputErrors, password2: "Password doesn't match"});
+        // }
+
+        return errors;
+    };
 
     // Handle form data change
     const handleChange = (e: any) => {
@@ -103,12 +141,40 @@ const Form = (props: Props) => {
         });
     };
 
+    const handlePurposeFieldChange = (value: string) => {
+        setFormData({
+            ...formData,
+            purpose: value,
+        })
+    }
+
     // Logout from social account
     const handleLogout = async(e: React.FormEvent<HTMLButtonElement>) => {
         e.preventDefault();
         setVerifiedInfo(null);
         await socialLogout();
     }
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        
+        const errors = validate(formData);
+        setFormInputErrors(errors);
+
+        // Check if there are any errors
+        const hasErrors = Object.values(errors).some((err) => err !== "");
+
+        if (!hasErrors) {
+            // No errors — safe to submit formData
+            console.log("Form is valid! Submitting data:", formData);
+
+            // TODO: perform your submission logic here (e.g., send data to server)
+        } else {
+            console.log("Form contains errors. Submission halted.");
+            console.log("Error: ", errors)
+        }
+    };
+
 
 
     // Social icons
@@ -152,9 +218,14 @@ const Form = (props: Props) => {
         text-black dark:text-white outline-none bg-white dark:bg-[#1c1c22] rounded-md shadow-sm`
 
   return (
-    <form className='grid grid-cols-1 sm:grid-cols-2 gap-x-4 xxs:gap-x-6'>
+    <form onSubmit={(e) => handleSubmit(e)} className='grid grid-cols-1 sm:grid-cols-2 gap-x-4 xxs:gap-x-6'>
         {/* User Verification Field */}
-        <div className='col-span-1 sm:col-span-2'>
+        <div className='col-span-1 sm:col-span-2 flex flex-col'>
+            <span 
+                className='h-4 xxs:h-6 w-full leading-[1] text-xs xxs:text-sm flex items-end text-red-600'>
+                    {formInputErrors.verified && formInputErrors.verified}
+            </span>
+
             {
                 verifiedInfo?.provider 
                 ?
@@ -165,7 +236,11 @@ const Form = (props: Props) => {
         </div>
 
         <div className='flex flex-col'>
-            <span className='h-4 xxs:h-6 w-full leading-[1] text-xs xxs:text-sm flex items-end text-red-600'>This is required</span>
+            <span 
+                className='h-4 xxs:h-6 w-full leading-[1] text-xs xxs:text-sm flex items-end text-red-600'
+            >
+                {formInputErrors.name && formInputErrors.name}
+            </span>
             <input 
                 type='text' 
                 name='name' 
@@ -189,7 +264,10 @@ const Form = (props: Props) => {
         /> */}
 
         <div className='flex flex-col'>
-            <span className='h-4 xxs:h-6 w-full leading-[1] text-xs xxs:text-sm flex items-end text-red-600'>This is required</span>
+            <span 
+                className='h-4 xxs:h-6 w-full leading-[1] text-xs xxs:text-sm flex items-end text-red-600'>
+                    {/* {formInputErrors.phone && formInputErrors.phone} */}
+            </span>
             <input 
                 type='text' 
                 name='phone' 
@@ -202,12 +280,20 @@ const Form = (props: Props) => {
 
         {/* Custom SelectField component */}
         <div className='col-span-1 sm:col-span-2 flex flex-col'>
-            <span className='h-4 xxs:h-6 w-full leading-[1] text-xs xxs:text-sm flex items-end text-red-600'>This is required</span>
-            <SelectField fieldStyle={inputStyle} />
+            <span 
+                className='h-4 xxs:h-6 w-full leading-[1] text-xs xxs:text-sm flex items-end text-red-600'
+            >
+                {formInputErrors.purpose && formInputErrors.purpose}
+            </span>
+            <SelectField fieldStyle={inputStyle} handlePurposeFieldChange={handlePurposeFieldChange} />
         </div>
 
         <div className='col-span-1 sm:col-span-2 flex flex-col'>
-            <span className='h-4 xxs:h-6 w-full leading-[1] text-xs xxs:text-sm flex items-end text-red-600'>This is required</span>
+            <span 
+                className='h-4 xxs:h-6 w-full leading-[1] text-xs xxs:text-sm flex items-end text-red-600'
+            >
+                {formInputErrors.message && formInputErrors.message}
+            </span>
             <textarea 
                 name='message' 
                 placeholder='Type your message here...'
@@ -220,6 +306,8 @@ const Form = (props: Props) => {
         <div className='flex flex-col'>
             <span className='h-4 xxs:h-6 w-full leading-[1] text-xs xxs:text-sm flex items-end text-red-600'></span>
             <button 
+                type='submit' 
+                onClick={(e) => handleSubmit(e)} 
                 className='max-w-40 border border-black/30 text-black/85 cursor-pointer rounded py-1 
                 dark:border-secondary/50 dark:text-secondary/95 text-lg font-medium'
             >
@@ -230,4 +318,4 @@ const Form = (props: Props) => {
   )
 }
 
-export default Form
+export default Form;
