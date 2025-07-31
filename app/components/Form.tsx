@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import SelectField from './SelectField';
 import UserVerificationField from './UserVerificationField';
 import { getAuthInfo } from '../actions/getAuthInfo';
@@ -28,6 +28,12 @@ interface FormInputErrorsType {
 }
 
 const Form = (props: Props) => {
+    // Refs for scrolling to the first error field if there are any error fields
+    const verificationRef = useRef<HTMLDivElement>(null);
+    const nameRef = useRef<HTMLDivElement>(null);
+    const purposeRef = useRef<HTMLDivElement>(null);
+    const messageRef = useRef<HTMLDivElement>(null);
+
     const [verifiedInfo, setVerifiedInfo] = useState<any>(null);
     const [formInputErrors, setFormInputErrors] = useState<FormInputErrorsType>({
         verified: "",
@@ -157,23 +163,31 @@ const Form = (props: Props) => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        
+
         const errors = validate(formData);
         setFormInputErrors(errors);
 
-        // Check if there are any errors
         const hasErrors = Object.values(errors).some((err) => err !== "");
 
-        if (!hasErrors) {
-            // No errors — safe to submit formData
-            console.log("Form is valid! Submitting data:", formData);
+        if (hasErrors) {
+            // Scroll to the first error field
+            if (errors.verified && verificationRef.current) {
+                verificationRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else if (errors.name && nameRef.current) {
+                nameRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else if (errors.purpose && purposeRef.current) {
+                purposeRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else if (errors.message && messageRef.current) {
+                messageRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
 
-            // TODO: perform your submission logic here (e.g., send data to server)
-        } else {
-            console.log("Form contains errors. Submission halted.");
-            console.log("Error: ", errors)
+            return; // prevent submission
         }
+
+        // If no errors, proceed to submit
+        console.log("Submit formData:", formData);
     };
+
 
 
 
@@ -220,7 +234,7 @@ const Form = (props: Props) => {
   return (
     <form onSubmit={(e) => handleSubmit(e)} className='grid grid-cols-1 sm:grid-cols-2 gap-x-4 xxs:gap-x-6'>
         {/* User Verification Field */}
-        <div className='col-span-1 sm:col-span-2 flex flex-col'>
+        <div ref={verificationRef} className='col-span-1 sm:col-span-2 flex flex-col'>
             <span 
                 className='h-4 xxs:h-6 w-full leading-[1] text-xs xxs:text-sm flex items-end text-red-600'>
                     {formInputErrors.verified && formInputErrors.verified}
@@ -235,7 +249,7 @@ const Form = (props: Props) => {
             }
         </div>
 
-        <div className='flex flex-col'>
+        <div ref={nameRef} className='flex flex-col'>
             <span 
                 className='h-4 xxs:h-6 w-full leading-[1] text-xs xxs:text-sm flex items-end text-red-600'
             >
@@ -279,7 +293,7 @@ const Form = (props: Props) => {
         </div>
 
         {/* Custom SelectField component */}
-        <div className='col-span-1 sm:col-span-2 flex flex-col'>
+        <div ref={purposeRef} className='col-span-1 sm:col-span-2 flex flex-col'>
             <span 
                 className='h-4 xxs:h-6 w-full leading-[1] text-xs xxs:text-sm flex items-end text-red-600'
             >
@@ -288,7 +302,7 @@ const Form = (props: Props) => {
             <SelectField fieldStyle={inputStyle} handlePurposeFieldChange={handlePurposeFieldChange} />
         </div>
 
-        <div className='col-span-1 sm:col-span-2 flex flex-col'>
+        <div ref={messageRef} className='col-span-1 sm:col-span-2 flex flex-col'>
             <span 
                 className='h-4 xxs:h-6 w-full leading-[1] text-xs xxs:text-sm flex items-end text-red-600'
             >
