@@ -7,7 +7,7 @@ type Props = {
   handleLogout: (e: React.FormEvent<HTMLButtonElement>) => void;
   UserVerificationFieldStyle: string;
   providerInfo: ProviderInfoType[];
-  verifiedInfo: any;
+  authInfo: any;
 }
 
 const AuthenticatedUser = (props: Props) => {
@@ -20,7 +20,7 @@ const AuthenticatedUser = (props: Props) => {
       >
         {
           props.providerInfo.map((item, index) => {
-            if (props.verifiedInfo?.provider === item.provider) {
+            if (props.authInfo?.provider === item.provider) {
               return (
                 <div key={index} className='h-full flex items-center'>
                   <span 
@@ -36,8 +36,8 @@ const AuthenticatedUser = (props: Props) => {
         }
 
         <div className='flex flex-col justify-center'>
-          <span className=''>{props.verifiedInfo?.user?.name}</span>
-          <span className='text-sm'>{props.verifiedInfo?.user?.email}</span>
+          <span className=''>{props.authInfo?.user?.name}</span>
+          <span className='text-sm'>{props.authInfo?.user?.email}</span>
         </div>
       </div>
 

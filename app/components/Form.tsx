@@ -11,8 +11,18 @@ type Props = {
     isDarkMode: boolean
 }
 
+interface AuthInfoType {
+  expires?: string;
+  provider?: string;
+  user?: {
+    email?: string | null;
+    image?: string | null;
+    name?: string | null;
+  }
+}
+
 interface FormDataType {
-    verified: string;
+    authInfo: AuthInfoType | null;
     name: string;
     phone: string;
     purpose: string;
@@ -34,7 +44,6 @@ const Form = (props: Props) => {
     const purposeRef = useRef<HTMLDivElement>(null);
     const messageRef = useRef<HTMLDivElement>(null);
 
-    const [verifiedInfo, setVerifiedInfo] = useState<any>(null);
     const [formInputErrors, setFormInputErrors] = useState<FormInputErrorsType>({
         verified: "",
         name: "",
@@ -44,7 +53,7 @@ const Form = (props: Props) => {
     });
 
     const [formData, setFormData] = useState<FormDataType>({
-        verified: "",
+        authInfo: null,
         name: "",
         phone: "",
         purpose: "",
@@ -57,9 +66,15 @@ const Form = (props: Props) => {
         promise.then((credentials) => {
             console.log("Credentials : ", credentials);
             if (credentials?.user) {
-                setVerifiedInfo(credentials);
+                setFormData({
+                    ...formData,
+                    authInfo: credentials,
+                })
             } else {
-                setVerifiedInfo(null);
+                setFormData({
+                    ...formData,
+                    authInfo: null,
+                })
             }
         })
     }, [])
@@ -74,7 +89,7 @@ const Form = (props: Props) => {
             message: "",
         };
 
-        if (verifiedInfo === null) {
+        if (formData.authInfo === null) {
             errors.verified = "Verification required";
         }
 
@@ -157,7 +172,10 @@ const Form = (props: Props) => {
     // Logout from social account
     const handleLogout = async(e: React.FormEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        setVerifiedInfo(null);
+        setFormData({
+            ...formData,
+            authInfo: null,
+        });
         await socialLogout();
     }
 
@@ -241,9 +259,9 @@ const Form = (props: Props) => {
             </span>
 
             {
-                verifiedInfo?.provider 
+                formData.authInfo?.provider
                 ?
-                <AuthenticatedUser handleLogout={handleLogout} UserVerificationFieldStyle={UserVerificationFieldStyle} providerInfo={providerInfo} verifiedInfo={verifiedInfo} />
+                <AuthenticatedUser handleLogout={handleLogout} UserVerificationFieldStyle={UserVerificationFieldStyle} providerInfo={providerInfo} authInfo={formData.authInfo} />
                 :
                 <UserVerificationField UserVerificationFieldStyle={UserVerificationFieldStyle} providerInfo={providerInfo} />
             }
