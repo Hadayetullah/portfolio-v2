@@ -44,6 +44,7 @@ const Form = (props: Props) => {
     const purposeRef = useRef<HTMLDivElement>(null);
     const messageRef = useRef<HTMLDivElement>(null);
 
+    const [formSubmissionCount, setFormSubmissionCount] = useState<number>(0);
     const [formInputErrors, setFormInputErrors] = useState<FormInputErrorsType>({
         verified: "",
         name: "",
@@ -59,25 +60,6 @@ const Form = (props: Props) => {
         purpose: "",
         message: "",
     });
-    
-    useEffect(() => {
-        // Fetch authentication information when the component mounts
-        const promise = getAuthInfo();
-        promise.then((credentials) => {
-            console.log("Credentials : ", credentials);
-            if (credentials?.user) {
-                setFormData({
-                    ...formData,
-                    authInfo: credentials,
-                })
-            } else {
-                setFormData({
-                    ...formData,
-                    authInfo: null,
-                })
-            }
-        })
-    }, [])
 
     // Validate form data
     const validate = (formData: FormDataType) => {
@@ -95,7 +77,7 @@ const Form = (props: Props) => {
 
         if (!formData.name) {
             errors.name = "Please enter your name";
-        } else if (formData.name.length <= 3) {
+        } else if (formData.name.length < 3) {
             errors.name = "Please provide your full name";
         }
 
@@ -153,6 +135,33 @@ const Form = (props: Props) => {
 
         return errors;
     };
+    
+    // Fetch authentication information when the component mounts
+    useEffect(() => {
+        const promise = getAuthInfo();
+        promise.then((credentials) => {
+            console.log("Credentials : ", credentials);
+            if (credentials?.user) {
+                setFormData({
+                    ...formData,
+                    authInfo: credentials,
+                })
+            } else {
+                setFormData({
+                    ...formData,
+                    authInfo: null,
+                })
+            }
+        })
+    }, [])
+
+    // Validate form data when formData or formSubmissionCount changes
+    useEffect(() => {
+        if (formSubmissionCount > 0) {
+            const errors = validate(formData);
+            setFormInputErrors(errors);
+        }
+    }, [formData, formSubmissionCount]);
 
     // Handle form data change
     const handleChange = (e: any) => {
@@ -184,8 +193,9 @@ const Form = (props: Props) => {
 
         const errors = validate(formData);
         setFormInputErrors(errors);
+        setFormSubmissionCount(1);
 
-        const hasErrors = Object.values(errors).some((err) => err !== "");
+        const hasErrors = Object.values(errors).some((err) => err.trim() !== "");
 
         if (hasErrors) {
             // Scroll to the first error field
@@ -278,7 +288,8 @@ const Form = (props: Props) => {
                 name='name' 
                 placeholder='Your name' 
                 value={formData.name} 
-                onChange={(e) => handleChange(e)}
+                onChange={(e) => handleChange(e)} 
+                autoComplete="off"
                 className={inputStyle}
             />
         </div>
@@ -305,7 +316,8 @@ const Form = (props: Props) => {
                 name='phone' 
                 placeholder='Phone number'
                 value={formData.phone}
-                onChange={(e) => handleChange(e)}
+                onChange={(e) => handleChange(e)} 
+                autoComplete="off"
                 className={inputStyle}
             />
         </div>
@@ -330,7 +342,8 @@ const Form = (props: Props) => {
                 name='message' 
                 placeholder='Type your message here...'
                 value={formData.message}
-                onChange={(e) => handleChange(e)}
+                onChange={(e) => handleChange(e)} 
+                autoComplete="off"
                 className={`${textAreaStyle} h-[140px] xxs:h-[160px] resize-none`}
             />
         </div>
