@@ -3,12 +3,13 @@
 import React, { useEffect, useRef, useState } from 'react'
 import SelectField from './SelectField';
 import UserVerificationField from './UserVerificationField';
-import { getAuthInfo } from '../actions/getAuthInfo';
+import { deleteFormCookies, getAuthAndFormCookies, getAuthInfo, setAuthAndFormCookies } from '../actions/getAuthInfo';
 import AuthenticatedUser from './AuthenticatedUser';
-import { socialLogout } from '../actions/SocialAuth';
+import { socialLogin, socialLogout } from '../actions/SocialAuth';
+
 
 type Props = {
-    isDarkMode: boolean
+    isDarkMode: boolean;
 }
 
 interface AuthInfoType {
@@ -22,7 +23,6 @@ interface AuthInfoType {
 }
 
 interface FormDataType {
-    authInfo: AuthInfoType | null;
     name: string;
     phone: string;
     purpose: string;
@@ -32,7 +32,6 @@ interface FormDataType {
 interface FormInputErrorsType {
     verified: string;
     name: string;
-    // phone: string;
     purpose: string;
     message: string;
 }
@@ -53,8 +52,8 @@ const Form = (props: Props) => {
         message: "",
     });
 
+    const [authInfo, setAuthInfo] = useState<AuthInfoType | null>(null);
     const [formData, setFormData] = useState<FormDataType>({
-        authInfo: null,
         name: "",
         phone: "",
         purpose: "",
@@ -71,7 +70,7 @@ const Form = (props: Props) => {
             message: "",
         };
 
-        if (formData.authInfo === null) {
+        if (authInfo === null) {
             errors.verified = "Verification required";
         }
 
@@ -142,17 +141,18 @@ const Form = (props: Props) => {
         promise.then((credentials) => {
             console.log("Credentials : ", credentials);
             if (credentials?.user) {
-                setFormData({
-                    ...formData,
-                    authInfo: credentials,
-                })
+                setAuthInfo(credentials);
             } else {
-                setFormData({
-                    ...formData,
-                    authInfo: null,
-                })
+                setAuthInfo(null);
             }
         })
+
+        const formValues = getAuthAndFormCookies();
+        formValues.then((result) => {
+            setFormData(result);
+        })
+
+        deleteFormCookies();
     }, [])
 
     // Validate form data when formData or formSubmissionCount changes
@@ -178,13 +178,17 @@ const Form = (props: Props) => {
         })
     }
 
+    // Handle social login
+    const handleSocialLogin = async(e: React.FormEvent, provider: string) => {
+        e.preventDefault();
+        await setAuthAndFormCookies(formData);
+        await socialLogin(provider);
+    }
+
     // Logout from social account
     const handleLogout = async(e: React.FormEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        setFormData({
-            ...formData,
-            authInfo: null,
-        });
+        setAuthInfo(null);
         await socialLogout();
     }
 
@@ -269,11 +273,11 @@ const Form = (props: Props) => {
             </span>
 
             {
-                formData.authInfo?.provider
+                authInfo?.provider
                 ?
-                <AuthenticatedUser handleLogout={handleLogout} UserVerificationFieldStyle={UserVerificationFieldStyle} providerInfo={providerInfo} authInfo={formData.authInfo} />
+                <AuthenticatedUser handleLogout={handleLogout} UserVerificationFieldStyle={UserVerificationFieldStyle} providerInfo={providerInfo} authInfo={authInfo} />
                 :
-                <UserVerificationField UserVerificationFieldStyle={UserVerificationFieldStyle} providerInfo={providerInfo} />
+                <UserVerificationField UserVerificationFieldStyle={UserVerificationFieldStyle} providerInfo={providerInfo} handleSocialLogin={handleSocialLogin} />
             }
         </div>
 

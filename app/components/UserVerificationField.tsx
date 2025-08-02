@@ -21,9 +21,10 @@ type Props = {
     optionsList?: { label: string, value: string }[];
     UserVerificationFieldStyle: string;
     providerInfo: ProviderInfoType[];
+    handleSocialLogin: (e: React.FormEvent, provider: string) => Promise<void>;
 }
 
-const UserVerificationField = ({optionsList=options, UserVerificationFieldStyle, providerInfo}: Props) => {
+const UserVerificationField = ({optionsList=options, UserVerificationFieldStyle, providerInfo, handleSocialLogin}: Props) => {
 
     const [selected, setSelected] = useState<{label: string, value:string} | null>(null)
     const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -89,7 +90,7 @@ const UserVerificationField = ({optionsList=options, UserVerificationFieldStyle,
                 sm:rounded-bl-none rounded-tr-none sm:rounded-tr-md rounded-br-md px-1 xxs:pl-4 sm:px-0 
                 flex items-center'
             >
-                <SocialSignInOptions providerInfo={providerInfo} />
+                <SocialSignInOptions providerInfo={providerInfo} handleSocialLogin={handleSocialLogin} />
             </div>
         </div>
 
