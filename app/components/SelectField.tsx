@@ -55,7 +55,7 @@ const SelectField = ({optionsList = options, placeholder = placeholderText, fiel
             onClick={() => setIsOpen(!isOpen)}
             className={fieldStyle + ' items-center justify-between cursor-pointer'}
         >
-            <span className='text-black/60 dark:text-white/60'>{selected?.label || placeholder}</span>
+            <span className={selected ? 'text-black dark:text-white' : 'text-black/60 dark:text-white/60'}>{selected?.label || placeholder}</span>
             <FaChevronDown aria-label='Toggle dropdown' className={`text-black/60 dark:text-white/60 ${openAbove ? 'rotate-180' : ''}`} />
         </div>
 
@@ -69,8 +69,9 @@ const SelectField = ({optionsList = options, placeholder = placeholderText, fiel
                     <div
                         key={option.value}
                         onClick={() => handleSelect(option)}
-                        className={`px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-[#202024] dark:hover:text-secondary/70 ${
-                            selected?.value === option.value ? 'bg-gray-100 dark:bg-[#202024] font-semibold italic text-secondarylight dark:text-secondary' : 'text-black/80 dark:text-white/80'
+                        className={`px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-[#202024] 
+                            dark:hover:text-secondary/70 ${selected?.value === option.value 
+                                ? 'bg-gray-100 dark:bg-[#202024] font-semibold italic text-secondarylight dark:text-secondary' : 'text-black/80 dark:text-white/80'
                         }`}
                     >
                     {option.label}

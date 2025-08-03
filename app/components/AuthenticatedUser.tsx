@@ -14,9 +14,10 @@ const AuthenticatedUser = (props: Props) => {
   return (
     <div className={props.UserVerificationFieldStyle + ' flex flex-col xs:flex-row justify-between'}>
       <div 
-        className='flex-1 flex flex-row items-center justify-center xs:justify-start gap-3 h-[35] xxs:h-[42px] xs:h-[48px] sm:h-full 
-        rounded-tl-md rounded-bl-none sm:rounded-bl-md rounded-tr-md sm:rounded-tr-none bg-gray-50 
-        dark:bg-[#23232c] px-1 xxs:px-4 pb-2 xs:pb-0 text-black/80 dark:text-white/80'
+        className='flex-1 flex flex-row items-center justify-center xs:justify-start gap-2 xxs:gap-3 
+        h-[35] xxs:h-[42px] xs:h-[48px] sm:h-full rounded-tl-md rounded-bl-none sm:rounded-bl-md 
+        rounded-tr-md sm:rounded-tr-none bg-gray-50 dark:bg-[#23232c] px-1 xxs:px-4 pb-2 xs:pb-0 
+        text-black/80 dark:text-white/80'
       >
         {
           props.providerInfo.map((item, index) => {
@@ -25,7 +26,7 @@ const AuthenticatedUser = (props: Props) => {
                 <div key={index} className='h-full flex items-center'>
                   <span 
                     aria-label={item.title2} 
-                    className='w-7 h-7 flex items-center justify-center'
+                    className='w-5 xxs:w-7 h-5 xxs:h-7 flex items-center justify-center'
                   >
                     {item.icon}
                   </span>
@@ -37,7 +38,7 @@ const AuthenticatedUser = (props: Props) => {
 
         <div className='flex flex-col justify-center'>
           <span className=''>{props.authInfo?.user?.name}</span>
-          <span className='text-sm'>{props.authInfo?.user?.email}</span>
+          <span className='text-xs xxs:text-sm'>{props.authInfo?.user?.email}</span>
         </div>
       </div>
 

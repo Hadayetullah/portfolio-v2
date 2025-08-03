@@ -44,6 +44,7 @@ const Form = (props: Props) => {
     const messageRef = useRef<HTMLDivElement>(null);
 
     const [formSubmissionCount, setFormSubmissionCount] = useState<number>(0);
+    const [formSubmissionSuccess, setFormSubmissionSuccess] = useState<boolean>(false);
     const [formInputErrors, setFormInputErrors] = useState<FormInputErrorsType>({
         verified: "",
         name: "",
@@ -149,7 +150,9 @@ const Form = (props: Props) => {
 
         const formValues = getAuthAndFormCookies();
         formValues.then((result) => {
-            setFormData(result);
+            if (result) {
+              setFormData(result);  
+            } 
         })
 
         deleteFormCookies();
@@ -158,10 +161,12 @@ const Form = (props: Props) => {
     // Validate form data when formData or formSubmissionCount changes
     useEffect(() => {
         if (formSubmissionCount > 0) {
-            const errors = validate(formData);
-            setFormInputErrors(errors);
+            if (!formSubmissionSuccess) {
+                const errors = validate(formData);
+                setFormInputErrors(errors);
+            }
         }
-    }, [formData, formSubmissionCount]);
+    }, [formSubmissionSuccess, formData, formSubmissionCount]);
 
     // Handle form data change
     const handleChange = (e: any) => {
@@ -218,6 +223,13 @@ const Form = (props: Props) => {
 
         // If no errors, proceed to submit
         console.log("Submit formData:", formData);
+
+        setFormData({
+            name: "",
+            phone: "",
+            purpose: "",
+            message: "",
+        });
     };
 
 
@@ -251,9 +263,10 @@ const Form = (props: Props) => {
     ];
 
     const inputStyle = `flex h-[35] xxs:h-[42px] xs:h-[48px] border-[0.5px] border-black/20 
-        dark:border-white/20 focus:border-primarylight/50 dark:focus:border-secondary/50 px-1 xxs:px-4 py-2 
-        xxs:py-5 text-base text-black dark:text-white placeholder:text-black/60 dark:placeholder:text-white/60 
-        outline-none bg-white dark:bg-[#1c1c22] rounded-md placeholder:text-sm xxs:placeholder:text-base shadow-sm`;
+        dark:border-white/20 focus:border-primarylight/50 dark:focus:border-secondary/50 px-1 xxs:px-4 
+        py-2 xxs:py-5 text-base text-black dark:text-white placeholder:text-black/60 
+        dark:placeholder:text-white/60 outline-none bg-white dark:bg-[#1c1c22] rounded-md 
+        placeholder:text-sm xxs:placeholder:text-base shadow-sm`;
 
     const textAreaStyle = `flex border-[0.5px] border-black/20 dark:border-white/20 focus:border-primarylight/50 dark:focus:border-secondary/50 px-1 xxs:px-4 py-2 xxs:py-5 text-base text-black 
         dark:text-white placeholder:text-black/60 dark:placeholder:text-white/60 outline-none bg-white 
@@ -268,7 +281,7 @@ const Form = (props: Props) => {
         {/* User Verification Field */}
         <div ref={verificationRef} className='col-span-1 sm:col-span-2 flex flex-col'>
             <span 
-                className='h-4 xxs:h-6 w-full leading-[1] text-xs xxs:text-sm flex items-end text-red-600'>
+                className='h-6 w-full leading-[1] text-[10px] xxs:text-sm flex items-end text-red-600'>
                     {formInputErrors.verified && formInputErrors.verified}
             </span>
 
@@ -283,7 +296,7 @@ const Form = (props: Props) => {
 
         <div ref={nameRef} className='flex flex-col'>
             <span 
-                className='h-4 xxs:h-6 w-full leading-[1] text-xs xxs:text-sm flex items-end text-red-600'
+                className='h-6 w-full leading-[1] text-[10px] xxs:text-sm flex items-end text-red-600'
             >
                 {formInputErrors.name && formInputErrors.name}
             </span>
@@ -312,7 +325,7 @@ const Form = (props: Props) => {
 
         <div className='flex flex-col'>
             <span 
-                className='h-4 xxs:h-6 w-full leading-[1] text-xs xxs:text-sm flex items-end text-red-600'>
+                className='h-6 w-full leading-[1] text-[10px] xxs:text-sm flex items-end text-red-600'>
                     {/* {formInputErrors.phone && formInputErrors.phone} */}
             </span>
             <input 
@@ -329,7 +342,7 @@ const Form = (props: Props) => {
         {/* Custom SelectField component */}
         <div ref={purposeRef} className='col-span-1 sm:col-span-2 flex flex-col'>
             <span 
-                className='h-4 xxs:h-6 w-full leading-[1] text-xs xxs:text-sm flex items-end text-red-600'
+                className='h-6 w-full leading-[1] text-[10px] xxs:text-sm flex items-end text-red-600'
             >
                 {formInputErrors.purpose && formInputErrors.purpose}
             </span>
@@ -338,7 +351,7 @@ const Form = (props: Props) => {
 
         <div ref={messageRef} className='col-span-1 sm:col-span-2 flex flex-col'>
             <span 
-                className='h-4 xxs:h-6 w-full leading-[1] text-xs xxs:text-sm flex items-end text-red-600'
+                className='h-6 w-full leading-[1] text-[10px] xxs:text-sm flex items-end text-red-600'
             >
                 {formInputErrors.message && formInputErrors.message}
             </span>
@@ -353,7 +366,7 @@ const Form = (props: Props) => {
         </div>
 
         <div className='flex flex-col'>
-            <span className='h-4 xxs:h-6 w-full leading-[1] text-xs xxs:text-sm flex items-end text-red-600'></span>
+            <span className='h-6 w-full leading-[1] text-[10px] xxs:text-sm flex items-end text-red-600'></span>
             <button 
                 type='submit' 
                 onClick={(e) => handleSubmit(e)} 
