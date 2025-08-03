@@ -31,7 +31,6 @@ const SelectField = ({optionsList = options, placeholder = placeholderText, fiel
         setSelected(option);
         setIsOpen(false);
         handlePurposeFieldChange(option.label);
-        // onChange?.(option.value)
     }
 
     useEffect(() => {

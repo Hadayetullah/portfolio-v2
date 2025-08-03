@@ -22,11 +22,20 @@ type Props = {
     UserVerificationFieldStyle: string;
     providerInfo: ProviderInfoType[];
     handleSocialLogin: (e: React.FormEvent, provider: string) => Promise<void>;
+    emailValue: string;
+    handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const UserVerificationField = ({optionsList=options, UserVerificationFieldStyle, providerInfo, handleSocialLogin}: Props) => {
+const UserVerificationField = ({
+    optionsList=options, 
+    UserVerificationFieldStyle, 
+    providerInfo, 
+    handleSocialLogin, 
+    emailValue,
+    handleChange,
+}: Props) => {
 
-    const [selected, setSelected] = useState<{label: string, value:string} | null>(null)
+    const [selected, setSelected] = useState<{label: string, value:string}>(optionsList[0])
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [openAbove, setOpenAbove] = useState<boolean>(false)
     const [belowPosition, setBelowPosition] = useState<number>(0)
@@ -66,7 +75,8 @@ const UserVerificationField = ({optionsList=options, UserVerificationFieldStyle,
   return (
     <div ref={containerRef} className='relative w-full select-none'>
         <div 
-            className={UserVerificationFieldStyle + ` flex flex-col sm:flex-row items-center justify-between gap-1 sm:gap-6`}
+            className={UserVerificationFieldStyle + ` flex flex-col-reverse sm:flex-row items-center 
+                justify-between ${selected?.value === 'manual' ? 'gap-0' : 'gap-2'} sm:gap-6`}
         >
             {/* Dropdown bar to select user verification type */}
             <div 
@@ -85,13 +95,35 @@ const UserVerificationField = ({optionsList=options, UserVerificationFieldStyle,
                 </div>
             </div>
 
-            {/* SocialSignInOptions component to handle social sign-in */}
-            <div className='w-full sm:w-[50%] h-[35] xxs:h-[42px] xs:h-[48px] sm:h-full rounded-bl-md 
-                sm:rounded-bl-none rounded-tr-none sm:rounded-tr-md rounded-br-md px-1 xxs:pl-4 sm:px-0 
-                flex items-center'
-            >
-                <SocialSignInOptions providerInfo={providerInfo} handleSocialLogin={handleSocialLogin} />
-            </div>
+            {
+                selected.value === 'social' ? 
+                    (
+                        // SocialSignInOptions component to handle social sign-in 
+                        <div className='w-full sm:w-[50%] h-[35] xxs:h-[42px] xs:h-[48px] sm:h-full rounded-bl-md 
+                            sm:rounded-bl-none rounded-tr-none sm:rounded-tr-md rounded-br-md px-1 pl-4 pt-2 sm:pt-0 sm:px-0 
+                            flex items-center'
+                        >
+                            <SocialSignInOptions providerInfo={providerInfo} handleSocialLogin={handleSocialLogin} />
+                        </div>
+                    )
+                    : 
+                    (
+                        // Email input field for manual verification
+                        <input 
+                            type='email' 
+                            name='email' 
+                            placeholder='Place email address' 
+                            value={emailValue} 
+                            onChange={(e) => handleChange(e)} 
+                            autoComplete="off"
+                            className={`flex h-[35px] xxs:h-[42px] xs:h-[48px] w-full focus:border-primarylight/50 
+                                dark:focus:border-secondary/50 px-1 xxs:px-0 py-2 xxs:py-5 text-base text-black 
+                                dark:text-white placeholder:text-black/60 dark:placeholder:text-white/60 
+                                outline-none bg-transparent placeholder:text-sm xxs:placeholder:text-base`
+                            }
+                        />
+                    )
+            }
         </div>
 
         {/* Dropdown menu items to select user verification type */}

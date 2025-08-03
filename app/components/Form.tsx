@@ -23,6 +23,7 @@ interface AuthInfoType {
 }
 
 interface FormDataType {
+    email: string;
     name: string;
     phone: string;
     purpose: string;
@@ -55,6 +56,7 @@ const Form = (props: Props) => {
 
     const [authInfo, setAuthInfo] = useState<AuthInfoType | null>(null);
     const [formData, setFormData] = useState<FormDataType>({
+        email: "",
         name: "",
         phone: "",
         purpose: "",
@@ -225,6 +227,7 @@ const Form = (props: Props) => {
         console.log("Submit formData:", formData);
 
         setFormData({
+            email: "",
             name: "",
             phone: "",
             purpose: "",
@@ -262,7 +265,7 @@ const Form = (props: Props) => {
         },
     ];
 
-    const inputStyle = `flex h-[35] xxs:h-[42px] xs:h-[48px] border-[0.5px] border-black/20 
+    const inputStyle = `flex h-[35px] xxs:h-[42px] xs:h-[48px] border-[0.5px] border-black/20 
         dark:border-white/20 focus:border-primarylight/50 dark:focus:border-secondary/50 px-1 xxs:px-4 
         py-2 xxs:py-5 text-base text-black dark:text-white placeholder:text-black/60 
         dark:placeholder:text-white/60 outline-none bg-white dark:bg-[#1c1c22] rounded-md 
@@ -288,9 +291,20 @@ const Form = (props: Props) => {
             {
                 authInfo?.provider
                 ?
-                <AuthenticatedUser handleLogout={handleLogout} UserVerificationFieldStyle={UserVerificationFieldStyle} providerInfo={providerInfo} authInfo={authInfo} />
+                <AuthenticatedUser 
+                    handleLogout={handleLogout} 
+                    UserVerificationFieldStyle={UserVerificationFieldStyle} 
+                    providerInfo={providerInfo} 
+                    authInfo={authInfo} 
+                />
                 :
-                <UserVerificationField UserVerificationFieldStyle={UserVerificationFieldStyle} providerInfo={providerInfo} handleSocialLogin={handleSocialLogin} />
+                <UserVerificationField 
+                    UserVerificationFieldStyle={UserVerificationFieldStyle} 
+                    providerInfo={providerInfo} 
+                    handleSocialLogin={handleSocialLogin} 
+                    emailValue={formData.email} 
+                    handleChange={handleChange}
+                />
             }
         </div>
 
@@ -331,7 +345,7 @@ const Form = (props: Props) => {
             <input 
                 type='text' 
                 name='phone' 
-                placeholder='Phone number'
+                placeholder='Phone number (optional)'
                 value={formData.phone}
                 onChange={(e) => handleChange(e)} 
                 autoComplete="off"

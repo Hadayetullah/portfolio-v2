@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { socialLogin } from '@/app/actions/SocialAuth'
 import { ProviderInfoType } from './UserVerificationField';
 
 type Props = {
