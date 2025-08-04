@@ -4,12 +4,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import { FaChevronDown } from 'react-icons/fa'
 import SocialSignInOptions from './SocialSignInOptions'
 
-// options array for the select field to select verification type
-const options = [
-  { label: 'User verification with social account', value: 'social' },
-  { label: 'User verification with email (manually)', value: 'manual' },
-]
-
 export type ProviderInfoType = {
     icon: React.ReactNode;
     provider: string;
@@ -18,24 +12,26 @@ export type ProviderInfoType = {
 }
 
 type Props = {
-    optionsList?: { label: string, value: string }[];
+    authOptionsList: { label: string, value: string }[];
     UserVerificationFieldStyle: string;
     providerInfo: ProviderInfoType[];
     handleSocialLogin: (e: React.FormEvent, provider: string) => Promise<void>;
     emailValue: string;
     handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    selectedAuthType: { label: string, value: string };
+    setSelectedAuthType: (value: { label: string, value: string}) => void;
 }
 
 const UserVerificationField = ({
-    optionsList=options, 
+    authOptionsList, 
     UserVerificationFieldStyle, 
     providerInfo, 
     handleSocialLogin, 
     emailValue,
     handleChange,
+    selectedAuthType,
+    setSelectedAuthType
 }: Props) => {
-
-    const [selected, setSelected] = useState<{label: string, value:string}>(optionsList[0])
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [openAbove, setOpenAbove] = useState<boolean>(false)
     const [belowPosition, setBelowPosition] = useState<number>(0)
@@ -43,7 +39,7 @@ const UserVerificationField = ({
     const containerRef = useRef<HTMLDivElement>(null);
 
     const handleSelect = (option:any) => {
-        setSelected(option)
+        setSelectedAuthType(option)
         setIsOpen(false)
         // onChange?.(option.value)
     }
@@ -53,7 +49,7 @@ const UserVerificationField = ({
         if (isOpen && containerRef.current) {
             const rect = containerRef.current.getBoundingClientRect()
             const spaceBelow = window.innerHeight - rect.bottom
-            const dropdownHeight = Math.min(100, optionsList.length * 48) // approx height
+            const dropdownHeight = Math.min(100, authOptionsList.length * 48) // approx height
 
             if (spaceBelow < dropdownHeight + 10) {
                 setOpenAbove(true)
@@ -70,13 +66,13 @@ const UserVerificationField = ({
 
             }
         }
-    }, [isOpen, optionsList])
+    }, [isOpen, authOptionsList])
 
   return (
     <div ref={containerRef} className='relative w-full select-none'>
         <div 
             className={UserVerificationFieldStyle + ` flex flex-col-reverse sm:flex-row items-center 
-                justify-between ${selected?.value === 'manual' ? 'gap-0' : 'gap-2'} sm:gap-6`}
+                justify-between ${selectedAuthType?.value === 'manual' ? 'gap-0' : 'gap-2'} sm:gap-6`}
         >
             {/* Dropdown bar to select user verification type */}
             <div 
@@ -86,7 +82,7 @@ const UserVerificationField = ({
                 h-[35] xxs:h-[42px] xs:h-[48px] sm:h-full rounded-tl-md rounded-bl-none sm:rounded-bl-md 
                 rounded-tr-md sm:rounded-tr-none bg-gray-100 dark:bg-[#23232c]'
             >
-                <span className='min-w-[100px] max-w-full text-nowrap overflow-hidden text-black/70 dark:text-white/70 px-1 xxs:pl-4'>{selected?.label || options[0].label}</span>
+                <span className='min-w-[100px] max-w-full text-nowrap overflow-hidden text-black/70 dark:text-white/70 px-1 xxs:pl-4'>{selectedAuthType?.label || authOptionsList[0].label}</span>
                 
                 <div className='bg-gray-100 dark:bg-[#23232c] w-[33px] h-full flex items-center justify-center ml-2 
                     border-0 sm:border-r-[0.5px] border-black/20 dark:border-white/20 pr-1 xxs:pr-4'
@@ -96,7 +92,7 @@ const UserVerificationField = ({
             </div>
 
             {
-                selected.value === 'social' ? 
+                selectedAuthType.value === 'social' ? 
                     (
                         // SocialSignInOptions component to handle social sign-in 
                         <div className='w-full sm:w-[50%] h-[35] xxs:h-[42px] xs:h-[48px] sm:h-full rounded-bl-md 
@@ -134,12 +130,12 @@ const UserVerificationField = ({
                 }`} 
                 style={!openAbove && belowPosition > 0 ? { top: `${belowPosition - 4}px` } : {}}
             >
-                {optionsList.map((option) => (
+                {authOptionsList.map((option) => (
                     <div
                         key={option.value}
                         onClick={() => handleSelect(option)}
                         className={`px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-[#202024] dark:hover:text-secondary/70 ${
-                            selected?.value === option.value ? 'bg-gray-100 dark:bg-[#202024] font-semibold italic text-secondarylight dark:text-secondary' : 'text-black/80 dark:text-white/80'
+                            selectedAuthType?.value === option.value ? 'bg-gray-100 dark:bg-[#202024] font-semibold italic text-secondarylight dark:text-secondary' : 'text-black/80 dark:text-white/80'
                         }`}
                     >
                     {option.label}

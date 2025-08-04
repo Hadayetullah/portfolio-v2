@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import SelectField from './SelectField';
 import UserVerificationField from './UserVerificationField';
-import { deleteFormCookies, getAuthAndFormCookies, getAuthInfo, setAuthAndFormCookies } from '../actions/getAuthInfo';
+import { deleteFormCookies, getFormCookies, getProviderInfo, setAuthAndFormCookies } from '../actions/getAuthInfo';
 import AuthenticatedUser from './AuthenticatedUser';
 import { socialLogin, socialLogout } from '../actions/SocialAuth';
 
@@ -12,7 +12,7 @@ type Props = {
     isDarkMode: boolean;
 }
 
-interface AuthInfoType {
+interface ProviderInfoType {
   expires?: string;
   provider?: string;
   user?: {
@@ -23,6 +23,8 @@ interface AuthInfoType {
 }
 
 interface FormDataType {
+    authType: string;
+    providerData: ProviderInfoType | null;
     email: string;
     name: string;
     phone: string;
@@ -32,30 +34,44 @@ interface FormDataType {
 
 interface FormInputErrorsType {
     verified: string;
+    email: string;
     name: string;
     purpose: string;
     message: string;
 }
 
+// options array for the select field to select verification type
+const authOptionsList = [
+  { label: 'User verification with social account', value: 'social' },
+  { label: 'User verification with email (manually)', value: 'manual' },
+]
+
 const Form = (props: Props) => {
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+
     // Refs for scrolling to the first error field if there are any error fields
     const verificationRef = useRef<HTMLDivElement>(null);
     const nameRef = useRef<HTMLDivElement>(null);
     const purposeRef = useRef<HTMLDivElement>(null);
     const messageRef = useRef<HTMLDivElement>(null);
 
+    const [selectedAuthType, setSelectedAuthType] = useState<{label: string, value:string}>(authOptionsList[0]);
+
     const [formSubmissionCount, setFormSubmissionCount] = useState<number>(0);
     const [formSubmissionSuccess, setFormSubmissionSuccess] = useState<boolean>(false);
     const [formInputErrors, setFormInputErrors] = useState<FormInputErrorsType>({
         verified: "",
+        email: "",
         name: "",
         // phone: "",
         purpose: "",
         message: "",
     });
 
-    const [authInfo, setAuthInfo] = useState<AuthInfoType | null>(null);
+    const [authInfo, setAuthInfo] = useState<ProviderInfoType | null>(null);
     const [formData, setFormData] = useState<FormDataType>({
+        authType: selectedAuthType.value,
+        providerData: null,
         email: "",
         name: "",
         phone: "",
@@ -67,14 +83,25 @@ const Form = (props: Props) => {
     const validate = (formData: FormDataType) => {
         const errors: FormInputErrorsType = {
             verified: "",
+            email: "",
             name: "",
             // phone: "",
             purpose: "",
             message: "",
         };
 
-        if (authInfo === null) {
-            errors.verified = "Verification required";
+        if (selectedAuthType.value === 'social') {
+            if (authInfo === null) {
+                errors.verified = "Verification required";
+            }
+        };
+
+        if (selectedAuthType.value === 'manual') {
+            if (formData.email == "") {
+                errors.verified = "Please provide your email address";
+            } else if (!emailRegex.test(formData.email)) {
+                errors.verified = "Invalid email address";
+            }
         }
 
         if (!formData.name) {
@@ -93,18 +120,6 @@ const Form = (props: Props) => {
             errors.message = "The message must be at least 20 characters long";
         }
 
-        // if (!formData.name) {
-        // setFormInputErrors({...formInputErrors, name: "Please enter your name"});
-        // } else if (formData.name.length <= 3) {
-        // setFormInputErrors({...formInputErrors, name: "Please provide your full name"});
-        // }
-
-        // if (!formData.message) {
-        // setFormInputErrors({...formInputErrors, message: "Please leave a message"});
-        // } else if (formData.message.length <= 20) {
-        // setFormInputErrors({...formInputErrors, message: "The message must be at least 20 characters long"});
-        // }
-
         // if (!formData.phone) {
         //   setFormInputErrors({...formInputErrors, phone: "Please provide your phone number"});
         // } else if (
@@ -113,35 +128,13 @@ const Form = (props: Props) => {
         //   setFormInputErrors({...formInputErrors, phone: "Invalid phone number"});
         // }
 
-        // if (!formData.email) {
-        //   setFormInputErrors({...formInputErrors, email: "Please provide your email address"});
-        // } else if (
-        //   !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(formData.email)
-        // ) {
-        //   setFormInputErrors({...formInputErrors, email: "Invalid email address"});
-        // }
-
-        // if (!formData.password) {
-        //   setFormInputErrors({...formInputErrors, password: "Please provide password"});
-        // } else if (formData.password.length < 8) {
-        //   setFormInputErrors({...formInputErrors, password: "Password must be at least 8 characters long"});
-        // }
-
-        // if (!formData.password2) {
-        //   setFormInputErrors({...formInputErrors, password2: "Please provide password again"});
-        // } else if (formData.password2.length < 8) {
-        //   setFormInputErrors({...formInputErrors, password2: "Password must be at least 8 characters long"});
-        // } else if (formData.password2 != formData.password) {
-        //   setFormInputErrors({...formInputErrors, password2: "Password doesn't match"});
-        // }
-
         return errors;
     };
     
     // Fetch authentication information when the component mounts
     useEffect(() => {
-        const promise = getAuthInfo();
-        promise.then((credentials) => {
+        const authInfoPromise = getProviderInfo();
+        authInfoPromise.then((credentials) => {
             console.log("Credentials : ", credentials);
             if (credentials?.user) {
                 setAuthInfo(credentials);
@@ -150,7 +143,7 @@ const Form = (props: Props) => {
             }
         })
 
-        const formValues = getAuthAndFormCookies();
+        const formValues = getFormCookies();
         formValues.then((result) => {
             if (result) {
               setFormData(result);  
@@ -224,9 +217,12 @@ const Form = (props: Props) => {
         }
 
         // If no errors, proceed to submit
+        formData.providerData = authInfo;
         console.log("Submit formData:", formData);
 
         setFormData({
+            authType: selectedAuthType.value,
+            providerData: authInfo,
             email: "",
             name: "",
             phone: "",
@@ -266,17 +262,17 @@ const Form = (props: Props) => {
     ];
 
     const inputStyle = `flex h-[35px] xxs:h-[42px] xs:h-[48px] border-[0.5px] border-black/20 
-        dark:border-white/20 focus:border-primarylight/50 dark:focus:border-secondary/50 px-1 xxs:px-4 
+        dark:border-white/20 px-1 xxs:px-4 
         py-2 xxs:py-5 text-base text-black dark:text-white placeholder:text-black/60 
         dark:placeholder:text-white/60 outline-none bg-white dark:bg-[#1c1c22] rounded-md 
         placeholder:text-sm xxs:placeholder:text-base shadow-sm`;
 
-    const textAreaStyle = `flex border-[0.5px] border-black/20 dark:border-white/20 focus:border-primarylight/50 dark:focus:border-secondary/50 px-1 xxs:px-4 py-2 xxs:py-5 text-base text-black 
+    const textAreaStyle = `flex border-[0.5px] border-black/20 dark:border-white/20 px-1 xxs:px-4 py-2 xxs:py-5 text-base text-black 
         dark:text-white placeholder:text-black/60 dark:placeholder:text-white/60 outline-none bg-white 
         dark:bg-[#1c1c22] rounded-md placeholder:text-sm xxs:placeholder:text-base`;
 
     const UserVerificationFieldStyle = `h-auto sm:h-[48px] border-[0.5px] border-black/20 
-        dark:border-white/20 focus:border-primarylight/50 dark:focus:border-secondary/50 text-base 
+        dark:border-white/20 text-base 
         text-black dark:text-white outline-none bg-white dark:bg-[#1c1c22] rounded-md shadow-sm`
 
   return (
@@ -299,11 +295,14 @@ const Form = (props: Props) => {
                 />
                 :
                 <UserVerificationField 
+                    authOptionsList={authOptionsList} 
                     UserVerificationFieldStyle={UserVerificationFieldStyle} 
                     providerInfo={providerInfo} 
                     handleSocialLogin={handleSocialLogin} 
                     emailValue={formData.email} 
                     handleChange={handleChange}
+                    selectedAuthType={selectedAuthType} 
+                    setSelectedAuthType={setSelectedAuthType}
                 />
             }
         </div>

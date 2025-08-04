@@ -2,7 +2,7 @@
 
 import { auth } from "@/auth";
 
-export async function getAuthInfo() {
+export async function getProviderInfo() {
     const response = await auth();
     console.log("Response : ", response);
     return response;
@@ -11,7 +11,7 @@ export async function getAuthInfo() {
 
 import { cookies } from 'next/headers'
 
-interface AuthInfoType {
+interface ProviderInfoType {
   expires?: string
   provider?: string
   user?: {
@@ -56,7 +56,7 @@ export async function setAuthAndFormCookies(formValues: FormValues) {
   })
 }
 
-export async function getAuthAndFormCookies() {
+export async function getFormCookies() {
   const cookieStore = await cookies()
   const formDataCookie = cookieStore.get('formValues')?.value
   return formDataCookie ? JSON.parse(formDataCookie) : null
