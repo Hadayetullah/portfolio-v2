@@ -6,6 +6,7 @@ import UserVerificationField from './UserVerificationField';
 import { deleteFormCookies, getFormCookies, getProviderInfo, setAuthAndFormCookies } from '../actions/getAuthInfo';
 import AuthenticatedUser from './AuthenticatedUser';
 import { socialLogin, socialLogout } from '../actions/SocialAuth';
+import OTPModal from './OTPModal';
 
 
 type Props = {
@@ -44,10 +45,20 @@ interface FormInputErrorsType {
 const authOptionsList = [
   { label: 'User verification with social account', value: 'social' },
   { label: 'User verification with email (manually)', value: 'manual' },
+];
+
+// options array for the select field
+const optionsList = [
+  { label: 'Frontend Development', value: 'frontend' },
+  { label: 'Backend Development', value: 'backend' },
+  { label: 'Full Stack Development', value: 'fullstack' },
+  { label: 'General Purpose', value: 'general' },
+  { label: 'Other', value: 'other' },
 ]
 
 const Form = (props: Props) => {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+    const purposePlaceholderText = 'Purpose';
 
     // Refs for scrolling to the first error field if there are any error fields
     const verificationRef = useRef<HTMLDivElement>(null);
@@ -57,8 +68,11 @@ const Form = (props: Props) => {
 
     const [selectedAuthType, setSelectedAuthType] = useState<{label: string, value:string}>(authOptionsList[0]);
 
+    const [selectedPurpose, setSelectedPurpose] = useState<{label: string, value:string} | null>(null)
     const [formSubmissionCount, setFormSubmissionCount] = useState<number>(0);
     const [formSubmissionSuccess, setFormSubmissionSuccess] = useState<boolean>(false);
+    const [OTPStatus, setOTPStatus] = useState<boolean>(true);
+    const [OTPCode, setOTPCode] = useState<string>("");
     const [formInputErrors, setFormInputErrors] = useState<FormInputErrorsType>({
         verified: "",
         email: "",
@@ -192,6 +206,7 @@ const Form = (props: Props) => {
         await socialLogout();
     }
 
+    // Handle form submission
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -220,6 +235,8 @@ const Form = (props: Props) => {
         formData.providerData = authInfo;
         console.log("Submit formData:", formData);
 
+        setFormSubmissionCount(0);
+        setSelectedPurpose(null);
         setFormData({
             authType: selectedAuthType.value,
             providerData: authInfo,
@@ -262,134 +279,155 @@ const Form = (props: Props) => {
     ];
 
     const inputStyle = `flex h-[35px] xxs:h-[42px] xs:h-[48px] border-[0.5px] border-black/20 
-        dark:border-white/20 px-1 xxs:px-4 
-        py-2 xxs:py-5 text-base text-black dark:text-white placeholder:text-black/60 
-        dark:placeholder:text-white/60 outline-none bg-white dark:bg-[#1c1c22] rounded-md 
-        placeholder:text-sm xxs:placeholder:text-base shadow-sm`;
+        dark:border-white/20 px-1 xxs:px-4 py-2 xxs:py-5 text-base text-black dark:text-white 
+        placeholder:text-black/60 dark:placeholder:text-white/60 outline-none bg-white dark:bg-[#1c1c22] 
+        rounded-md placeholder:text-sm xxs:placeholder:text-base shadow-sm`;
 
     const textAreaStyle = `flex border-[0.5px] border-black/20 dark:border-white/20 px-1 xxs:px-4 py-2 xxs:py-5 text-base text-black 
         dark:text-white placeholder:text-black/60 dark:placeholder:text-white/60 outline-none bg-white 
         dark:bg-[#1c1c22] rounded-md placeholder:text-sm xxs:placeholder:text-base`;
 
     const UserVerificationFieldStyle = `h-auto sm:h-[48px] border-[0.5px] border-black/20 
-        dark:border-white/20 text-base 
-        text-black dark:text-white outline-none bg-white dark:bg-[#1c1c22] rounded-md shadow-sm`
+        dark:border-white/20 text-base text-black dark:text-white outline-none bg-white dark:bg-[#1c1c22] 
+        rounded-md shadow-sm`
 
   return (
-    <form onSubmit={(e) => handleSubmit(e)} className='grid grid-cols-1 sm:grid-cols-2 gap-x-4 xxs:gap-x-6'>
-        {/* User Verification Field */}
-        <div ref={verificationRef} className='col-span-1 sm:col-span-2 flex flex-col'>
-            <span 
-                className='h-6 w-full leading-[1] text-[10px] xxs:text-sm flex items-end text-red-600'>
-                    {formInputErrors.verified && formInputErrors.verified}
-            </span>
+    <>
+        <form onSubmit={(e) => handleSubmit(e)} className='grid grid-cols-1 sm:grid-cols-2 gap-x-4 xxs:gap-x-6'>
+            {/* User Verification Field */}
+            <div ref={verificationRef} className='col-span-1 sm:col-span-2 flex flex-col'>
+                {
+                selectedAuthType.value === 'manual' && formSubmissionCount < 1 
+                    ? 
+                    <span 
+                        className='h-6 w-full leading-[1] text-[10px] xxs:text-sm flex items-end text-orange-700'>
+                            An OTP will be sent to your email address.
+                    </span>
+                    :
+                    <span 
+                        className='h-6 w-full leading-[1] text-[10px] xxs:text-sm flex items-end text-red-600'>
+                            {formInputErrors.verified && formInputErrors.verified}
+                    </span>
+                }
 
-            {
-                authInfo?.provider
-                ?
-                <AuthenticatedUser 
-                    handleLogout={handleLogout} 
-                    UserVerificationFieldStyle={UserVerificationFieldStyle} 
-                    providerInfo={providerInfo} 
-                    authInfo={authInfo} 
+                {
+                    authInfo?.provider
+                    ?
+                    <AuthenticatedUser 
+                        handleLogout={handleLogout} 
+                        UserVerificationFieldStyle={UserVerificationFieldStyle} 
+                        providerInfo={providerInfo} 
+                        authInfo={authInfo} 
+                    />
+                    :
+                    <UserVerificationField 
+                        authOptionsList={authOptionsList} 
+                        UserVerificationFieldStyle={UserVerificationFieldStyle} 
+                        providerInfo={providerInfo} 
+                        handleSocialLogin={handleSocialLogin} 
+                        emailValue={formData.email} 
+                        handleChange={handleChange}
+                        selectedAuthType={selectedAuthType} 
+                        setSelectedAuthType={setSelectedAuthType}
+                    />
+                }
+            </div>
+
+            <div ref={nameRef} className='flex flex-col'>
+                <span 
+                    className='h-6 w-full leading-[1] text-[10px] xxs:text-sm flex items-end text-red-600'
+                >
+                    {formInputErrors.name && formInputErrors.name}
+                </span>
+                <input 
+                    type='text' 
+                    name='name' 
+                    placeholder='Your name' 
+                    value={formData.name} 
+                    onChange={(e) => handleChange(e)} 
+                    autoComplete="off"
+                    className={inputStyle}
                 />
-                :
-                <UserVerificationField 
-                    authOptionsList={authOptionsList} 
-                    UserVerificationFieldStyle={UserVerificationFieldStyle} 
-                    providerInfo={providerInfo} 
-                    handleSocialLogin={handleSocialLogin} 
-                    emailValue={formData.email} 
-                    handleChange={handleChange}
-                    selectedAuthType={selectedAuthType} 
-                    setSelectedAuthType={setSelectedAuthType}
+            </div>
+            {/* <input 
+                type='text' 
+                name='lastname' 
+                placeholder='Last name'
+                className={inputStyle}
+            /> */}
+            {/* <input 
+                type='email' 
+                name='email' 
+                placeholder='Email address'
+                className={inputStyle}
+            /> */}
+
+            <div className='flex flex-col'>
+                <span 
+                    className='h-6 w-full leading-[1] text-[10px] xxs:text-sm flex items-end text-red-600'>
+                        {/* {formInputErrors.phone && formInputErrors.phone} */}
+                </span>
+                <input 
+                    type='text' 
+                    name='phone' 
+                    placeholder='Phone number (optional)'
+                    value={formData.phone}
+                    onChange={(e) => handleChange(e)} 
+                    autoComplete="off"
+                    className={inputStyle}
                 />
-            }
-        </div>
+            </div>
 
-        <div ref={nameRef} className='flex flex-col'>
-            <span 
-                className='h-6 w-full leading-[1] text-[10px] xxs:text-sm flex items-end text-red-600'
-            >
-                {formInputErrors.name && formInputErrors.name}
-            </span>
-            <input 
-                type='text' 
-                name='name' 
-                placeholder='Your name' 
-                value={formData.name} 
-                onChange={(e) => handleChange(e)} 
-                autoComplete="off"
-                className={inputStyle}
-            />
-        </div>
-        {/* <input 
-            type='text' 
-            name='lastname' 
-            placeholder='Last name'
-            className={inputStyle}
-        /> */}
-        {/* <input 
-            type='email' 
-            name='email' 
-            placeholder='Email address'
-            className={inputStyle}
-        /> */}
+            {/* Custom SelectField component */}
+            <div ref={purposeRef} className='col-span-1 sm:col-span-2 flex flex-col'>
+                <span 
+                    className='h-6 w-full leading-[1] text-[10px] xxs:text-sm flex items-end text-red-600'
+                >
+                    {formInputErrors.purpose && formInputErrors.purpose}
+                </span>
+                <SelectField 
+                    optionsList={optionsList} 
+                    purposePlaceholderText={purposePlaceholderText} 
+                    fieldStyle={inputStyle} 
+                    handlePurposeFieldChange={handlePurposeFieldChange} 
+                    selectedPurpose={selectedPurpose} 
+                    setSelectedPurpose={setSelectedPurpose}
+                />
+            </div>
 
-        <div className='flex flex-col'>
-            <span 
-                className='h-6 w-full leading-[1] text-[10px] xxs:text-sm flex items-end text-red-600'>
-                    {/* {formInputErrors.phone && formInputErrors.phone} */}
-            </span>
-            <input 
-                type='text' 
-                name='phone' 
-                placeholder='Phone number (optional)'
-                value={formData.phone}
-                onChange={(e) => handleChange(e)} 
-                autoComplete="off"
-                className={inputStyle}
-            />
-        </div>
+            <div ref={messageRef} className='col-span-1 sm:col-span-2 flex flex-col'>
+                <span 
+                    className='h-6 w-full leading-[1] text-[10px] xxs:text-sm flex items-end text-red-600'
+                >
+                    {formInputErrors.message && formInputErrors.message}
+                </span>
+                <textarea 
+                    name='message' 
+                    placeholder='Type your message here...'
+                    value={formData.message}
+                    onChange={(e) => handleChange(e)} 
+                    autoComplete="off"
+                    className={`${textAreaStyle} h-[140px] xxs:h-[160px] resize-none`}
+                />
+            </div>
 
-        {/* Custom SelectField component */}
-        <div ref={purposeRef} className='col-span-1 sm:col-span-2 flex flex-col'>
-            <span 
-                className='h-6 w-full leading-[1] text-[10px] xxs:text-sm flex items-end text-red-600'
-            >
-                {formInputErrors.purpose && formInputErrors.purpose}
-            </span>
-            <SelectField fieldStyle={inputStyle} handlePurposeFieldChange={handlePurposeFieldChange} />
-        </div>
+            <div className='flex flex-col'>
+                <span className='h-6 w-full leading-[1] text-[10px] xxs:text-sm flex items-end text-red-600'></span>
+                <button 
+                    type='submit' 
+                    onClick={(e) => handleSubmit(e)} 
+                    className='max-w-40 border border-black/30 text-black/85 cursor-pointer rounded py-1 
+                    dark:border-secondary/50 dark:text-secondary/95 text-lg font-medium'
+                >
+                    Send Message
+                </button>
+            </div>
+        </form>
 
-        <div ref={messageRef} className='col-span-1 sm:col-span-2 flex flex-col'>
-            <span 
-                className='h-6 w-full leading-[1] text-[10px] xxs:text-sm flex items-end text-red-600'
-            >
-                {formInputErrors.message && formInputErrors.message}
-            </span>
-            <textarea 
-                name='message' 
-                placeholder='Type your message here...'
-                value={formData.message}
-                onChange={(e) => handleChange(e)} 
-                autoComplete="off"
-                className={`${textAreaStyle} h-[140px] xxs:h-[160px] resize-none`}
-            />
-        </div>
-
-        <div className='flex flex-col'>
-            <span className='h-6 w-full leading-[1] text-[10px] xxs:text-sm flex items-end text-red-600'></span>
-            <button 
-                type='submit' 
-                onClick={(e) => handleSubmit(e)} 
-                className='max-w-40 border border-black/30 text-black/85 cursor-pointer rounded py-1 
-                dark:border-secondary/50 dark:text-secondary/95 text-lg font-medium'
-            >
-                Send Message
-            </button>
-        </div>
-    </form>
+        {
+            OTPStatus && <OTPModal email={formData.email} onClose={() => setOTPStatus(false)} />
+        }
+    </>
   )
 }
 

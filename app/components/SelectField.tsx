@@ -1,34 +1,30 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { FaChevronDown } from 'react-icons/fa'
 
-// options array for the select field
-const options = [
-  { label: 'Frontend Development', value: 'frontend' },
-  { label: 'Backend Development', value: 'backend' },
-  { label: 'Full Stack Development', value: 'fullstack' },
-  { label: 'General Purpose', value: 'general' },
-  { label: 'Other', value: 'other' },
-]
-
-const placeholderText = 'Purpose';
-
 // Type declaration
 type Props = {
-    optionsList?: { label: string, value: string }[];
-    placeholder?: string;
+    optionsList: { label: string, value: string }[];
+    purposePlaceholderText: string;
     fieldStyle: string;
     handlePurposeFieldChange: (value: string) => void;
+    selectedPurpose: {label: string, value:string} | null;
+    setSelectedPurpose: (option: {label: string, value:string} | null) => void;
 }
 
-const SelectField = ({optionsList = options, placeholder = placeholderText, fieldStyle, handlePurposeFieldChange}: Props) => {
-    const [selected, setSelected] = useState<{label: string, value:string} | null>(null)
+const SelectField = ({
+    optionsList, 
+    purposePlaceholderText, 
+    fieldStyle, 
+    handlePurposeFieldChange,
+    selectedPurpose, 
+    setSelectedPurpose}: Props) => {
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [openAbove, setOpenAbove] = useState<boolean>(false)
 
     const containerRef = useRef<HTMLDivElement>(null)
 
     const handleSelect = (option:any) => {
-        setSelected(option);
+        setSelectedPurpose(option);
         setIsOpen(false);
         handlePurposeFieldChange(option.label);
     }
@@ -54,7 +50,7 @@ const SelectField = ({optionsList = options, placeholder = placeholderText, fiel
             onClick={() => setIsOpen(!isOpen)}
             className={fieldStyle + ' items-center justify-between cursor-pointer'}
         >
-            <span className={selected ? 'text-black dark:text-white' : 'text-black/60 dark:text-white/60'}>{selected?.label || placeholder}</span>
+            <span className={selectedPurpose ? 'text-black dark:text-white' : 'text-black/60 dark:text-white/60'}>{selectedPurpose?.label || purposePlaceholderText}</span>
             <FaChevronDown aria-label='Toggle dropdown' className={`text-black/60 dark:text-white/60 ${openAbove ? 'rotate-180' : ''}`} />
         </div>
 
@@ -69,7 +65,7 @@ const SelectField = ({optionsList = options, placeholder = placeholderText, fiel
                         key={option.value}
                         onClick={() => handleSelect(option)}
                         className={`px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-[#202024] 
-                            dark:hover:text-secondary/70 ${selected?.value === option.value 
+                            dark:hover:text-secondary/70 ${selectedPurpose?.value === option.value 
                                 ? 'bg-gray-100 dark:bg-[#202024] font-semibold italic text-secondarylight dark:text-secondary' : 'text-black/80 dark:text-white/80'
                         }`}
                     >
