@@ -25,7 +25,6 @@ interface ProviderInfoType {
 
 interface FormDataType {
     authType: string;
-    providerData: ProviderInfoType | null;
     email: string;
     name: string;
     phone: string;
@@ -85,7 +84,6 @@ const Form = (props: Props) => {
     const [authInfo, setAuthInfo] = useState<ProviderInfoType | null>(null);
     const [formData, setFormData] = useState<FormDataType>({
         authType: selectedAuthType.value,
-        providerData: null,
         email: "",
         name: "",
         phone: "",
@@ -232,14 +230,23 @@ const Form = (props: Props) => {
         }
 
         // If no errors, proceed to submit
-        formData.providerData = authInfo;
+        // formData.providerData = authInfo;
         console.log("Submit formData:", formData);
+        const res = await fetch("/api/form/manual", {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+        });
+
+        const result = await res.json();
+        console.log("Submission result : ", result)
 
         setFormSubmissionCount(0);
         setSelectedPurpose(null);
         setFormData({
             authType: selectedAuthType.value,
-            providerData: authInfo,
             email: "",
             name: "",
             phone: "",

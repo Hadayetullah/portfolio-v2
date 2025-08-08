@@ -1,25 +1,23 @@
 'use server';
 
+import { cookies } from 'next/headers'
 import { auth } from "@/auth";
 
 export async function getProviderInfo() {
     const response = await auth();
-    console.log("Response : ", response);
-    return response;
+    console.log("Auth response server: ", response);
+    if (response) {
+      const expiresDate = new Date(response.expires);
+      if (expiresDate > new Date()) {
+        return response;
+      } else {
+        return null;
+      }
+    } else {
+      return null;
+    }
 }
 
-
-import { cookies } from 'next/headers'
-
-interface ProviderInfoType {
-  expires?: string
-  provider?: string
-  user?: {
-    email?: string | null
-    image?: string | null
-    name?: string | null
-  }
-}
 
 interface FormValues {
   name: string
