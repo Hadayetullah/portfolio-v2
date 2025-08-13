@@ -24,7 +24,7 @@ interface ProviderInfoType {
 }
 
 interface FormDataType {
-    authType: string;
+    provider: string;
     email: string;
     name: string;
     phone: string;
@@ -83,7 +83,7 @@ const Form = (props: Props) => {
 
     const [authInfo, setAuthInfo] = useState<ProviderInfoType | null>(null);
     const [formData, setFormData] = useState<FormDataType>({
-        authType: selectedAuthType.value,
+        provider: selectedAuthType.value,
         email: "",
         name: "",
         phone: "",
@@ -246,7 +246,7 @@ const Form = (props: Props) => {
         setFormSubmissionCount(0);
         setSelectedPurpose(null);
         setFormData({
-            authType: selectedAuthType.value,
+            provider: selectedAuthType.value,
             email: "",
             name: "",
             phone: "",
