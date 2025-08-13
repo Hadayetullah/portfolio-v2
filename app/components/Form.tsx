@@ -70,8 +70,9 @@ const Form = (props: Props) => {
     const [selectedPurpose, setSelectedPurpose] = useState<{label: string, value:string} | null>(null)
     const [formSubmissionCount, setFormSubmissionCount] = useState<number>(0);
     const [formSubmissionSuccess, setFormSubmissionSuccess] = useState<boolean>(false);
-    const [OTPStatus, setOTPStatus] = useState<boolean>(true);
+    const [OTPStatus, setOTPStatus] = useState<boolean>(false);
     const [OTPCode, setOTPCode] = useState<string>("");
+    const [OTPEmail, setOTPEmail] = useState<string>("");
     const [formInputErrors, setFormInputErrors] = useState<FormInputErrorsType>({
         verified: "",
         email: "",
@@ -242,6 +243,14 @@ const Form = (props: Props) => {
 
         const result = await res.json();
         console.log("Submission result : ", result)
+        if (result.success) {
+            const successData = result.data;
+            if (!successData.verified || !successData.active) {
+                setOTPEmail(successData.email);
+                setOTPStatus(true);
+            }
+        }
+        // console.log("Submission result : ", result)
 
         setFormSubmissionCount(0);
         setSelectedPurpose(null);
@@ -432,7 +441,7 @@ const Form = (props: Props) => {
         </form>
 
         {
-            OTPStatus && <OTPModal email={formData.email} onClose={() => setOTPStatus(false)} />
+            OTPStatus && <OTPModal email={OTPEmail} onClose={() => setOTPStatus(false)} />
         }
     </>
   )
