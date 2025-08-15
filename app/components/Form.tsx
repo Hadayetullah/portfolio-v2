@@ -24,7 +24,6 @@ interface ProviderInfoType {
 }
 
 interface FormDataType {
-    provider: string;
     email: string;
     name: string;
     phone: string;
@@ -84,7 +83,6 @@ const Form = (props: Props) => {
 
     const [authInfo, setAuthInfo] = useState<ProviderInfoType | null>(null);
     const [formData, setFormData] = useState<FormDataType>({
-        provider: selectedAuthType.value,
         email: "",
         name: "",
         phone: "",
@@ -238,7 +236,7 @@ const Form = (props: Props) => {
             headers: {
             "Content-Type": "application/json",
             },
-            body: JSON.stringify(formData),
+            body: JSON.stringify({providerType: selectedAuthType.value, formData: formData}),
         });
 
         const result = await res.json();
@@ -255,7 +253,6 @@ const Form = (props: Props) => {
         setFormSubmissionCount(0);
         setSelectedPurpose(null);
         setFormData({
-            provider: selectedAuthType.value,
             email: "",
             name: "",
             phone: "",

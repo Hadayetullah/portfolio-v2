@@ -2,14 +2,18 @@ import { NextRequest, NextResponse } from "next/server"
  
 export async function POST(request: Request) {
     try {
-        const formData = await request.json();
-        console.log("FormData route : ", formData)
-        const backendResponse = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_BASE_URL}/form/manual/`, {
+        const submissionData = await request.json();
+        const apiEndpoint = submissionData.providerType === "manual" ? '/form/manual/' : '/form/social/';
+        const domain = process.env.NEXT_PUBLIC_NODE_ENV === 'development' ? process.env.NEXT_PUBLIC_BACKEND_API_DEVELOPMENT_URL : process.env.NEXT_PUBLIC_BACKEND_API_PRODUCTION_URL;
+        const url = domain + apiEndpoint;
+        
+        submissionData.formData.provider = submissionData.providerType;
+        const backendResponse = await fetch(url, {
             method: "POST",
             headers: {
             "Content-Type": "application/json",
             },
-            body: JSON.stringify(formData),
+            body: JSON.stringify(submissionData.formData),
         })
 
         const data = await backendResponse.json();
