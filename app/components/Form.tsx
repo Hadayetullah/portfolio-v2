@@ -69,8 +69,10 @@ const Form = (props: Props) => {
     const [selectedPurpose, setSelectedPurpose] = useState<{label: string, value:string} | null>(null)
     const [formSubmissionCount, setFormSubmissionCount] = useState<number>(0);
     const [formSubmissionSuccess, setFormSubmissionSuccess] = useState<boolean>(false);
+
     const [OTPStatus, setOTPStatus] = useState<boolean>(false);
     const [OTPCode, setOTPCode] = useState<string>("");
+    const [OTPError, setOTPError] = useState<string>("");
     const [OTPEmail, setOTPEmail] = useState<string>("");
     const [formInputErrors, setFormInputErrors] = useState<FormInputErrorsType>({
         verified: "",
@@ -438,7 +440,7 @@ const Form = (props: Props) => {
         </form>
 
         {
-            OTPStatus && <OTPModal email={OTPEmail} onClose={() => setOTPStatus(false)} />
+            OTPStatus && <OTPModal OTPError={OTPError} email={OTPEmail} onClose={() => setOTPStatus(false)} />
         }
     </>
   )

@@ -1,5 +1,7 @@
 "use client";
 
+import clsx from 'clsx';
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 // import apiService from "@/app/actions/apiActions";
@@ -7,16 +9,18 @@ import { useRouter } from "next/navigation";
 // import { setCredentials } from "@/app/actions/serverActions";
 
 interface OTPModalProps {
+  OTPError: string;
   email: string;
   onClose: () => void;
 }
 
-const OTPModal: React.FC<OTPModalProps> = ({ email, onClose }) => {
+const OTPModal: React.FC<OTPModalProps> = ({ OTPError, email, onClose }) => {
   const router = useRouter();
 
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState<any>(null);
+  const OTPErrorStatus = OTPError.trim() != "";
 
   // const handleSubmit = async (e: React.FormEvent) => {
   //   e.preventDefault();
@@ -58,16 +62,33 @@ const OTPModal: React.FC<OTPModalProps> = ({ email, onClose }) => {
         handleError={() => setApiError(null)}
       /> */}
 
-      <div className="fixed inset-0 flex items-center justify-center bg-[#00000099] z-[150]">
+      <div className="fixed inset-0 flex items-center justify-center bg-[#00000099] z-[150] transition-all duration-150">
         <div className="w-full max-w-md p-8 space-y-6 bg-white rounded shadow-lg opacity-100">
           <h2 className="text-2xl font-bold text-center text-gray-900">
-            Verify OTP
+            OTP verification
+            {/* { OTPErrorStatus ? OTPError : "Verify OTP"} */}
           </h2>
 
-          <p className="text-sm text-center text-gray-600">
-            An OTP has been sent to your email address. Please enter the OTP to
-            verify your email address.
-          </p>
+          {
+            OTPErrorStatus ? 
+            (
+              <button onClick={onClose}
+                className={`w-full h-[40px] flex items-center justify-center text-white bg-green-600 rounded-lg hover:bg-green-700 focus:outline-none focus:bg-green-700 ${
+                    loading ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+                }`} 
+                disabled={loading}
+              >
+                Get a new OTP
+              </button>
+            )
+            :
+            (
+              <p className="text-sm text-center text-gray-600">
+                An OTP has been sent to your email address. Please enter the OTP to
+                verify your email address.
+              </p>
+            ) 
+          }
 
           <form className="space-y-4">
             <div>
@@ -92,9 +113,15 @@ const OTPModal: React.FC<OTPModalProps> = ({ email, onClose }) => {
             <div>
               <label
                 htmlFor="otp"
-                className="block text-sm font-medium text-gray-700"
+                // className="block text-sm font-medium text-gray-700"
+                className={clsx("block text-sm font-medium", 
+                  {
+                    "text-red-500": OTPErrorStatus,
+                    "text-gray-700": !OTPErrorStatus,
+                  },
+                )}
               >
-                OTP
+                {OTPErrorStatus ? OTPError : "OTP"}
               </label>
               <input
                 type="text"
@@ -104,7 +131,9 @@ const OTPModal: React.FC<OTPModalProps> = ({ email, onClose }) => {
                 onChange={(e) => setOtp(e.target.value)}
                 required 
                 autoComplete="off" 
-                className="w-full px-3 py-2 mt-1 border rounded shadow-sm outline-none"
+                className={clsx("w-full px-3 py-2 mt-1 border rounded shadow-sm outline-none", {
+                  "border-red-500": OTPErrorStatus,
+                })}
               />
             </div>
 
@@ -120,15 +149,17 @@ const OTPModal: React.FC<OTPModalProps> = ({ email, onClose }) => {
             </button>
           </form>
 
-          <button
-            onClick={onClose}
-            disabled={loading}
-            className={`w-full px-4 py-2 mt-4 text-sm font-semibold text-indigo-600 bg-transparent rounded hover:bg-gray-100 ${
-              loading ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
-            }`}
-          >
-            Cancel
-          </button>
+          <div className="w-full flex items-center justify-center">
+            <button
+              onClick={onClose}
+              disabled={loading}
+              className={`w-[150px] px-4 py-2 mt-4 text-sm font-semibold text-indigo-600 bg-transparent rounded hover:bg-gray-100 ${
+                loading ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+              }`}
+            >
+              Cancel
+            </button>
+          </div>
         </div>
       </div>
     </>

@@ -4,7 +4,13 @@ export async function POST(request: Request) {
     try {
         const submissionData = await request.json();
         const apiEndpoint = submissionData.providerType === "manual" ? '/form/manual/' : '/form/social/';
-        const domain = process.env.NEXT_PUBLIC_NODE_ENV === 'development' ? process.env.NEXT_PUBLIC_BACKEND_API_DEVELOPMENT_URL : process.env.NEXT_PUBLIC_BACKEND_API_PRODUCTION_URL;
+        
+        const environmentVariables = process.env;
+        const environment = environmentVariables.NEXT_PUBLIC_NODE_ENV;
+        const development = environmentVariables.NEXT_PUBLIC_BACKEND_API_DEVELOPMENT_URL;
+        const production = environmentVariables.NEXT_PUBLIC_BACKEND_API_PRODUCTION_URL;
+        
+        const domain = environment === 'development' ? development : production;
         const url = domain + apiEndpoint;
         
         submissionData.formData.provider = submissionData.providerType;
