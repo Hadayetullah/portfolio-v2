@@ -12,12 +12,14 @@ interface OTPModalProps {
   OTPError: string;
   email: string;
   onClose: () => void;
+  otp: string;
+  setOtp: (otp: string) => void;
+  handleSubmit: (e: React.FormEvent) => Promise<void>;
 }
 
-const OTPModal: React.FC<OTPModalProps> = ({ OTPError, email, onClose }) => {
+const OTPModal: React.FC<OTPModalProps> = ({ OTPError, email, onClose, otp, setOtp, handleSubmit }) => {
   const router = useRouter();
 
-  const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState<any>(null);
   const OTPErrorStatus = OTPError.trim() != "";
@@ -90,7 +92,7 @@ const OTPModal: React.FC<OTPModalProps> = ({ OTPError, email, onClose }) => {
             ) 
           }
 
-          <form className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label
                 htmlFor="email"
@@ -138,7 +140,7 @@ const OTPModal: React.FC<OTPModalProps> = ({ OTPError, email, onClose }) => {
             </div>
 
             <button
-              // onClick={handleSubmit}
+              onClick={handleSubmit}
               type="submit"
               className={`w-full px-4 py-2 text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700 ${
                 loading ? "opacity-50 cursor-not-allowed" : "cursor-pointer"

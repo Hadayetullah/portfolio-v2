@@ -71,7 +71,7 @@ const Form = (props: Props) => {
     const [formSubmissionSuccess, setFormSubmissionSuccess] = useState<boolean>(false);
 
     const [OTPStatus, setOTPStatus] = useState<boolean>(false);
-    const [OTPCode, setOTPCode] = useState<string>("");
+    const [otp, setOtp] = useState("");
     const [OTPError, setOTPError] = useState<string>("");
     const [OTPEmail, setOTPEmail] = useState<string>("");
     const [formInputErrors, setFormInputErrors] = useState<FormInputErrorsType>({
@@ -191,6 +191,12 @@ const Form = (props: Props) => {
         })
     }
 
+    const handleOTPModal = () => {
+        setOTPStatus(false);
+        setOTPEmail("");
+        setOtp("");
+    }
+
     // Handle social login
     const handleSocialLogin = async(e: React.FormEvent, provider: string) => {
         e.preventDefault();
@@ -233,12 +239,13 @@ const Form = (props: Props) => {
         // If no errors, proceed to submit
         // formData.providerData = authInfo;
         console.log("Submit formData:", formData);
-        const res = await fetch("/api/form/manual", {
+        const url = otp.trim() !== "" ? "/api/form/otp-verification" : "/api/form/manual";
+        const res = await fetch(url, {
             method: "POST",
             headers: {
             "Content-Type": "application/json",
             },
-            body: JSON.stringify({providerType: selectedAuthType.value, formData: formData}),
+            body: JSON.stringify({providerType: selectedAuthType.value, formData: formData, otp: otp}),
         });
 
         const result = await res.json();
@@ -248,19 +255,19 @@ const Form = (props: Props) => {
             if (!successData.verified || !successData.active) {
                 setOTPEmail(successData.email);
                 setOTPStatus(true);
+            } else {
+                setFormSubmissionCount(0);
+                setSelectedPurpose(null);
+                setFormData({
+                    email: "",
+                    name: "",
+                    phone: "",
+                    purpose: "",
+                    message: "",
+                });
             }
         }
         // console.log("Submission result : ", result)
-
-        setFormSubmissionCount(0);
-        setSelectedPurpose(null);
-        setFormData({
-            email: "",
-            name: "",
-            phone: "",
-            purpose: "",
-            message: "",
-        });
     };
 
 
@@ -440,7 +447,15 @@ const Form = (props: Props) => {
         </form>
 
         {
-            OTPStatus && <OTPModal OTPError={OTPError} email={OTPEmail} onClose={() => setOTPStatus(false)} />
+            OTPStatus && 
+            <OTPModal 
+                OTPError={OTPError} 
+                email={OTPEmail} 
+                onClose={() => handleOTPModal()} 
+                otp={otp} 
+                setOtp={setOtp} 
+                handleSubmit={handleSubmit} 
+            />
         }
     </>
   )
