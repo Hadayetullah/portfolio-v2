@@ -1,9 +1,14 @@
 import { NextRequest, NextResponse } from "next/server"
+import { getProviderInfo } from "@/app/actions/getAuthInfo";
  
 export async function POST(request: Request) {
     try {
         const submissionData = await request.json();
-        const apiEndpoint = submissionData.providerType === "manual" ? '/form/manual/' : '/form/social/';
+        let socialProviderInfo = null;
+        if (submissionData.providerType.trim() === "social") {
+            socialProviderInfo = await getProviderInfo();
+        }
+        const apiEndpoint = submissionData.providerType === "manual" ? '/form/signup/' : '/form/social/';
         
         const environmentVariables = process.env;
         const environment = environmentVariables.NEXT_PUBLIC_NODE_ENV;
@@ -14,6 +19,7 @@ export async function POST(request: Request) {
         const url = domain + apiEndpoint;
         
         submissionData.formData.provider = submissionData.providerType;
+        submissionData.formData.socialProviderInfo = socialProviderInfo;
         const backendResponse = await fetch(url, {
             method: "POST",
             headers: {

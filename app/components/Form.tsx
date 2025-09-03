@@ -239,7 +239,7 @@ const Form = (props: Props) => {
         // If no errors, proceed to submit
         // formData.providerData = authInfo;
         console.log("Submit formData:", formData);
-        const url = otp.trim() !== "" ? "/api/form/otp-verification" : "/api/form/manual";
+        const url = otp.trim() !== "" ? "/api/otp-verification" : "/api/form";
         const res = await fetch(url, {
             method: "POST",
             headers: {
