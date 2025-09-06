@@ -3,9 +3,19 @@
 import { cookies } from 'next/headers'
 import { auth } from "@/auth";
 
+interface ProviderInfoType {
+  expires?: string;
+  provider?: string;
+  user?: {
+    email?: string | null;
+    image?: string | null;
+    name?: string | null;
+  }
+}
+
 export async function getProviderInfo() {
     const response = await auth();
-    console.log("Auth response server: ", response);
+    console.log("Auth credential: ", response);
     if (response) {
       const expiresDate = new Date(response.expires);
       if (expiresDate > new Date()) {
@@ -15,6 +25,27 @@ export async function getProviderInfo() {
       }
     } else {
       return null;
+    }
+}
+
+export async function getAuthInfo() {
+    const response = await auth();
+    if (response) {
+      const expiresDate = new Date(response.expires);
+      if (expiresDate > new Date()) {
+        let newObj = {
+          provider: response.provider || "",
+          name: response.user?.name || "",
+          email: response.user?.email || ""
+        }
+
+        return newObj;
+
+      } else {
+        return "";
+      }
+    } else {
+      return "";
     }
 }
 

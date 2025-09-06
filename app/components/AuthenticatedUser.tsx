@@ -21,7 +21,7 @@ const AuthenticatedUser = (props: Props) => {
       >
         {
           props.providerInfo.map((item, index) => {
-            if (props.authInfo?.provider === item.provider) {
+            if (props.authInfo.provider === item.provider) {
               return (
                 <div key={index} className='h-full flex items-center'>
                   <span 
@@ -37,8 +37,8 @@ const AuthenticatedUser = (props: Props) => {
         }
 
         <div className='flex flex-col justify-center'>
-          <span className=''>{props.authInfo?.user?.name}</span>
-          <span className='text-xs xxs:text-sm'>{props.authInfo?.user?.email}</span>
+          <span className=''>{props.authInfo?.name}</span>
+          <span className='text-xs xxs:text-sm'>{props.authInfo?.email}</span>
         </div>
       </div>
 

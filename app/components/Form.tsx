@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import SelectField from './SelectField';
 import UserVerificationField from './UserVerificationField';
-import { deleteFormCookies, getFormCookies, getProviderInfo, setAuthAndFormCookies } from '../actions/getAuthInfo';
+import { deleteFormCookies, getFormCookies, getAuthInfo, setAuthAndFormCookies } from '../actions/getAuthInfo';
 import AuthenticatedUser from './AuthenticatedUser';
 import { socialLogin, socialLogout } from '../actions/SocialAuth';
 import OTPModal from './OTPModal';
@@ -13,14 +13,10 @@ type Props = {
     isDarkMode: boolean;
 }
 
-interface ProviderInfoType {
-  expires?: string;
-  provider?: string;
-  user?: {
-    email?: string | null;
-    image?: string | null;
-    name?: string | null;
-  }
+interface AuthInfoType {
+    provider: string;
+    name: string;
+    email: string;
 }
 
 interface FormDataType {
@@ -83,7 +79,7 @@ const Form = (props: Props) => {
         message: "",
     });
 
-    const [authInfo, setAuthInfo] = useState<ProviderInfoType | null>(null);
+    const [authInfo, setAuthInfo] = useState<AuthInfoType | null>(null);
     const [formData, setFormData] = useState<FormDataType>({
         email: "",
         name: "",
@@ -146,11 +142,11 @@ const Form = (props: Props) => {
     
     // Fetch authentication information when the component mounts
     useEffect(() => {
-        const authInfoPromise = getProviderInfo();
-        authInfoPromise.then((credentials) => {
-            console.log("Credentials : ", credentials);
-            if (credentials?.user) {
-                setAuthInfo(credentials);
+        const authInfoPromise = getAuthInfo();
+        authInfoPromise.then((credential) => {
+            console.log("credential : ", credential);
+            if (credential && credential.provider.trim() != "") {
+                setAuthInfo(credential);
             } else {
                 setAuthInfo(null);
             }
@@ -333,7 +329,7 @@ const Form = (props: Props) => {
                 }
 
                 {
-                    authInfo?.provider
+                    authInfo != null
                     ?
                     <AuthenticatedUser 
                         handleLogout={handleLogout} 

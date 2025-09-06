@@ -4,11 +4,12 @@ import { getProviderInfo } from "@/app/actions/getAuthInfo";
 export async function POST(request: Request) {
     try {
         const submissionData = await request.json();
-        let socialProviderInfo = null;
+        let provider_details = null;
         if (submissionData.providerType.trim() === "social") {
-            socialProviderInfo = await getProviderInfo();
+            provider_details = await getProviderInfo();
+            submissionData.formData.email = provider_details?.user?.email;
         }
-        const apiEndpoint = submissionData.providerType === "manual" ? '/form/signup/' : '/form/social/';
+        const apiEndpoint = submissionData.providerType === "manual" ? '/form/signup/' : '/form/process-message/';
         
         const environmentVariables = process.env;
         const environment = environmentVariables.NEXT_PUBLIC_NODE_ENV;
@@ -19,7 +20,7 @@ export async function POST(request: Request) {
         const url = domain + apiEndpoint;
         
         submissionData.formData.provider = submissionData.providerType;
-        submissionData.formData.socialProviderInfo = socialProviderInfo;
+        submissionData.formData.provider_details = provider_details;
         const backendResponse = await fetch(url, {
             method: "POST",
             headers: {
