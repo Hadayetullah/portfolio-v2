@@ -3,7 +3,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import SelectField from './SelectField';
 import UserVerificationField from './UserVerificationField';
-import { deleteFormCookies, getFormCookies, getAuthInfo, setAuthAndFormCookies } from '../actions/getAuthInfo';
+
+import { getAuthInfo, } from '../actions/getAuthInfo';
+import { setFormDataCookie, getFormCookie, setTmpFormDataCookie, getTmpFormCookie, deleteTmpFormCookie, deleteFormCookie } from '../actions/handleCookies';
+
 import AuthenticatedUser from './AuthenticatedUser';
 import { socialLogin, socialLogout } from '../actions/SocialAuth';
 import OTPModal from './OTPModal';
@@ -152,14 +155,21 @@ const Form = (props: Props) => {
             }
         })
 
-        const formValues = getFormCookies();
+        const formValues = getTmpFormCookie();
         formValues.then((result) => {
             if (result) {
               setFormData(result);  
-            } 
+              deleteTmpFormCookie();
+            } else {
+                const existingFormValues = getFormCookie();
+                existingFormValues.then((res) => {
+                    if (res) {
+                        setFormData(res);
+                    }
+                })
+            }
         })
 
-        deleteFormCookies();
     }, [])
 
     // Validate form data when formData or formSubmissionCount changes
@@ -196,7 +206,7 @@ const Form = (props: Props) => {
     // Handle social login
     const handleSocialLogin = async(e: React.FormEvent, provider: string) => {
         e.preventDefault();
-        await setAuthAndFormCookies(formData);
+        setTmpFormDataCookie(formData);
         await socialLogin(provider);
     }
 
@@ -235,6 +245,7 @@ const Form = (props: Props) => {
         // If no errors, proceed to submit
         // formData.providerData = authInfo;
         console.log("Submit formData:", formData);
+        
         const url = otp.trim() !== "" ? "/api/otp-verification" : "/api/form";
         const res = await fetch(url, {
             method: "POST",
@@ -254,13 +265,16 @@ const Form = (props: Props) => {
             } else {
                 setFormSubmissionCount(0);
                 setSelectedPurpose(null);
-                setFormData({
-                    email: "",
-                    name: "",
-                    phone: "",
-                    purpose: "",
-                    message: "",
-                });
+                let newUpdatedFormData = formData;
+                newUpdatedFormData.message = "";
+                setFormDataCookie(newUpdatedFormData);
+                // setFormData({
+                //     email: "",
+                //     name: "",
+                //     phone: "",
+                //     purpose: "",
+                //     message: "",
+                // });
             }
         }
         // console.log("Submission result : ", result)

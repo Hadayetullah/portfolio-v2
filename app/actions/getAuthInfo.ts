@@ -75,23 +75,23 @@ interface FormValues {
 // }
 
 
-export async function setAuthAndFormCookies(formValues: FormValues) {
-  const cookieStore = await cookies()
+// export async function setAuthAndFormCookies(formValues: FormValues) {
+//   const cookieStore = await cookies()
 
-  cookieStore.set('formValues', JSON.stringify(formValues), {
-    httpOnly: false,
-    path: '/',
-    // maxAge: 60 * 60 * 24 * 7,
-  })
-}
+//   cookieStore.set('formValues', JSON.stringify(formValues), {
+//     httpOnly: false,
+//     path: '/',
+//     // maxAge: 60 * 60 * 24 * 7,
+//   })
+// }
 
-export async function getFormCookies() {
-  const cookieStore = await cookies()
-  const formDataCookie = cookieStore.get('formValues')?.value
-  return formDataCookie ? JSON.parse(formDataCookie) : null
-}
+// export async function getFormCookies() {
+//   const cookieStore = await cookies()
+//   const formDataCookie = cookieStore.get('formValues')?.value
+//   return formDataCookie ? JSON.parse(formDataCookie) : null
+// }
 
-export async function deleteFormCookies() {
-    const cookieStore = await cookies();
-    cookieStore.delete('formValues');
-}
+// export async function deleteFormCookies() {
+//     const cookieStore = await cookies();
+//     cookieStore.delete('formValues');
+// }
