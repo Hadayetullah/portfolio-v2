@@ -67,7 +67,8 @@ const Form = (props: Props) => {
 
     const [selectedPurpose, setSelectedPurpose] = useState<{label: string, value:string} | null>(null)
     const [formSubmissionCount, setFormSubmissionCount] = useState<number>(0);
-    const [formSubmissionSuccess, setFormSubmissionSuccess] = useState<boolean>(false);
+    
+    const [tmpCookieStatus, setTmpCookieStatus] = useState<boolean>(false);
 
     const [OTPStatus, setOTPStatus] = useState<boolean>(false);
     const [otp, setOtp] = useState("");
@@ -142,6 +143,8 @@ const Form = (props: Props) => {
 
         return errors;
     };
+
+    const getPurposeObj = (value:string) => optionsList.filter((item) => item.value === value)[0];
     
     // Fetch authentication information when the component mounts
     useEffect(() => {
@@ -155,32 +158,35 @@ const Form = (props: Props) => {
             }
         })
 
-        const formValues = getTmpFormCookie();
-        formValues.then((result) => {
+        const tmpFormValues = getTmpFormCookie();
+        tmpFormValues.then((result) => {
+            console.log("tmpFormValues : ", result)
             if (result) {
+                let a = getPurposeObj(result.purpose);
+                console.log("getPurposeObj : ",a)
+                setSelectedPurpose(getPurposeObj(result.purpose));
               setFormData(result);  
               deleteTmpFormCookie();
             } else {
                 const existingFormValues = getFormCookie();
                 existingFormValues.then((res) => {
                     if (res) {
+                        setSelectedPurpose(getPurposeObj(res.purpose));
                         setFormData(res);
                     }
                 })
             }
         })
 
-    }, [])
+    }, [tmpCookieStatus]);
 
     // Validate form data when formData or formSubmissionCount changes
     useEffect(() => {
         if (formSubmissionCount > 0) {
-            if (!formSubmissionSuccess) {
-                const errors = validate(formData);
-                setFormInputErrors(errors);
-            }
+            const errors = validate(formData);
+            setFormInputErrors(errors);
         }
-    }, [formSubmissionSuccess, formData, formSubmissionCount]);
+    }, [formData]);
 
     // Handle form data change
     const handleChange = (e: any) => {
@@ -267,7 +273,15 @@ const Form = (props: Props) => {
                 setSelectedPurpose(null);
                 let newUpdatedFormData = formData;
                 newUpdatedFormData.message = "";
-                setFormDataCookie(newUpdatedFormData);
+                setFormData(newUpdatedFormData);
+                let formDataCookieSet = setFormDataCookie(newUpdatedFormData);
+                formDataCookieSet.then((res) => {
+                    console.log("Cookie set response : ", res)
+                    if (res) {
+                        setTmpCookieStatus(!tmpCookieStatus);
+                    }
+                })
+
                 // setFormData({
                 //     email: "",
                 //     name: "",

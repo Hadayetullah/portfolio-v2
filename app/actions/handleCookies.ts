@@ -65,7 +65,12 @@ export async function setFormDataCookie(formData: FormData) {
     path: '/',
     // maxAge: accessTokenExpiry > 0 ? accessTokenExpiry : 0,
   });
+
+  deleteTmpFormCookie();
+
+  return true;
 }
+
 
 export async function setTmpFormDataCookie(formData: FormData) {
   console.log("setTmpFormData : ", formData)
@@ -79,20 +84,22 @@ export async function setTmpFormDataCookie(formData: FormData) {
     path: '/',
     // maxAge: accessTokenExpiry > 0 ? accessTokenExpiry : 0,
   });
+
+  return true;
 }
 
 export async function getFormCookie() {
   const cookieStore = await cookies()
-  const formDataCookie = cookieStore.get('tmpFormData')?.value
+  const formDataCookie = cookieStore.get('formData')?.value
   console.log("formDataCookie : ", formDataCookie)
-  return formDataCookie ? JSON.parse(formDataCookie) : null
+  return formDataCookie && formDataCookie != undefined ? JSON.parse(formDataCookie) : null
 }
 
 export async function getTmpFormCookie() {
   const cookieStore = await cookies()
-  const formDataCookie = cookieStore.get('formData')?.value
+  const formDataCookie = cookieStore.get('tmpFormData')?.value
   console.log("getTmpFormCookie : ", formDataCookie)
-  return formDataCookie ? JSON.parse(formDataCookie) : null
+  return formDataCookie && formDataCookie != undefined ? JSON.parse(formDataCookie) : null
 }
 
 export async function validateAccessToken() {

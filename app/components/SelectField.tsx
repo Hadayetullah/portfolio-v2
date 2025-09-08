@@ -26,7 +26,7 @@ const SelectField = ({
     const handleSelect = (option:any) => {
         setSelectedPurpose(option);
         setIsOpen(false);
-        handlePurposeFieldChange(option.label);
+        handlePurposeFieldChange(option.value);
     }
 
     useEffect(() => {
