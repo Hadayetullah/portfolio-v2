@@ -19,7 +19,7 @@ interface FormData {
 //     // maxAge: 60 * 60 * 24 * 7, // 7 days
 //   })
 
-//   cookieStore.set('formData', JSON.stringify(formData), {
+//   cookieStore.set('form_data', JSON.stringify(formData), {
 //     httpOnly: false,
 //     path: '/',
 //     // maxAge: 60 * 60 * 24 * 7,
@@ -44,24 +44,40 @@ export async function setAccessToken(accessToken: string) {
   const accessTokenExpiry = decodedAccessToken.exp - currentTime;
 
   const environment = process.env;
+  const isProduction = environment.NEXT_PUBLIC_NODE_ENV === "production";
 
   cookieStore.set('access_token', accessToken, {
-    httpOnly: environment.NEXT_PUBLIC_NODE_ENV === 'production' ? true : false,
-    secure: environment.NEXT_PUBLIC_NODE_ENV === 'production' ? true : false,
+    httpOnly: isProduction,
+    secure: isProduction,
     path: '/',
     maxAge: accessTokenExpiry > 0 ? accessTokenExpiry : 0,
   })
 }
 
+export async function validateAccessToken() {
+  const cookieStore = await cookies()
+  const accessToken = cookieStore.get('access_token')?.value
+
+  if (accessToken && accessToken != undefined) {
+    const decodedAccessToken = await decodeToken(accessToken);
+    const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
+
+    const accessTokenExpiry = decodedAccessToken.exp - currentTime;
+    return accessTokenExpiry > 0 ? accessToken : null;
+  }
+
+  return null;
+}
+
 export async function setFormDataCookie(formData: FormData) {
-  console.log("setFormDataCookie : ", formData)
   const cookieStore = await cookies();
 
   const environment = process.env;
+  const isProduction = environment.NEXT_PUBLIC_NODE_ENV === "production";
 
-  cookieStore.set('formData', JSON.stringify(formData), {
-    httpOnly: environment.NEXT_PUBLIC_NODE_ENV === 'production' ? true : false,
-    secure: environment.NEXT_PUBLIC_NODE_ENV === 'production' ? true : false,
+  cookieStore.set('form_data', JSON.stringify(formData), {
+    httpOnly: isProduction,
+    secure: isProduction,
     path: '/',
     // maxAge: accessTokenExpiry > 0 ? accessTokenExpiry : 0,
   });
@@ -73,14 +89,14 @@ export async function setFormDataCookie(formData: FormData) {
 
 
 export async function setTmpFormDataCookie(formData: FormData) {
-  console.log("setTmpFormData : ", formData)
   const cookieStore = await cookies();
 
   const environment = process.env;
+  const isProduction = environment.NEXT_PUBLIC_NODE_ENV === "production";
 
-  cookieStore.set('tmpFormData', JSON.stringify(formData), {
-    httpOnly: environment.NEXT_PUBLIC_NODE_ENV === 'production' ? true : false,
-    secure: environment.NEXT_PUBLIC_NODE_ENV === 'production' ? true : false,
+  cookieStore.set('tmp_form_data', JSON.stringify(formData), {
+    httpOnly: isProduction,
+    secure: isProduction,
     path: '/',
     // maxAge: accessTokenExpiry > 0 ? accessTokenExpiry : 0,
   });
@@ -90,36 +106,24 @@ export async function setTmpFormDataCookie(formData: FormData) {
 
 export async function getFormCookie() {
   const cookieStore = await cookies()
-  const formDataCookie = cookieStore.get('formData')?.value
-  console.log("formDataCookie : ", formDataCookie)
+  const formDataCookie = cookieStore.get('form_data')?.value
   return formDataCookie && formDataCookie != undefined ? JSON.parse(formDataCookie) : null
 }
 
 export async function getTmpFormCookie() {
   const cookieStore = await cookies()
-  const formDataCookie = cookieStore.get('tmpFormData')?.value
-  console.log("getTmpFormCookie : ", formDataCookie)
+  const formDataCookie = cookieStore.get('tmp_form_data')?.value
   return formDataCookie && formDataCookie != undefined ? JSON.parse(formDataCookie) : null
-}
-
-export async function validateAccessToken() {
-  const cookieStore = await cookies()
-  const accessToken = cookieStore.get('access_token')?.value
-  const decodedAccessToken = await decodeToken(accessToken);
-  const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
-
-  const accessTokenExpiry = decodedAccessToken.exp - currentTime;
-  return accessTokenExpiry > 0 ? accessToken : null;
 }
 
 export async function deleteFormCookie() {
     const cookieStore = await cookies();
-    cookieStore.delete('formData');
+    cookieStore.delete('form_data');
 }
 
 export async function deleteTmpFormCookie() {
     const cookieStore = await cookies();
-    cookieStore.delete('tmpFormData');
+    cookieStore.delete('tmp_form_data');
 }
 
 export async function deleteAccessTokenCookie() {
