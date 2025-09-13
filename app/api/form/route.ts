@@ -1,25 +1,36 @@
 import { NextRequest, NextResponse } from "next/server"
 import { getProviderInfo } from "@/app/actions/getAuthInfo";
-import { setAccessToken, validateAccessToken } from "@/app/actions/handleCookies";
+import { setManualAccessToken, validateManualAccessToken } from "@/app/actions/handleCookies";
  
 export async function POST(request: Request) {
     try {
         const submissionData = await request.json();
-        let provider_details = null;
-        if (submissionData.providerType.trim() === "social") {
-            provider_details = await getProviderInfo();
-            submissionData.formData.email = provider_details?.user?.email;
-        }
-
-        const accessToken = await validateAccessToken();
-        const apiEndpoint = submissionData.providerType === "manual" && accessToken === null ? '/form/signup/' : '/form/process-message/';
-        
         const headers: Record<string, string> = {
             "Content-Type": "application/json",
         };
 
-        if (accessToken) {
-            headers["Authorization"] = `Bearer ${accessToken}`;
+        let provider_details = null;
+        let accessToken = null;
+
+        let apiEndpoint = "";
+        if (submissionData.providerType === "manual") {
+            accessToken = await validateManualAccessToken();
+            if (accessToken) {
+                apiEndpoint = '/form/process-message/';
+                headers["Authorization"] = `Bearer ${accessToken}`;
+            } else {
+                apiEndpoint = '/form/signup/';
+            }
+        } else if (submissionData.providerType.trim() === "social") {
+            apiEndpoint = '/form/process-message/';
+            provider_details = await getProviderInfo();
+            if (provider_details === null) {
+                return NextResponse.json({success: false, error: {error: "Something went wrong. Please sign in again"}});
+            }
+
+            console.log("accessToken : ", provider_details.accessToken)
+            headers["Authorization"] = `Bearer ${provider_details.accessToken}`;
+            submissionData.formData.email = provider_details?.user?.email;
         }
 
         const environmentVariables = process.env;
@@ -45,7 +56,7 @@ export async function POST(request: Request) {
         }
 
         if (data.token) {
-            await setAccessToken(data.token);
+            await setManualAccessToken(data.token);
         }
         return NextResponse.json({success: true, data: data});
 

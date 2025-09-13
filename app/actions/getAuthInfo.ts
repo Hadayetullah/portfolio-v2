@@ -15,9 +15,10 @@ interface ProviderInfoType {
 
 export async function getProviderInfo() {
     const response = await auth();
-    console.log("Auth credential: ", response);
+    console.log("Auth credential response server : ", response);
     if (response) {
       const expiresDate = new Date(response.expires);
+      console.log("expiresDate : ", expiresDate);
       if (expiresDate > new Date()) {
         return response;
       } else {

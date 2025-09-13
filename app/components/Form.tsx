@@ -151,7 +151,7 @@ const Form = (props: Props) => {
         const authInfoPromise = getAuthInfo();
         authInfoPromise.then((credential) => {
             console.log("credential : ", credential);
-            if (credential && credential.provider.trim() != "") {
+            if (credential && credential.provider.trim() != "" && credential.email.trim() != "") {
                 setAuthInfo(credential);
             } else {
                 setAuthInfo(null);

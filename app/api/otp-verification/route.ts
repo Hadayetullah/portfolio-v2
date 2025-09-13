@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { setAccessToken } from "@/app/actions/handleCookies";
+import { setManualAccessToken } from "@/app/actions/handleCookies";
  
 export async function POST(request: Request) {
     try {
@@ -38,7 +38,7 @@ export async function POST(request: Request) {
             return NextResponse.json({success: false, error: data});
         }
 
-        await setAccessToken(data.token);
+        await setManualAccessToken(data.token);
         return NextResponse.json({success: true, data: data});
 
     } catch (error) {

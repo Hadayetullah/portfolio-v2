@@ -11,6 +11,7 @@ declare module "next-auth" {
     provider?: string;
     accessToken?: string;
     error?: string;
+    accessTokenExpires?: number;
     user?: {
       name?: string | null;
       email?: string | null;
@@ -73,7 +74,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   callbacks: {
     // This runs during sign-in and on each JWT refresh
     async jwt({ token, account, profile, user }) {
-      console.log("🔑 JWT callback:");
+      // console.log("🔑 JWT callback:");
       // console.log("token:", token);
       // console.log("account:", account);
       // console.log("profile:", profile);
@@ -124,7 +125,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
     // This runs when session is checked (e.g., `useSession()`)
     async session({ session, token, user }) {
-      console.log("🟢 Session callback:");
+      // console.log("🟢 Session callback:");
       // console.log("session:", session);
       // console.log("token:", token);
       // console.log("user:", user);
@@ -133,6 +134,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       session.accessToken = token.accessToken as string;
       session.error = token.error as string;
       session.provider = token.provider as string;
+      session.accessTokenExpires = token.accessTokenExpires as number;
 
       return session;
     },

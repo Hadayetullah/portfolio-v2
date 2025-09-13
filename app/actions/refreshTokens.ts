@@ -2,12 +2,13 @@
 
 export async function refreshGoogleAccessToken(token: any) {
   try {
+    const environment = process.env;
     const response = await fetch("https://oauth2.googleapis.com/token", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams({
-        client_id: process.env.GOOGLE_CLIENT_ID!,
-        client_secret: process.env.GOOGLE_CLIENT_SECRET!,
+        client_id: environment.AUTH_GOOGLE_ID!,
+        client_secret: environment.AUTH_GOOGLE_SECRET!,
         grant_type: "refresh_token",
         refresh_token: token.refreshToken,
       }),
@@ -57,12 +58,13 @@ export async function refreshFacebookAccessToken(token: any) {
 
 export async function refreshGitHubAccessToken(token: any) {
   try {
+    const environment = process.env;
     const response = await fetch("https://github.com/login/oauth/access_token", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded", "Accept": "application/json" },
       body: new URLSearchParams({
-        client_id: process.env.GITHUB_CLIENT_ID!,
-        client_secret: process.env.GITHUB_CLIENT_SECRET!,
+        client_id: environment.AUTH_GITHUB_ID!,
+        client_secret: environment.AUTH_GITHUB_SECRET!,
         grant_type: "refresh_token",
         refresh_token: token.refreshToken,
       }),

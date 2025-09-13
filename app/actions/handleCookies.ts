@@ -35,7 +35,7 @@ export async function decodeToken(token:any) {
     return payload
 }
 
-export async function setAccessToken(accessToken: string) {
+export async function setManualAccessToken(accessToken: string) {
   const cookieStore = await cookies();
   const decodedAccessToken = await decodeToken(accessToken);
 
@@ -54,7 +54,7 @@ export async function setAccessToken(accessToken: string) {
   })
 }
 
-export async function validateAccessToken() {
+export async function validateManualAccessToken() {
   const cookieStore = await cookies()
   const accessToken = cookieStore.get('access_token')?.value
 
