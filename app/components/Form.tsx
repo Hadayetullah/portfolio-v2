@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import SelectField from './SelectField';
 import UserVerificationField from './UserVerificationField';
 
-import { getAuthInfo, } from '../actions/getAuthInfo';
+import { getAuthInfo, getSocialAuthInfo, } from '../actions/getAuthInfo';
 import { setFormDataCookie, getFormCookie, setTmpFormDataCookie, getTmpFormCookie, deleteTmpFormCookie, deleteFormCookie } from '../actions/handleCookies';
 
 import AuthenticatedUser from './AuthenticatedUser';
@@ -157,6 +157,8 @@ const Form = (props: Props) => {
                 setAuthInfo(null);
             }
         })
+
+        getSocialAuthInfo();
 
         const tmpFormValues = getTmpFormCookie();
         tmpFormValues.then((result) => {

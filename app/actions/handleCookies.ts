@@ -46,7 +46,7 @@ export async function setManualAccessToken(accessToken: string) {
   const environment = process.env;
   const isProduction = environment.NEXT_PUBLIC_NODE_ENV === "production";
 
-  cookieStore.set('access_token', accessToken, {
+  cookieStore.set('manual_access_token', accessToken, {
     httpOnly: isProduction,
     secure: isProduction,
     path: '/',
@@ -56,11 +56,26 @@ export async function setManualAccessToken(accessToken: string) {
 
 export async function validateManualAccessToken() {
   const cookieStore = await cookies()
-  const accessToken = cookieStore.get('access_token')?.value
+  const accessToken = cookieStore.get('manual_access_token')?.value
 
   if (accessToken && accessToken != undefined) {
     const decodedAccessToken = await decodeToken(accessToken);
     const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
+
+    const accessTokenExpiry = decodedAccessToken.exp - currentTime;
+    return accessTokenExpiry > 0 ? accessToken : null;
+  }
+
+  return null;
+}
+
+export async function validateProviderAccessToken(provider: string) {
+  const cookieStore = await cookies()
+  const accessToken = cookieStore.get(`${provider}_access_token`)?.value
+
+  if (accessToken && accessToken != undefined) {
+    const decodedAccessToken = await decodeToken(accessToken);
+    const currentTime = Math.floor(Date.now() / 1000) - 300; // Current time in seconds
 
     const accessTokenExpiry = decodedAccessToken.exp - currentTime;
     return accessTokenExpiry > 0 ? accessToken : null;
@@ -128,5 +143,5 @@ export async function deleteTmpFormCookie() {
 
 export async function deleteAccessTokenCookie() {
     const cookieStore = await cookies();
-    cookieStore.delete('access_token');
+    cookieStore.delete('manual_access_token');
 }
