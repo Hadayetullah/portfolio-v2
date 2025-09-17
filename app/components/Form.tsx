@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import SelectField from './SelectField';
 import UserVerificationField from './UserVerificationField';
 
-import { getAuthInfo, getSocialAuthInfo, } from '../actions/getAuthInfo';
+import { getSocialAuthInfo, getSocialInfo, } from '../actions/getAuthInfo';
 import { setFormDataCookie, getFormCookie, setTmpFormDataCookie, getTmpFormCookie, deleteTmpFormCookie, deleteFormCookie } from '../actions/handleCookies';
 
 import AuthenticatedUser from './AuthenticatedUser';
@@ -148,17 +148,15 @@ const Form = (props: Props) => {
     
     // Fetch authentication information when the component mounts
     useEffect(() => {
-        const authInfoPromise = getAuthInfo();
+        const authInfoPromise = getSocialInfo();
         authInfoPromise.then((credential) => {
             console.log("credential : ", credential);
-            if (credential && credential.provider.trim() != "" && credential.email.trim() != "") {
+            if (credential != null && credential.provider.trim() != "" && credential.email.trim() != "") {
                 setAuthInfo(credential);
             } else {
                 setAuthInfo(null);
             }
         })
-
-        getSocialAuthInfo();
 
         const tmpFormValues = getTmpFormCookie();
         tmpFormValues.then((result) => {

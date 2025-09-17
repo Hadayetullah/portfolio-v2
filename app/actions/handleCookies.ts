@@ -69,6 +69,26 @@ export async function validateManualAccessToken() {
   return null;
 }
 
+
+export async function setProviderAccessToken(provider: string, accessToken: string) {
+  const cookieStore = await cookies();
+  const decodedAccessToken = await decodeToken(accessToken);
+
+  const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
+
+  const accessTokenExpiry = decodedAccessToken.exp - currentTime;
+
+  const environment = process.env;
+  const isProduction = environment.NEXT_PUBLIC_NODE_ENV === "production";
+
+  cookieStore.set(`${provider}_access_token`, accessToken, {
+    httpOnly: isProduction,
+    secure: isProduction,
+    path: '/',
+    maxAge: accessTokenExpiry > 0 ? accessTokenExpiry : 0,
+  })
+}
+
 export async function validateProviderAccessToken(provider: string) {
   const cookieStore = await cookies()
   const accessToken = cookieStore.get(`${provider}_access_token`)?.value

@@ -1,6 +1,7 @@
 'use server';
 
 import { auth } from "@/auth";
+import { setProviderAccessToken, validateProviderAccessToken } from "./handleCookies";
 
 interface ProviderInfoType {
   expires?: string;
@@ -43,6 +44,7 @@ export async function verifySocialLogin(payload: SocialLoginPayload) {
     }
 
     console.log("social-verification response data : ", data);
+    setProviderAccessToken(payload.provider, data.access_token);
     return { success: true, data };
   } catch (error) {
     console.error("Error in verifySocialLogin:", error);
@@ -50,13 +52,12 @@ export async function verifySocialLogin(payload: SocialLoginPayload) {
   }
 }
 
-export async function getSocialAuthInfo() {
+export async function getSocialAccessToken() {
     const response = await auth();
-    console.log("Auth credential response server (getSocialAuthInfo) : ", response);
+    console.log("Auth credential response server (getSocialAccessToken) : ", response);
     if (response) {
-      const expiresDate = new Date(response.expires);
-      // console.log("expiresDate : ", expiresDate);
-      if (expiresDate < new Date()) {
+      const accessTokenExpiresDate = new Date(response.accessTokenExpires!);
+      if (accessTokenExpiresDate < new Date()) {
         const result = await verifySocialLogin({
           provider: response.provider!,
           access_token: response.accessToken!,
@@ -69,7 +70,25 @@ export async function getSocialAuthInfo() {
         }
 
         return response;
-      } else if (expiresDate > new Date()) {
+      } else if (accessTokenExpiresDate > new Date()) {
+        const providerAccessToken = validateProviderAccessToken(response.provider!);
+        if (providerAccessToken != null) {
+          return response;
+        } else {
+          const result = await verifySocialLogin({
+            provider: response.provider!,
+            access_token: response.accessToken!,
+          });
+
+          if (result.success) {
+            console.log("Verified (validateProviderAccessToken call) :", result.data);
+          } else {
+            console.error("Error (validateProviderAccessToken call) :", result.error);
+          }
+
+          return response;
+        }
+      } else {
         return null;
       }
     } else {
@@ -93,7 +112,89 @@ export async function getProviderInfo() {
     }
 }
 
-export async function getAuthInfo() {
+
+export async function getSocialInfo() {
+  let newObj = null;
+
+  const response = await auth();
+
+  console.log("Auth credential response server (getSocialAccessToken) : ", response);
+  if (response) {
+    // const expiresDate = new Date(response.expires);
+    const accessTokenExpiresDate = new Date(response.accessTokenExpires!);
+    // console.log("expiresDate : ", expiresDate.toISOString());
+    console.log("accessTokenExpiresDate : ", accessTokenExpiresDate);
+    // console.log("Present Date : ", new Date());
+    // console.log("Now : ", Date.now());
+    if (accessTokenExpiresDate < new Date()) {
+      console.log("accessTokenExpiresDate < new Date() : ", accessTokenExpiresDate)
+      const result = await verifySocialLogin({
+        provider: response.provider!,
+        access_token: response.accessToken!,
+      });
+
+      if (result.success) {
+        console.log("Verified:", result.data);
+        newObj = {
+          provider: response.provider || "",
+          name: response.user?.name || "",
+          email: response.user?.email || ""
+        }
+
+        return newObj;
+
+      } else {
+        console.error("Error:", result.error);
+        return newObj;
+      }
+
+    } else if (accessTokenExpiresDate > new Date()) {
+      console.log("accessTokenExpiresDate > new Date() : ", accessTokenExpiresDate);
+      const providerAccessToken = await validateProviderAccessToken(response.provider!);
+      if (providerAccessToken != null) {
+        console.log("providerAccessToken != null");
+        console.log("providerAccessToken : ", providerAccessToken);
+        let newObj = {
+          provider: response.provider || "",
+          name: response.user?.name || "",
+          email: response.user?.email || ""
+        }
+
+        return newObj;
+
+      } else {
+        console.log("providerAccessToken is null and verifySocialLogin should be called");
+        const result = await verifySocialLogin({
+          provider: response.provider!,
+          access_token: response.accessToken!,
+        });
+
+        if (result.success) {
+          console.log("Verified (validateProviderAccessToken call) :", result.data);
+          newObj = {
+            provider: response.provider || "",
+            name: response.user?.name || "",
+            email: response.user?.email || ""
+          }
+
+          return newObj;
+        } else {
+          console.error("Error (validateProviderAccessToken call) :", result.error);
+          return newObj;
+        }
+
+      }
+    } else {
+      console.log("newObj is null");
+      return newObj;
+    }
+  } else {
+    console.log("newObj is null");
+    return newObj;
+  }
+}
+
+export async function getSocialAuthInfo() {
     const response = await auth();
     if (response) {
       const expiresDate = new Date(response.expires);
@@ -114,49 +215,3 @@ export async function getAuthInfo() {
     }
 }
 
-
-interface FormValues {
-  name: string
-  phone: string
-  purpose: string
-  message: string
-}
-
-
-// export async function setAuthAndFormCookies(authInfo: AuthInfoType | null, formValues: FormValues) {
-//   const cookieStore = await cookies()
-
-//   cookieStore.set('authInfo', JSON.stringify(authInfo), {
-//     httpOnly: false,
-//     path: '/',
-//     // maxAge: 60 * 60 * 24 * 7, // 7 days
-//   })
-
-//   cookieStore.set('formValues', JSON.stringify(formValues), {
-//     httpOnly: false,
-//     path: '/',
-//     // maxAge: 60 * 60 * 24 * 7,
-//   })
-// }
-
-
-// export async function setAuthAndFormCookies(formValues: FormValues) {
-//   const cookieStore = await cookies()
-
-//   cookieStore.set('formValues', JSON.stringify(formValues), {
-//     httpOnly: false,
-//     path: '/',
-//     // maxAge: 60 * 60 * 24 * 7,
-//   })
-// }
-
-// export async function getFormCookies() {
-//   const cookieStore = await cookies()
-//   const formDataCookie = cookieStore.get('formValues')?.value
-//   return formDataCookie ? JSON.parse(formDataCookie) : null
-// }
-
-// export async function deleteFormCookies() {
-//     const cookieStore = await cookies();
-//     cookieStore.delete('formValues');
-// }

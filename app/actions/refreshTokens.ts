@@ -16,8 +16,14 @@ export async function refreshGoogleAccessToken(token: any) {
 
     const refreshedTokens = await response.json();
 
-    if (!response.ok) throw refreshedTokens;
+    // if (!response.ok) throw refreshedTokens;
+    if (!response.ok) {
+      console.error("Google refresh error:", refreshedTokens);
+      throw refreshedTokens;
+    }
 
+
+    // console.log("refreshedTokens : ", refreshedTokens);
     return {
       ...token,
       accessToken: refreshedTokens.access_token,
