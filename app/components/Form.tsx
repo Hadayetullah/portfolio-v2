@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import SelectField from './SelectField';
 import UserVerificationField from './UserVerificationField';
 
-import { getSocialAuthInfo, getSocialInfo, } from '../actions/getAuthInfo';
+import { getSocialInfo, } from '../actions/getAuthInfo';
 import { setFormDataCookie, getFormCookie, setTmpFormDataCookie, getTmpFormCookie, deleteTmpFormCookie, deleteFormCookie } from '../actions/handleCookies';
 
 import AuthenticatedUser from './AuthenticatedUser';
@@ -14,6 +14,7 @@ import OTPModal from './OTPModal';
 
 type Props = {
     isDarkMode: boolean;
+    activeSection: string;
 }
 
 interface AuthInfoType {
@@ -54,6 +55,7 @@ const optionsList = [
 ]
 
 const Form = (props: Props) => {
+    console.log("activeSection : ", props.activeSection);
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
     const purposePlaceholderText = 'Purpose';
 
@@ -62,6 +64,8 @@ const Form = (props: Props) => {
     const nameRef = useRef<HTMLDivElement>(null);
     const purposeRef = useRef<HTMLDivElement>(null);
     const messageRef = useRef<HTMLDivElement>(null);
+
+    const [hash, setHash] = useState("");
 
     const [selectedAuthType, setSelectedAuthType] = useState<{label: string, value:string}>(authOptionsList[0]);
 
@@ -145,40 +149,56 @@ const Form = (props: Props) => {
     };
 
     const getPurposeObj = (value:string) => optionsList.filter((item) => item.value === value)[0];
-    
+
+    useEffect(() => {
+        const handleHashChange = () => {
+            const currentHash = window.location.hash.replace("#", "");
+            if (currentHash === "contact") {
+                setHash(currentHash);
+            }
+        };
+
+        // Run on mount
+        handleHashChange();
+
+        // Listen for hash changes
+        window.addEventListener("hashchange", handleHashChange);
+        return () => window.removeEventListener("hashchange", handleHashChange);
+    }, []);
+  
     // Fetch authentication information when the component mounts
     useEffect(() => {
-        const authInfoPromise = getSocialInfo();
-        authInfoPromise.then((credential) => {
-            console.log("credential : ", credential);
-            if (credential != null && credential.provider.trim() != "" && credential.email.trim() != "") {
-                setAuthInfo(credential);
-            } else {
-                setAuthInfo(null);
-            }
-        })
+        if (props.activeSection === "contact" || hash === "contact") {
+            const authInfoPromise = getSocialInfo();
+            authInfoPromise.then((credential) => {
+                console.log("credential : ", credential);
+                if (credential != null && credential.provider.trim() != "" && credential.email.trim() != "") {
+                    setAuthInfo(credential);
+                } else {
+                    setAuthInfo(null);
+                }
+            })
 
-        const tmpFormValues = getTmpFormCookie();
-        tmpFormValues.then((result) => {
-            console.log("tmpFormValues : ", result)
-            if (result) {
-                let a = getPurposeObj(result.purpose);
-                console.log("getPurposeObj : ",a)
-                setSelectedPurpose(getPurposeObj(result.purpose));
-              setFormData(result);  
-              deleteTmpFormCookie();
-            } else {
-                const existingFormValues = getFormCookie();
-                existingFormValues.then((res) => {
-                    if (res) {
-                        setSelectedPurpose(getPurposeObj(res.purpose));
-                        setFormData(res);
-                    }
-                })
-            }
-        })
+            const tmpFormValues = getTmpFormCookie();
+            tmpFormValues.then((result) => {
+                console.log("tmpFormValues : ", result)
+                if (result) {
+                    setSelectedPurpose(getPurposeObj(result.purpose));
+                    setFormData(result);  
+                    deleteTmpFormCookie();
+                } else {
+                    const existingFormValues = getFormCookie();
+                    existingFormValues.then((res) => {
+                        if (res) {
+                            setSelectedPurpose(getPurposeObj(res.purpose));
+                            setFormData(res);
+                        }
+                    })
+                }
+            })
+        }
 
-    }, [tmpCookieStatus]);
+    }, [tmpCookieStatus, props.activeSection, hash]);
 
     // Validate form data when formData or formSubmissionCount changes
     useEffect(() => {
@@ -249,7 +269,6 @@ const Form = (props: Props) => {
         }
 
         // If no errors, proceed to submit
-        // formData.providerData = authInfo;
         console.log("Submit formData:", formData);
         
         const url = otp.trim() !== "" ? "/api/otp-verification" : "/api/form";
@@ -262,7 +281,7 @@ const Form = (props: Props) => {
         });
 
         const result = await res.json();
-        console.log("Submission result : ", result)
+        console.log("Form Submission result : ", result)
         if (result.success) {
             const successData = result.data;
             if (!successData.verified || !successData.active) {

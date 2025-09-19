@@ -118,16 +118,10 @@ export async function getSocialInfo() {
 
   const response = await auth();
 
-  console.log("Auth credential response server (getSocialAccessToken) : ", response);
   if (response) {
-    // const expiresDate = new Date(response.expires);
     const accessTokenExpiresDate = new Date(response.accessTokenExpires!);
-    // console.log("expiresDate : ", expiresDate.toISOString());
-    console.log("accessTokenExpiresDate : ", accessTokenExpiresDate);
-    // console.log("Present Date : ", new Date());
-    // console.log("Now : ", Date.now());
+    
     if (accessTokenExpiresDate < new Date()) {
-      console.log("accessTokenExpiresDate < new Date() : ", accessTokenExpiresDate)
       const result = await verifySocialLogin({
         provider: response.provider!,
         access_token: response.accessToken!,
@@ -149,11 +143,8 @@ export async function getSocialInfo() {
       }
 
     } else if (accessTokenExpiresDate > new Date()) {
-      console.log("accessTokenExpiresDate > new Date() : ", accessTokenExpiresDate);
       const providerAccessToken = await validateProviderAccessToken(response.provider!);
       if (providerAccessToken != null) {
-        console.log("providerAccessToken != null");
-        console.log("providerAccessToken : ", providerAccessToken);
         let newObj = {
           provider: response.provider || "",
           name: response.user?.name || "",
@@ -163,7 +154,6 @@ export async function getSocialInfo() {
         return newObj;
 
       } else {
-        console.log("providerAccessToken is null and verifySocialLogin should be called");
         const result = await verifySocialLogin({
           provider: response.provider!,
           access_token: response.accessToken!,
@@ -185,33 +175,11 @@ export async function getSocialInfo() {
 
       }
     } else {
-      console.log("newObj is null");
       return newObj;
     }
   } else {
-    console.log("newObj is null");
     return newObj;
   }
 }
 
-export async function getSocialAuthInfo() {
-    const response = await auth();
-    if (response) {
-      const expiresDate = new Date(response.expires);
-      if (expiresDate > new Date()) {
-        let newObj = {
-          provider: response.provider || "",
-          name: response.user?.name || "",
-          email: response.user?.email || ""
-        }
-
-        return newObj;
-
-      } else {
-        return "";
-      }
-    } else {
-      return "";
-    }
-}
 

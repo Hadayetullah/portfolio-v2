@@ -7,5 +7,13 @@ import { SessionProvider } from "next-auth/react"
 import { ReactNode } from "react"
 
 export default function SessionProviderWrapper({ children }: { children: ReactNode }) {
-  return <SessionProvider>{children}</SessionProvider>
+  return (
+    <SessionProvider
+      refetchOnWindowFocus={false}   // stops calls when switching tabs
+      refetchInterval={0}           // disable polling (default: 0 = no interval)
+      refetchWhenOffline={false}    // don’t refetch when offline/online changes
+    >
+      {children}
+    </SessionProvider>
+  )
 }

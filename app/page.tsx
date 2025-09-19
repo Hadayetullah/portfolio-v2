@@ -34,7 +34,7 @@ export default function Home() {
       document.documentElement.classList.remove('dark');
       localStorage.theme = '';
     }
-  }, [isDarkMode])
+  }, [isDarkMode]);
 
 
   const sectionRefs = {
@@ -74,7 +74,7 @@ export default function Home() {
       {
         // root: null, // viewport
         // rootMargin: '0px',
-        threshold: 0.5, // 50% of section should be visible
+        threshold: 0.3, // 30% of section should be visible
       }
     );
 
@@ -98,7 +98,7 @@ export default function Home() {
       <Resume id={"resume"} ref={sectionRefs.resume} isDarkMode={isDarkMode} />
       <MyWork id={"work"} ref={sectionRefs.work} isDarkMode={isDarkMode} />
       {/* <Contact id={"contact"} ref={sectionRefs.contact} isDarkMode={isDarkMode} /> */}
-      <Contactme id={"contact"} ref={sectionRefs.contact} isDarkMode={isDarkMode} />
+      <Contactme id={"contact"} ref={sectionRefs.contact} isDarkMode={isDarkMode} activeSection={activeSection} />
       <Footer isDarkMode={isDarkMode} />
     </>
   );
