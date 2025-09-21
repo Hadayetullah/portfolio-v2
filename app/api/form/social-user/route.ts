@@ -1,47 +1,38 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getProviderInfo } from "@/app/actions/getAuthInfo";
-import { setManualAccessToken, validateManualAccessToken } from "@/app/actions/handleCookies";
+import { getProviderDetails } from "@/app/actions/getAuthInfo";
+import { setProviderAccessToken } from "@/app/actions/handleCookies";
  
 export async function POST(request: Request) {
     try {
         const submissionData = await request.json();
+        const providerType = submissionData.providerType;
+
+        const provider_details = await getProviderDetails();
+
+        console.log("provider_details in social-user route : ", provider_details);
+
+        if (providerType.trim() != "social" && provider_details === null) {
+            return NextResponse.json({success: false, error: {error: "Something went wrong. Please sign in again"}});
+        }
+
         const headers: Record<string, string> = {
             "Content-Type": "application/json",
         };
 
-        let provider_details = null;
-        let accessToken = null;
-
-        let apiEndpoint = "";
-        if (submissionData.providerType === "manual") {
-            accessToken = await validateManualAccessToken();
-            if (accessToken) {
-                apiEndpoint = '/form/process-message/';
-                headers["Authorization"] = `Bearer ${accessToken}`;
-            } else {
-                apiEndpoint = '/form/signup/';
-            }
-        } else if (submissionData.providerType.trim() === "social") {
-            apiEndpoint = '/form/process-message/';
-            provider_details = await getProviderInfo();
-            if (provider_details === null) {
-                return NextResponse.json({success: false, error: {error: "Something went wrong. Please sign in again"}});
-            }
-
-            console.log("accessToken : ", provider_details.accessToken)
-            headers["Authorization"] = `Bearer ${provider_details.accessToken}`;
-            submissionData.formData.email = provider_details?.user?.email;
-        }
+        console.log("accessToken : ", provider_details?.accessToken)
+        headers["Authorization"] = `Bearer ${provider_details?.accessToken}`;
+        submissionData.formData.email = provider_details?.user?.email;
 
         const environmentVariables = process.env;
         const environment = environmentVariables.NEXT_PUBLIC_NODE_ENV;
         const development = environmentVariables.NEXT_PUBLIC_BACKEND_API_DEVELOPMENT_URL;
         const production = environmentVariables.NEXT_PUBLIC_BACKEND_API_PRODUCTION_URL;
         
+        const apiEndpoint = '/form/process-message/';
         const domain = environment === 'development' ? development : production;
         const url = domain + apiEndpoint;
         
-        submissionData.formData.provider = submissionData.providerType;
+        submissionData.formData.provider = providerType;
         submissionData.formData.provider_details = provider_details;
         const backendResponse = await fetch(url, {
             method: "POST",
@@ -56,7 +47,7 @@ export async function POST(request: Request) {
         }
 
         if (data.token) {
-            await setManualAccessToken(data.token);
+            await setProviderAccessToken(providerType, data.token);
         }
         return NextResponse.json({success: true, data: data});
 

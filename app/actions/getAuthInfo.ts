@@ -44,7 +44,7 @@ export async function verifySocialLogin(payload: SocialLoginPayload) {
     }
 
     console.log("social-verification response data : ", data);
-    setProviderAccessToken(payload.provider, data.access_token);
+    await setProviderAccessToken(payload.provider, data.access_token);
     return { success: true, data };
   } catch (error) {
     console.error("Error in verifySocialLogin:", error);
@@ -52,9 +52,9 @@ export async function verifySocialLogin(payload: SocialLoginPayload) {
   }
 }
 
-export async function getSocialAccessToken() {
+export async function getProviderDetails() {
     const response = await auth();
-    console.log("Auth credential response server (getSocialAccessToken) : ", response);
+    console.log("Auth credential response server (getProviderDetails) : ", response);
     if (response) {
       const accessTokenExpiresDate = new Date(response.accessTokenExpires!);
       if (accessTokenExpiresDate < new Date()) {
@@ -71,9 +71,17 @@ export async function getSocialAccessToken() {
 
         return response;
       } else if (accessTokenExpiresDate > new Date()) {
-        const providerAccessToken = validateProviderAccessToken(response.provider!);
+        const providerAccessToken = await validateProviderAccessToken(response.provider!);
+        console.log("providerAccessToken status : ", providerAccessToken);
         if (providerAccessToken != null) {
-          return response;
+          console.log("Response portion of providerAccessToken : ", response);
+          // Validate access_token sent from backend, created by simple JWT. If valid, return response.
+          // Else call verifySocialLogin function to verify and get new access_token. (Tomorrow's task)
+          let newObj = {
+            ...response,
+            nonProviderAccessToken: providerAccessToken
+          }
+          return newObj;
         } else {
           const result = await verifySocialLogin({
             provider: response.provider!,

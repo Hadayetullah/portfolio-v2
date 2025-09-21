@@ -271,13 +271,25 @@ const Form = (props: Props) => {
         // If no errors, proceed to submit
         console.log("Submit formData:", formData);
         
-        const url = otp.trim() !== "" ? "/api/otp-verification" : "/api/form";
+        let url = "";
+        let dataObj = {};
+        if (otp.trim() !== "" && selectedAuthType.value === 'manual') {
+            url = "/api/otp-verification";
+            dataObj = {providerType: selectedAuthType.value, formData: formData, otp: otp};
+        } else if (otp.trim() === "" && selectedAuthType.value === 'manual') {
+            url = "/api/form/manual-user";
+            dataObj = {providerType: selectedAuthType.value, formData: formData};
+        } else if (selectedAuthType.value === 'social') {
+            url = "/api/form/social-user";
+            dataObj = {providerType: selectedAuthType.value, formData: formData};
+        }
+
         const res = await fetch(url, {
             method: "POST",
             headers: {
             "Content-Type": "application/json",
             },
-            body: JSON.stringify({providerType: selectedAuthType.value, formData: formData, otp: otp}),
+            body: JSON.stringify(dataObj),
         });
 
         const result = await res.json();
