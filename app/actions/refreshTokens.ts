@@ -79,6 +79,8 @@ export async function refreshGitHubAccessToken(token: any) {
 
     const refreshedTokens = await response.json();
 
+    console.log("refreshGitHubAccessToken response from auth.ts calls in the refreshTokens.ts : ", refreshedTokens)
+
     if (!response.ok) throw refreshedTokens;
 
     return {
@@ -92,4 +94,14 @@ export async function refreshGitHubAccessToken(token: any) {
     return { ...token, error: "RefreshAccessTokenError" as const };
   }
 }
+
+
+/* 
+ GitHub Error:
+ refreshGitHubAccessToken response from auth.ts calls in the refreshTokens.ts :  {
+  error: 'bad_refresh_token',
+  error_description: 'The refresh token passed is incorrect or expired.',
+  error_uri: 'https://docs.github.com/apps/managing-oauth-apps/troubleshooting-oauth-app-access-token-request-errors/#bad-verification-code'
+}
+*/
 

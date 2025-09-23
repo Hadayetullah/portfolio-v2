@@ -7,11 +7,15 @@ export async function POST(request: Request) {
         const submissionData = await request.json();
         const providerType = submissionData.providerType;
 
+        if (providerType.trim() != "social") {
+            return NextResponse.json({success: false, error: {error: "Something went wrong. Please sign in again"}});
+        }
+
         const provider_details = await getProviderDetails();
 
         console.log("provider_details in social-user route : ", provider_details);
 
-        if (providerType.trim() != "social" && provider_details === null) {
+        if (provider_details === null) {
             return NextResponse.json({success: false, error: {error: "Something went wrong. Please sign in again"}});
         }
 
@@ -19,8 +23,8 @@ export async function POST(request: Request) {
             "Content-Type": "application/json",
         };
 
-        console.log("accessToken : ", provider_details?.accessToken)
-        headers["Authorization"] = `Bearer ${provider_details?.accessToken}`;
+        console.log("appAccessToken : ", provider_details?.appAccessToken)
+        headers["Authorization"] = `Bearer ${provider_details?.appAccessToken}`;
         submissionData.formData.email = provider_details?.user?.email;
 
         const environmentVariables = process.env;
