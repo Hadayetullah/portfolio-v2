@@ -15,7 +15,7 @@ declare module "next-auth" {
     user?: {
       name?: string | null;
       email?: string | null;
-      image?: string | null;
+      picture?: string | null;
     };
   }
 
@@ -23,18 +23,20 @@ declare module "next-auth" {
     // Custom field added to JWT token object
     provider?: string;
     accessToken?: string;
-    refreshToken?: string;
+    refreshToken?: string | null;
     accessTokenExpires?: number;
     error?: string;
     user?: {
       name?: string | null;
       email?: string | null;
-      image?: string | null;
+      picture?: string | null;
     }
   }
 }
 
 // ✅ NextAuth configuration
+let accountObj = {} as any;
+let isTokenObjTaken = false;
 export const { handlers, auth, signIn, signOut } = NextAuth({
   // OAuth Providers: Google, Facebook, GitHub
   providers: [
@@ -80,37 +82,38 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       // console.log("profile:", profile);
       // console.log("user:", user);
 
-      if (account && user) {
-        const typedUser = user as {
+      if (account != undefined) {
+        accountObj = account;
+      }
+      console.log("accountObj : ", accountObj);
+      
+      if (token && token.exp && isTokenObjTaken === false) {
+        console.log("accountObj : ", accountObj);
+        // isTokenObjTaken = true; // To prevent overwriting on subsequent calls
+        const typedUser = token as {
           name?: string | null;
           email?: string | null;
-          image?: string | null;
+          picture?: string | null;
         };
 
-        token.accessToken = account.access_token;
-        token.refreshToken = account.refresh_token;
-        token.accessTokenExpires = Date.now() + (account.expires_in ? account.expires_in * 1000 : 0);
-        token.provider = account.provider;
+        token.accessToken = accountObj?.access_token;
+        token.refreshToken = accountObj?.refresh_token ?? null;
+        token.provider = accountObj.provider;
+        token.accessTokenExpires = Date.now() + token.exp;
         token.user = {
           name: typedUser.name ?? null,
           email: typedUser.email ?? null,
-          image: typedUser.image ?? null,
+          picture: typedUser.picture ?? null,
         };
 
         return token;
-      }
-
+      };
 
       // If token still valid, return it
       if (Date.now() < (token.accessTokenExpires as number)) {
         console.log("token still valid");
         return token;
       }
-
-      // Otherwise refresh based on provider
-      // if (token.provider === "google") return await refreshGoogleAccessToken(token);
-      // if (token.provider === "facebook") return await refreshFacebookAccessToken(token);
-      // if (token.provider === "github") return await refreshGitHubAccessToken(token);
 
       switch (token.provider) {
         case "google":
@@ -136,6 +139,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       session.error = token.error as string;
       session.provider = token.provider as string;
       session.accessTokenExpires = token.accessTokenExpires as number;
+
+      console.log("session : ", session)
 
       return session;
     },

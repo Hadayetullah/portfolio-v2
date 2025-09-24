@@ -1,7 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-provider-callbacks-response.txt
-provider-callbacks-response1.txt
+provider-callbacks-response-google.txt
+provider-callbacks-response-facebook.txt
+provider-callbacks-response-github.txt
 
 # dependencies
 /node_modules
