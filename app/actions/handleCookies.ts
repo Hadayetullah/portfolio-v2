@@ -70,7 +70,7 @@ export async function validateManualAccessToken() {
 }
 
 
-export async function setProviderAccessToken(provider: string, accessToken: string) {
+export async function setAppAccessToken(provider: string, accessToken: string) {
   const cookieStore = await cookies();
   const decodedAccessToken = await decodeToken(accessToken);
 

@@ -2,7 +2,7 @@ import NextAuth, { type DefaultSession } from "next-auth"
 import Google from "next-auth/providers/google"
 import Facebook from "next-auth/providers/facebook"
 import GitHub from "next-auth/providers/github"
-import { refreshFacebookAccessToken, refreshGitHubAccessToken, refreshGoogleAccessToken } from "./app/actions/refreshTokens"
+import { refreshFacebookAccessToken, refreshGoogleAccessToken } from "./app/actions/refreshTokens"
 
 // ✅ Module augmentation to extend the types for Session and JWT
 declare module "next-auth" {
@@ -11,11 +11,12 @@ declare module "next-auth" {
     provider?: string;
     accessToken?: string;
     error?: string;
-    accessTokenExpires?: number;
+    accessTokenExpires?: number | null;
     user?: {
+      id?: string | null;
       name?: string | null;
       email?: string | null;
-      picture?: string | null;
+      image?: string | null;
     };
   }
 
@@ -23,20 +24,19 @@ declare module "next-auth" {
     // Custom field added to JWT token object
     provider?: string;
     accessToken?: string;
-    refreshToken?: string | null;
-    accessTokenExpires?: number;
+    refreshToken?: string;
+    accessTokenExpires: number | null;
     error?: string;
     user?: {
+      id?: string | null;
       name?: string | null;
       email?: string | null;
-      picture?: string | null;
+      image?: string | null;
     }
   }
 }
 
 // ✅ NextAuth configuration
-let accountObj = {} as any;
-let isTokenObjTaken = false;
 export const { handlers, auth, signIn, signOut } = NextAuth({
   // OAuth Providers: Google, Facebook, GitHub
   providers: [
@@ -82,46 +82,48 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       // console.log("profile:", profile);
       // console.log("user:", user);
 
-      if (account != undefined) {
-        accountObj = account;
-      }
-      console.log("accountObj : ", accountObj);
-      
-      if (token && token.exp && isTokenObjTaken === false) {
-        console.log("accountObj : ", accountObj);
-        // isTokenObjTaken = true; // To prevent overwriting on subsequent calls
-        const typedUser = token as {
-          name?: string | null;
-          email?: string | null;
-          picture?: string | null;
-        };
+      if (account) {
+        token.accessToken = account.access_token;
+        token.refreshToken = account.refresh_token ?? null;
+        token.provider = account.provider;
 
-        token.accessToken = accountObj?.access_token;
-        token.refreshToken = accountObj?.refresh_token ?? null;
-        token.provider = accountObj.provider;
-        token.accessTokenExpires = Date.now() + token.exp;
+        // For providers that give expires_at
+        if (account?.expires_at) {
+          token.accessTokenExpires = account.expires_at * 1000; // convert to ms
+        } else {
+          // GitHub: no expiry, treat as never expiring
+          token.accessTokenExpires = null;
+        }
+
         token.user = {
-          name: typedUser.name ?? null,
-          email: typedUser.email ?? null,
-          picture: typedUser.picture ?? null,
+          name: user?.name ?? null,
+          email: user?.email ?? null,
+          picture: user?.image ?? null,
         };
-
-        return token;
-      };
-
-      // If token still valid, return it
-      if (Date.now() < (token.accessTokenExpires as number)) {
-        console.log("token still valid");
         return token;
       }
+
+      // If provider has expiry, check it
+      // console.log("Provider and token expires : ", token.provider, new Date(typeof token.accessTokenExpires === "number" ? token.accessTokenExpires : 0));
+      if (typeof token.accessTokenExpires === "number" && Date.now() < token.accessTokenExpires) {
+        // console.log("Provider and token expires : ", token.provider, new Date(token.accessTokenExpires));
+        return token; // Still valid
+      }
+
+
+      // GitHub has no expiry -> always valid
+      if (token.provider === "github") {
+        return token;
+      }
+
 
       switch (token.provider) {
         case "google":
           return await refreshGoogleAccessToken(token)
         case "facebook":
           return await refreshFacebookAccessToken(token)
-        case "github":
-          return await refreshGitHubAccessToken(token)
+        // case "github":
+        //   return await refreshGitHubAccessToken(token)
         default:
           return token
       }
@@ -139,8 +141,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       session.error = token.error as string;
       session.provider = token.provider as string;
       session.accessTokenExpires = token.accessTokenExpires as number;
-
-      console.log("session : ", session)
 
       return session;
     },

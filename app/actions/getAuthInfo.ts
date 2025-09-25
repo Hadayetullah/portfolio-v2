@@ -1,8 +1,7 @@
 'use server';
 
 import { auth } from "@/auth";
-import { setProviderAccessToken, validateProviderAccessToken } from "./handleCookies";
-import { refreshFacebookAccessToken, refreshGitHubAccessToken, refreshGoogleAccessToken } from "./refreshTokens";
+import { setAppAccessToken, validateProviderAccessToken } from "./handleCookies";
 
 interface ProviderInfoType {
   expires?: string;
@@ -42,11 +41,12 @@ export async function verifySocialLogin(payload: SocialLoginPayload) {
     const data = await res.json();
 
     if (!res.ok) {
+      console.log("social-verification response data : ", data);
       return { success: false, error: data };
     }
 
     console.log("social-verification response data : ", data);
-    await setProviderAccessToken(payload.provider, data.access_token);
+    await setAppAccessToken(payload.provider, data.access_token);
     return { success: true, data };
   } catch (error) {
     console.error("Error in verifySocialLogin:", error);
@@ -56,18 +56,11 @@ export async function verifySocialLogin(payload: SocialLoginPayload) {
 
 export async function getProviderDetails() {
     const response = await auth();
-    console.log("Auth credential response server (getProviderDetails) : ", response);
+    
     if (response?.provider) {
-      const accessTokenExpiresDate = new Date(response.accessTokenExpires!);
-      if (accessTokenExpiresDate < new Date()) {
-        return null;
-      } else if (accessTokenExpiresDate > new Date()) {
+      if (response.provider === 'github') {
         const appAccessToken = await validateProviderAccessToken(response.provider!);
-        console.log("providerAccessToken status : ", appAccessToken);
         if (appAccessToken != null) {
-          console.log("Response portion of appAccessToken : ", response);
-          // Validate access_token sent from backend, created by simple JWT. If valid, return response.
-          // Else call verifySocialLogin function to verify and get new access_token. (Tomorrow's task)
           let newObj = {
             ...response,
             appAccessToken: appAccessToken
@@ -82,7 +75,41 @@ export async function getProviderDetails() {
 
           if (result.success) {
             // console.log("Verified (validateProviderAccessToken call) :", result.data);
-            await setProviderAccessToken(response.provider!, result.data.access_token);
+            await setAppAccessToken(response.provider!, result.data.access_token);
+
+            let newObj = {
+              ...response,
+              appAccessToken: result.data.access_token
+            }
+            return newObj;
+          } else {
+            console.error("Error (validateProviderAccessToken call) :", result.error);
+            return null;
+          }
+        }
+      }
+
+      const accessTokenExpiresDate = new Date(response.accessTokenExpires!);
+      if (accessTokenExpiresDate < new Date()) {
+        return null;
+      } else if (accessTokenExpiresDate > new Date()) {
+        const appAccessToken = await validateProviderAccessToken(response.provider!);
+        if (appAccessToken != null) {
+          let newObj = {
+            ...response,
+            appAccessToken: appAccessToken
+          }
+          return newObj;
+        } else {
+          const result = await verifySocialLogin({
+            provider: response.provider!,
+            access_token: response.accessToken!,
+            provider_details: response!,
+          });
+
+          if (result.success) {
+            // console.log("Verified (validateProviderAccessToken call) :", result.data);
+            await setAppAccessToken(response.provider!, result.data.access_token);
 
             let newObj = {
               ...response,
@@ -125,6 +152,16 @@ export async function getSocialInfo() {
   const response = await auth();
 
   if (response) {
+    if (response.provider === 'github') {
+      let newObj = {
+        provider: response.provider || "",
+        name: response.user?.name || "",
+        email: response.user?.email || ""
+      }
+
+      return newObj;
+    }
+    
     const accessTokenExpiresDate = new Date(response.accessTokenExpires!);
     
     if (accessTokenExpiresDate < new Date()) {
@@ -150,7 +187,7 @@ export async function getSocialInfo() {
 
         if (result.success) {
           // console.log("Verified (validateProviderAccessToken call) :", result.data);
-          await setProviderAccessToken(response.provider!, result.data.access_token);
+          await setAppAccessToken(response.provider!, result.data.access_token);
           newObj = {
             provider: response.provider || "",
             name: response.user?.name || "",

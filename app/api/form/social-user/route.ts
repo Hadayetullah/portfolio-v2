@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server"
 import { getProviderDetails } from "@/app/actions/getAuthInfo";
-import { setProviderAccessToken } from "@/app/actions/handleCookies";
  
 export async function POST(request: Request) {
     try {
         const submissionData = await request.json();
         const providerType = submissionData.providerType;
+        console.log("Provider type : ", providerType);
 
         if (providerType.trim() != "social") {
             return NextResponse.json({success: false, error: {error: "Something went wrong. Please sign in again"}});
@@ -23,7 +23,6 @@ export async function POST(request: Request) {
             "Content-Type": "application/json",
         };
 
-        console.log("appAccessToken : ", provider_details?.appAccessToken)
         headers["Authorization"] = `Bearer ${provider_details?.appAccessToken}`;
         submissionData.formData.email = provider_details?.user?.email;
 
@@ -36,7 +35,7 @@ export async function POST(request: Request) {
         const domain = environment === 'development' ? development : production;
         const url = domain + apiEndpoint;
         
-        submissionData.formData.provider = providerType;
+        submissionData.formData.provider = provider_details.provider;
         submissionData.formData.provider_details = provider_details;
         const backendResponse = await fetch(url, {
             method: "POST",
@@ -50,9 +49,6 @@ export async function POST(request: Request) {
             return NextResponse.json({success: false, error: data});
         }
 
-        if (data.token) {
-            await setProviderAccessToken(providerType, data.token);
-        }
         return NextResponse.json({success: true, data: data});
 
     } catch (error) {

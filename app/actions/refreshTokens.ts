@@ -16,13 +16,13 @@ export async function refreshGoogleAccessToken(token: any) {
 
     const refreshedTokens = await response.json();
 
-    console.log("refreshedTokens response from auth.ts calls : ", refreshedTokens);
-
+    
     // if (!response.ok) throw refreshedTokens;
     if (!response.ok) {
       console.error("Google refresh error:", refreshedTokens);
       throw refreshedTokens;
     }
+    console.log("refreshGoogleAccessToken response from auth.ts calls : ", refreshedTokens);
 
 
     return {
@@ -38,17 +38,27 @@ export async function refreshGoogleAccessToken(token: any) {
 }
 
 
-
 export async function refreshFacebookAccessToken(token: any) {
   try {
-    const response = await fetch("https://graph.facebook.com/v23.0/oauth/access_token", {
-      method: "GET", // Facebook requires GET here
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    });
+    const environment = process.env;
+    const url = new URL("https://graph.facebook.com/v23.0/oauth/access_token");
+    url.search = new URLSearchParams({
+      grant_type: "fb_exchange_token",
+      client_id: environment.AUTH_FACEBOOK_ID!,
+      client_secret: environment.AUTH_FACEBOOK_SECRET!,
+      fb_exchange_token: token.accessToken, // exchange current token
+    }).toString();
 
+    const response = await fetch(url.toString(), { method: "GET" });
     const refreshedTokens = await response.json();
 
-    if (!response.ok) throw refreshedTokens;
+    
+    if (!response.ok) {
+      console.error("Facebook refresh error:", refreshedTokens);
+      throw refreshedTokens;
+    }
+    
+    console.log("refreshFacebookAccessToken response from auth.ts calls : ", refreshedTokens);
 
     return {
       ...token,
@@ -63,45 +73,35 @@ export async function refreshFacebookAccessToken(token: any) {
 
 
 
-export async function refreshGitHubAccessToken(token: any) {
-  try {
-    const environment = process.env;
-    const response = await fetch("https://github.com/login/oauth/access_token", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded", "Accept": "application/json" },
-      body: new URLSearchParams({
-        client_id: environment.AUTH_GITHUB_ID!,
-        client_secret: environment.AUTH_GITHUB_SECRET!,
-        grant_type: "refresh_token",
-        refresh_token: token.refreshToken,
-      }),
-    });
+// export async function refreshGitHubAccessToken(token: any) {
+//   try {
+//     const environment = process.env;
+//     const response = await fetch("https://github.com/login/oauth/access_token", {
+//       method: "POST",
+//       headers: { "Content-Type": "application/x-www-form-urlencoded", "Accept": "application/json" },
+//       body: new URLSearchParams({
+//         client_id: environment.AUTH_GITHUB_ID!,
+//         client_secret: environment.AUTH_GITHUB_SECRET!,
+//         grant_type: "refresh_token",
+//         refresh_token: token.refreshToken,
+//       }),
+//     });
 
-    const refreshedTokens = await response.json();
+//     const refreshedTokens = await response.json();
 
-    console.log("refreshGitHubAccessToken response from auth.ts calls in the refreshTokens.ts : ", refreshedTokens)
+//     console.log("refreshGitHubAccessToken response from auth.ts calls in the refreshTokens.ts : ", refreshedTokens)
 
-    if (!response.ok) throw refreshedTokens;
+//     if (!response.ok) throw refreshedTokens;
 
-    return {
-      ...token,
-      accessToken: refreshedTokens.access_token,
-      accessTokenExpires: Date.now() + refreshedTokens.expires_in * 1000,
-      refreshToken: refreshedTokens.refresh_token ?? token.refreshToken,
-    };
-  } catch (error) {
-    console.error("Error refreshing GitHub access token", error);
-    return { ...token, error: "RefreshAccessTokenError" as const };
-  }
-}
-
-
-/* 
- GitHub Error:
- refreshGitHubAccessToken response from auth.ts calls in the refreshTokens.ts :  {
-  error: 'bad_refresh_token',
-  error_description: 'The refresh token passed is incorrect or expired.',
-  error_uri: 'https://docs.github.com/apps/managing-oauth-apps/troubleshooting-oauth-app-access-token-request-errors/#bad-verification-code'
-}
-*/
+//     return {
+//       ...token,
+//       accessToken: refreshedTokens.access_token,
+//       accessTokenExpires: Date.now() + refreshedTokens.expires_in * 1000,
+//       refreshToken: refreshedTokens.refresh_token ?? token.refreshToken,
+//     };
+//   } catch (error) {
+//     console.error("Error refreshing GitHub access token", error);
+//     return { ...token, error: "RefreshAccessTokenError" as const };
+//   }
+// }
 
