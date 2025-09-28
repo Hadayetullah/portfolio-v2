@@ -15,6 +15,8 @@ import OTPModal from './OTPModal';
 type Props = {
     isDarkMode: boolean;
     activeSection: string;
+    setNotifiableMessage: (value: string) => void;
+    setMessageModal: (value: boolean) => void;
 }
 
 interface AuthInfoType {
@@ -297,11 +299,15 @@ const Form = (props: Props) => {
         if (result.success) {
             const successData = result.data;
             if (!successData.verified || !successData.active) {
-                setOTPEmail(successData.email);
                 setOTPStatus(true);
+                setOTPEmail(successData.email);
             } else {
+                props.setNotifiableMessage(successData.message);
+                props.setMessageModal(true);
+                setOTPStatus(false);
+                setOTPEmail("");
                 setFormSubmissionCount(0);
-                setSelectedPurpose(null);
+                // setSelectedPurpose(null);
                 let newUpdatedFormData = formData;
                 newUpdatedFormData.message = "";
                 setFormData(newUpdatedFormData);
@@ -321,6 +327,9 @@ const Form = (props: Props) => {
                 //     message: "",
                 // });
             }
+        } else {
+            props.setNotifiableMessage(result.error?.error);
+            props.setMessageModal(true);
         }
         // console.log("Submission result : ", result)
     };

@@ -11,10 +11,14 @@ import { useEffect, useRef, useState } from "react";
 import Resume from "./components/Resume";
 import MyWork from "./components/MyWork";
 import Contactme from "./components/Contactme";
+import NotifyMessageModal from "./components/NotifyMessageModal";
 
 export default function Home() {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
   const [activeSection, setActiveSection] = useState<string>("home");
+
+  const [notifiableMessage, setNotifiableMessage] = useState<string>("");
+  const [messageModal, setMessageModal] = useState<boolean>(false);
 
   useEffect(() => {
     // console.log("First : ", localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches))
@@ -88,6 +92,11 @@ export default function Home() {
   };
   }, []);
 
+  const handleMessageModal = () => {
+    setMessageModal(false);
+    setNotifiableMessage("");
+  }
+
 
   return (
     <>
@@ -98,8 +107,24 @@ export default function Home() {
       <Resume id={"resume"} ref={sectionRefs.resume} isDarkMode={isDarkMode} />
       <MyWork id={"work"} ref={sectionRefs.work} isDarkMode={isDarkMode} />
       {/* <Contact id={"contact"} ref={sectionRefs.contact} isDarkMode={isDarkMode} /> */}
-      <Contactme id={"contact"} ref={sectionRefs.contact} isDarkMode={isDarkMode} activeSection={activeSection} />
+      <Contactme 
+        id={"contact"} 
+        ref={sectionRefs.contact} 
+        isDarkMode={isDarkMode} 
+        activeSection={activeSection} 
+        setNotifiableMessage={setNotifiableMessage} 
+        setMessageModal={setMessageModal} 
+      />
       <Footer isDarkMode={isDarkMode} />
+
+      {
+          messageModal && (
+              <NotifyMessageModal 
+                  message={notifiableMessage} 
+                  handleMessageModal={handleMessageModal}
+              />
+          )
+      }
     </>
   );
 }

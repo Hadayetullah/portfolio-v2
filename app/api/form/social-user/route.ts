@@ -13,8 +13,6 @@ export async function POST(request: Request) {
 
         const provider_details = await getProviderDetails();
 
-        console.log("provider_details in social-user route : ", provider_details);
-
         if (provider_details === null) {
             return NextResponse.json({success: false, error: {error: "Something went wrong. Please sign in again"}});
         }

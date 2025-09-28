@@ -9,6 +9,8 @@ type Props = {
     id: string;
     ref: ForwardedRef<HTMLDivElement>;
     activeSection: string;
+    setNotifiableMessage: (value: string) => void;
+    setMessageModal: (value: boolean) => void;
 }
 
 // Contact information array
@@ -92,7 +94,12 @@ const Contactme = (props: Props) => {
 
             {/* Form component */}
             <div>
-              <Form isDarkMode={props.isDarkMode} activeSection={props.activeSection} />
+              <Form 
+                isDarkMode={props.isDarkMode} 
+                activeSection={props.activeSection} 
+                setNotifiableMessage={props.setNotifiableMessage} 
+                setMessageModal={props.setMessageModal} 
+              />
             </div>
           </div>
         </div>

@@ -41,11 +41,9 @@ export async function verifySocialLogin(payload: SocialLoginPayload) {
     const data = await res.json();
 
     if (!res.ok) {
-      console.log("social-verification response data : ", data);
       return { success: false, error: data };
     }
 
-    console.log("social-verification response data : ", data);
     await setAppAccessToken(payload.provider, data.access_token);
     return { success: true, data };
   } catch (error) {
