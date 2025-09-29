@@ -21,9 +21,9 @@ export async function POST(request: Request) {
         } 
 
         const environmentVariables = process.env;
-        const environment = environmentVariables.NEXT_PUBLIC_NODE_ENV;
-        const development = environmentVariables.NEXT_PUBLIC_BACKEND_API_DEVELOPMENT_URL;
-        const production = environmentVariables.NEXT_PUBLIC_BACKEND_API_PRODUCTION_URL;
+        const environment = environmentVariables.NODE_ENV;
+        const development = environmentVariables.BACKEND_API_DEVELOPMENT_URL;
+        const production = environmentVariables.BACKEND_API_PRODUCTION_URL;
         
         const domain = environment === 'development' ? development : production;
         const url = domain + apiEndpoint;

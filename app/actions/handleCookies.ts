@@ -44,7 +44,7 @@ export async function setManualAccessToken(accessToken: string) {
   const accessTokenExpiry = decodedAccessToken.exp - currentTime;
 
   const environment = process.env;
-  const isProduction = environment.NEXT_PUBLIC_NODE_ENV === "production";
+  const isProduction = environment.NODE_ENV === "production";
 
   cookieStore.set('manual_access_token', accessToken, {
     httpOnly: isProduction,
@@ -79,7 +79,7 @@ export async function setAppAccessToken(provider: string, accessToken: string) {
   const accessTokenExpiry = decodedAccessToken.exp - currentTime;
 
   const environment = process.env;
-  const isProduction = environment.NEXT_PUBLIC_NODE_ENV === "production";
+  const isProduction = environment.NODE_ENV === "production";
 
   cookieStore.set(`${provider}_access_token`, accessToken, {
     httpOnly: isProduction,
@@ -108,7 +108,7 @@ export async function setFormDataCookie(formData: FormData) {
   const cookieStore = await cookies();
 
   const environment = process.env;
-  const isProduction = environment.NEXT_PUBLIC_NODE_ENV === "production";
+  const isProduction = environment.NODE_ENV === "production";
 
   cookieStore.set('form_data', JSON.stringify(formData), {
     httpOnly: isProduction,
@@ -127,7 +127,7 @@ export async function setTmpFormDataCookie(formData: FormData) {
   const cookieStore = await cookies();
 
   const environment = process.env;
-  const isProduction = environment.NEXT_PUBLIC_NODE_ENV === "production";
+  const isProduction = environment.NODE_ENV === "production";
 
   cookieStore.set('tmp_form_data', JSON.stringify(formData), {
     httpOnly: isProduction,
