@@ -17,6 +17,7 @@ type Props = {
     activeSection: string;
     setNotifiableMessage: (value: string) => void;
     setMessageModal: (value: boolean) => void;
+    setNotifiableMessageSuccess: (value: boolean) => void;
 }
 
 interface AuthInfoType {
@@ -303,6 +304,7 @@ const Form = (props: Props) => {
                 setOTPEmail(successData.email);
             } else {
                 props.setNotifiableMessage(successData.message);
+                props.setNotifiableMessageSuccess(true);
                 props.setMessageModal(true);
                 setOTPStatus(false);
                 setOTPEmail("");
@@ -329,6 +331,7 @@ const Form = (props: Props) => {
             }
         } else {
             props.setNotifiableMessage(result.error?.error);
+            props.setNotifiableMessageSuccess(false);
             props.setMessageModal(true);
         }
         // console.log("Submission result : ", result)

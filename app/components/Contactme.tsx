@@ -11,6 +11,7 @@ type Props = {
     activeSection: string;
     setNotifiableMessage: (value: string) => void;
     setMessageModal: (value: boolean) => void;
+    setNotifiableMessageSuccess: (value: boolean) => void;
 }
 
 // Contact information array
@@ -99,6 +100,7 @@ const Contactme = (props: Props) => {
                 activeSection={props.activeSection} 
                 setNotifiableMessage={props.setNotifiableMessage} 
                 setMessageModal={props.setMessageModal} 
+                setNotifiableMessageSuccess={props.setNotifiableMessageSuccess}
               />
             </div>
           </div>

@@ -19,6 +19,7 @@ export default function Home() {
 
   const [notifiableMessage, setNotifiableMessage] = useState<string>("");
   const [messageModal, setMessageModal] = useState<boolean>(false);
+  const [notifiableMessageSuccess, setNotifiableMessageSuccess] = useState<boolean>(false);
 
   useEffect(() => {
     // console.log("First : ", localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches))
@@ -92,6 +93,22 @@ export default function Home() {
   };
   }, []);
 
+  useEffect(() => {
+    let timeoutId: ReturnType<typeof setTimeout>;
+    if (messageModal) {
+      timeoutId = setTimeout(() => {
+        setMessageModal(false);
+        setNotifiableMessage("");
+      }, 3000);
+    }
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    }
+  }, [messageModal])
+
   const handleMessageModal = () => {
     setMessageModal(false);
     setNotifiableMessage("");
@@ -114,12 +131,14 @@ export default function Home() {
         activeSection={activeSection} 
         setNotifiableMessage={setNotifiableMessage} 
         setMessageModal={setMessageModal} 
+        setNotifiableMessageSuccess={setNotifiableMessageSuccess}
       />
       <Footer isDarkMode={isDarkMode} />
 
       {
           messageModal && (
               <NotifyMessageModal 
+                  notifiableMessageSuccess={notifiableMessageSuccess} 
                   message={notifiableMessage} 
                   handleMessageModal={handleMessageModal}
               />
