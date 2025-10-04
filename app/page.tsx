@@ -122,7 +122,8 @@ export default function Home() {
       {/* <About id={"about"} ref={sectionRefs.about} isDarkMode={isDarkMode} /> */}
       <Services id={"services"} ref={sectionRefs.services} isDarkMode={isDarkMode} />
       <Resume id={"resume"} ref={sectionRefs.resume} isDarkMode={isDarkMode} />
-      <MyWork id={"work"} ref={sectionRefs.work} isDarkMode={isDarkMode} />
+      {/* MyWork temporary comment */}
+      {/* <MyWork id={"work"} ref={sectionRefs.work} isDarkMode={isDarkMode} /> */}
       {/* <Contact id={"contact"} ref={sectionRefs.contact} isDarkMode={isDarkMode} /> */}
       <Contactme 
         id={"contact"} 

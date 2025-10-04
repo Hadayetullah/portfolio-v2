@@ -101,8 +101,18 @@ export const workData = [
 ]
 
 export const serviceData = [
-    { icon: frontendSvgIcon, title: 'Frontend Development', description: 'Web development is the process of building, programming...', link: '' },
-    { icon: backendSvgIcon, title: 'Backend Development', description: 'Web development is the process of building, programming...', link: '' },
+    { 
+        icon: frontendSvgIcon, 
+        title: 'Frontend Development', 
+        description: 'I specialize in creating modern, user-friendly, and performance-driven web interfaces that make a strong impact on users. Whether it\'s a landing page, a full website, or a complex web application, I focus on delivering an experience that is both visually appealing and highly functional.', 
+        link: '' 
+    },
+    { 
+        icon: backendSvgIcon, 
+        title: 'Backend Development', 
+        description: 'I build reliable and scalable backend systems that power your applications securely and efficiently. From small business websites to data-intensive platforms, I ensure smooth functionality behind the scenes.', 
+        link: '' 
+    },
 ]
 
 // export const serviceData = [
@@ -113,7 +123,7 @@ export const serviceData = [
 // ]
 
 export const infoList = [
-    { icon: assets.code_icon, iconDark: assets.code_icon_dark, title: 'Languages', description: 'HTML, CSS, JavaScript React Js, Next Js' },
+    { icon: assets.code_icon, iconDark: assets.code_icon_dark, title: 'Languages', description: 'HTML, CSS, JavaScript, React Js, Next Js' },
     { icon: assets.edu_icon, iconDark: assets.edu_icon_dark, title: 'Education', description: 'BSc in Computer Science and Engineering' },
     { icon: assets.project_icon, iconDark: assets.project_icon_dark, title: 'Projects', description: 'Built more than 5 projects' }
 ];

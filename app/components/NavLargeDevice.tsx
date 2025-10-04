@@ -116,13 +116,14 @@ const NavLargeDevice = ({ isScrolled, activeSection }: Props) => {
             >
                 <a className='font-ovo cursor-pointer px-4 py-1' href="#resume">Resume</a>
             </li>
-            <li 
+            {/* Temporary comment */}
+            {/* <li 
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
                 className={`${activeSection === "work" ? "bg-secondarylight text-white dark:bg-transparent dark:border-[0.5px] dark:border-secondarydark dark:text-secondarydark italic font-medium" : ""} rounded-[8px]`}
             >
                 <a className='font-ovo cursor-pointer px-4 py-1' href="#work">My Work</a>
-            </li>
+            </li> */}
             <li 
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}

@@ -20,7 +20,7 @@ const experience = {
         {
             company: "Self-directed learning and practicing journey",
             position: "Web development",
-            duration: "2019 - Present"
+            duration: "2018 - Present"
         },
     ]
 };

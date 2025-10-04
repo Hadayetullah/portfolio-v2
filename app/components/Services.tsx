@@ -34,7 +34,7 @@ const Services = (props: Props) => {
         transition={{ duration: 1 }}
         id={props.id} 
         ref={props.ref} 
-        className='container py-10 scroll-mt-20'
+        className='container mt-1 py-10 scroll-mt-20'
     >
         {/* Subheading */}
         <motion.h4 
@@ -77,7 +77,8 @@ const Services = (props: Props) => {
                 serviceData.map(({icon, title, description, link}, index) => (
                     <motion.div 
                         whileHover={{ scale: 1 }}
-                        key={index}
+                        key={index} 
+                        role='button'
                         className='border border-gray-400 rounded-lg px-2 xxs:px-8 py-6 xxs:py-12 hover:shadow-shadowblack 
                         cursor-pointer hover:-translate-y-1 duration-300 dark:hover:shadow-white'
                     >
@@ -87,7 +88,7 @@ const Services = (props: Props) => {
 
                         <h3 className='text-lg my-3 xxs:my-5 dark:text-white'>{title}</h3>
 
-                        <p className='text-sm text-gray-600 leading-5 dark:text-white/80'>{description}</p>
+                        <p className='text-sm sm:text-base lg:text-lg text-gray-600 leading-5 dark:text-white/80'>{description}</p>
 
                         <a 
                             href={link}

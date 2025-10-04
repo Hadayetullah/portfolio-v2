@@ -20,6 +20,11 @@ const education = {
             duration: "Passing year - 2014"
         },
         {
+            institution: "Alokdia Islamia Model Madrasha",
+            degree: "Junior Dakhil Certificate (JDC)",
+            duration: "Passing year - 2012"
+        },
+        {
             institution: "Online Course (Bohubrihi)",
             degree: "Full Stack Web Development",
             duration: "2020 - 2021"
