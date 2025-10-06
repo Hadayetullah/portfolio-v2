@@ -35,7 +35,6 @@ import right_arrow from './right-arrow.png';
 import send_icon from './send-icon.png';
 import right_arrow_bold from './right-arrow-bold.png';
 import right_arrow_bold_dark from './right-arrow-bold-dark.png';
-import { backendSvgIcon, frontendSvgIcon } from './svgIcons';
 
 export const assets = {
     user_image,
@@ -102,16 +101,56 @@ export const workData = [
 
 export const serviceData = [
     { 
-        icon: frontendSvgIcon, 
         title: 'Frontend Development', 
         description: 'I specialize in creating modern, user-friendly, and performance-driven web interfaces that make a strong impact on users. Whether it\'s a landing page, a full website, or a complex web application, I focus on delivering an experience that is both visually appealing and highly functional.', 
-        link: '' 
+        modalData: [
+            {
+                title: 'Responsive Web Design:',
+                description: 'Ensuring your site looks and works flawlessly across all devices and screen sizes.'
+            },
+            {
+                title: 'Interactive Interfaces:',
+                description: 'Using React.js, Next.js, and TypeScript to build fast, dynamic, and engaging user experiences.'
+            },
+            {
+                title: 'Styling & UI Frameworks:',
+                description: 'Implementing sleek designs with CSS3, Tailwind CSS, and custom components.'
+            },
+            {
+                title: 'State Management:',
+                description: 'Structuring scalable applications with Redux for smooth data flow and performance.'
+            },
+            {
+                title: 'Performance & SEO Optimization:',
+                description: 'Making websites faster, more accessible, and search engine-friendly.'
+            },
+        ],
     },
     { 
-        icon: backendSvgIcon, 
         title: 'Backend Development', 
         description: 'I build reliable and scalable backend systems that power your applications securely and efficiently. From small business websites to data-intensive platforms, I ensure smooth functionality behind the scenes.', 
-        link: '' 
+        modalData: [
+            {
+                title: 'API Development & Integration:',
+                description: 'Designing and implementing RESTful APIs using Django REST Framework or FastAPI to connect frontend with backend seamlessly.'
+            },
+            {
+                title: 'Database Management:',
+                description: 'Structuring, optimizing, and maintaining relational databases with PostgreSQL and SQLite for reliable data storage.'
+            },
+            {
+                title: 'Authentication & Security:',
+                description: 'Implementing secure login systems with JWT, safeguarding sensitive user data.'
+            },
+            {
+                title: 'Business Logic & Automation:',
+                description: 'Writing clean, maintainable code to handle custom workflows, data processing, and backend operations.'
+            },
+            {
+                title: 'Deployment & Hosting:',
+                description: 'Configuring servers, deploying apps, and optimizing performance on platforms like AWS, DigitalOcean, or Heroku.'
+            },
+        ],
     },
 ]
 
