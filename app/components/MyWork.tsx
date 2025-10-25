@@ -16,13 +16,13 @@ const hashTags = ["#UnderDevelopment", "#SelfPracticed"];
 
 const projects = [
     {
-        num: "02",
+        num: "01",
         category: "Frontend",
         title: "Project two",
         description: 
         "A modern point-of-sale (POS) dashboard enabling product, customer and transaction tracking, with live sales interface, inventory control and responsive analytics for rapid retail management.",
-        note: "",
-        stack: ["HTML", "CSS", "JavaScript"],
+        note: "The live preview only shows the frontend part but it is a full-stack project including real-time data transition mechanism. Please check the GitHub repo for more details.",
+        stack: ["HTML", "CSS", "JavaScript", "React"],
         image: "/work/thumb2.png",
         live: "https://simple-pos-application.vercel.app",
         github: "https://github.com/Hadayetullah/Medicine-Management-POS",
@@ -33,7 +33,7 @@ const projects = [
         title: "Project one",
         description: 
         "A lightweight task management web app where users can add tasks, upload single or multiple attachments, and view file details.",
-        note: "This is a self-practiced project for learning purposes.",
+        note: "",
         stack: ["HTML", "CSS", "Tailwind CSS", "JavaScript", "TypeScript", "React.js", "Next.js", "Python", "Django Rest Framework", "SQLite"],
         image: "/work/thumb1.png",
         live: "https://simple-todo-task-management.vercel.app",
@@ -44,8 +44,9 @@ const projects = [
         category: "Frontend",
         title: "Project three",
         description: 
-        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Beatae ut necessitatibus ratione voluptates quibusdam id quo vitae qui, aliquid voluptatem at aut aspernatur.",
-        stack: ["HTML", "CSS", "JavaScript"],
+        "A sleek digital solutions hub website built to empower businesses with web development, ERP automation, and strategic digital marketing.",
+        note: "",
+        stack: ["HTML", "CSS", "Tailwind CSS", "JavaScript", "TypeScript", "React.js", "Next.js", "Python", "Django Rest Framework", "SQLite"],
         image: "/work/thumb3.png",
         live: "https://cybercraft-bangladesh.vercel.app",
         github: "https://github.com/Hadayetullah/cybercraft-bangladesh-frontend",
@@ -112,7 +113,7 @@ const MyWork = (props: Props) => {
         >
             {/* Project details section */}
             <div className='w-full lg:w-[50%] lg:h-[460px] flex flex-col lg:justify-between order-2 lg:order-none '>
-                <div className='flex flex-col gap-[10px] xs:gap-[20px]'>
+                <div className='flex flex-col gap-[7px] xs:gap-[15px]'>
                     <div 
                         className='text-4xl xxs:text-6xl xs:text-8xl font-bold text-transparent text-shadow-neutral-50' 
                         style={{ WebkitTextStroke: `2px var(--color-${props.isDarkMode ? 'secondary' : 'primarylight'})`}}
@@ -127,9 +128,15 @@ const MyWork = (props: Props) => {
                         {project.category} project
                     </h2>
 
-                    <p className='py-2 xs:py-4 text-sm xxs:text-base leading-[1.5] text-black/80 dark:text-white/80'>
+                    <h5 className='font-semibold'>*** Under Development ***</h5>
+
+                    <p className='py-1 xs:py-2 text-sm xxs:text-base leading-[1.5] text-black/80 dark:text-white/80'>
                         {project.description}
                     </p>
+
+                    {project.note && 
+                        <p className='text-sm italic text-black/80 dark:text-white/80'><strong>Note:</strong> {project.note}</p>
+                    }
 
                     <ul className='w-full flex flex-wrap gap-1 xxs:gap-2 xs:gap-3 leading-[1] xs:leading-[1.3] text-base xxs:text-lg xs:text-xl text-primarylight dark:text-secondary'>
                         {
@@ -157,7 +164,7 @@ const MyWork = (props: Props) => {
 
                         <div className='w-10 xxs:w-13 h-10 xxs:h-13 rounded-full bg-gray-300 dark:bg-secondarydarklight text-black dark:text-secondary'>
                             <Link 
-                                href={project.live} 
+                                href={project.github} 
                                 title='GitHub Repository'
                                 target='_blank'
                             >
