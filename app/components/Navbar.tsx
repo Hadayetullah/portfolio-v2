@@ -126,11 +126,11 @@ const Navbar = ({isDarkMode, setIsDarkMode, activeSection}: NavbarProps) => {
                         <a onClick={closeMenu} className='font-ovo' href="#resume">Resume</a>
                     </li>
                     {/* Temporary comment */}
-                    {/* <li 
+                    <li 
                         className={`${activeSection === "work" ? "text-secondarylight dark:bg-transparent dark:border-[0.5px] dark:border-secondarydark dark:text-secondarydark italic font-medium" : ""} rounded-[8px]`}
                     >
                         <a onClick={closeMenu} className='font-ovo' href="#work">My Work</a>
-                    </li> */}
+                    </li>
                     <li 
                         className={`${activeSection === "contact" ? "text-secondarylight dark:bg-transparent dark:border-[0.5px] dark:border-secondarydark dark:text-secondarydark italic font-medium" : ""} rounded-[8px]`}
                     >

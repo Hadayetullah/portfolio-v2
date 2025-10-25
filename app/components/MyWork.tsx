@@ -1,6 +1,6 @@
 'use client'
 
-import { assets, workData } from '@/assets/assets'
+// import { assets, workData } from '@/assets/assets'
 import Image from 'next/image'
 import React, { ForwardedRef, useState } from 'react'
 import { motion } from 'motion/react'
@@ -12,28 +12,32 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import Link from 'next/link'
 import WorkSliderBtns from './WorkSliderBtns'
 
+const hashTags = ["#UnderDevelopment", "#SelfPracticed"];
+
 const projects = [
     {
-        num: "01",
+        num: "02",
         category: "Frontend",
-        title: "Project one",
+        title: "Project two",
         description: 
-        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Beatae ut necessitatibus ratione voluptates quibusdam id quo vitae qui, aliquid voluptatem at aut aspernatur.",
+        "A modern point-of-sale (POS) dashboard enabling product, customer and transaction tracking, with live sales interface, inventory control and responsive analytics for rapid retail management.",
+        note: "",
         stack: ["HTML", "CSS", "JavaScript"],
-        image: "/work/thumb1.png",
-        live: "",
-        github: "",
+        image: "/work/thumb2.png",
+        live: "https://simple-pos-application.vercel.app",
+        github: "https://github.com/Hadayetullah/Medicine-Management-POS",
     },
     {
         num: "02",
         category: "Full-stack",
-        title: "Project two",
+        title: "Project one",
         description: 
-        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Beatae ut necessitatibus ratione voluptates quibusdam id quo vitae qui, aliquid voluptatem at aut aspernatur.",
-        stack: ["HTML", "CSS", "JavaScript"],
-        image: "/work/thumb2.png",
-        live: "",
-        github: "",
+        "A lightweight task management web app where users can add tasks, upload single or multiple attachments, and view file details.",
+        note: "This is a self-practiced project for learning purposes.",
+        stack: ["HTML", "CSS", "Tailwind CSS", "JavaScript", "TypeScript", "React.js", "Next.js", "Python", "Django Rest Framework", "SQLite"],
+        image: "/work/thumb1.png",
+        live: "https://simple-todo-task-management.vercel.app",
+        github: "https://github.com/Hadayetullah/SEOPage1",
     },
     {
         num: "03",
@@ -43,8 +47,8 @@ const projects = [
         "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Beatae ut necessitatibus ratione voluptates quibusdam id quo vitae qui, aliquid voluptatem at aut aspernatur.",
         stack: ["HTML", "CSS", "JavaScript"],
         image: "/work/thumb3.png",
-        live: "",
-        github: "",
+        live: "https://cybercraft-bangladesh.vercel.app",
+        github: "https://github.com/Hadayetullah/cybercraft-bangladesh-frontend",
     },
 ];
 
@@ -95,8 +99,9 @@ const MyWork = (props: Props) => {
             transition={{ duration: 0.5, delay: 0.3 }}
             className='w-full max-w-[500px] text-sm xxs:text-base text-center mx-auto mt-5 mb-6 xxs:mb-12 font-ovo'
         >
-            Welcome to my web development portfolio! Explore a collection of projects showcasing
-            my expertise in web development.
+            {/* Welcome to my web development portfolio! Explore a collection of simple projects showcasing
+            my expertise in web development. */}
+            Welcome to my web development portfolio! Explore a collection of my self-practiced projects that demonstrate my expertise and experience in web development.
         </motion.p>
 
         <motion.div 
@@ -126,7 +131,7 @@ const MyWork = (props: Props) => {
                         {project.description}
                     </p>
 
-                    <ul className='w-full flex flex-wrap gap-1 xxs:gap-2 xs:gap-4 leading-[1.2] xs:leading-[1.5] text-base xxs:text-lg xs:text-xl text-primarylight dark:text-secondary'>
+                    <ul className='w-full flex flex-wrap gap-1 xxs:gap-2 xs:gap-3 leading-[1] xs:leading-[1.3] text-base xxs:text-lg xs:text-xl text-primarylight dark:text-secondary'>
                         {
                             project.stack.map((item:string, index:number) => (
                                 <li key={index}>

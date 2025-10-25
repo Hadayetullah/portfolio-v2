@@ -11,7 +11,7 @@ type Props = {
 
 const ServiceModal = (props: Props) => {
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-[#00000099] z-[150] transition-all duration-150">
+    <div className="fixed inset-0 flex items-center justify-center bg-[#00000099] text-black z-[150] transition-all duration-150">
        <div 
             className="relative w-full max-w-lg py-8 px-2 xxs:px-4 xs:px-8 space-y-4 xxs:space-y-6 bg-white rounded shadow-lg opacity-100"
         >
