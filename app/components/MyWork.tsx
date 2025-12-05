@@ -17,37 +17,53 @@ const hashTags = ["#UnderDevelopment", "#SelfPracticed"];
 const projects = [
     {
         num: "01",
-        category: "Frontend",
-        title: "Project two",
+        title: "Business Development Agency Website",
+        architecture: "Monolithic Architecture",
+        category: "Full-Stack Project",
+        description: 
+        "An innovative business development agency website offering creative content production, professional video editing, strategic digital marketing, and SEO expertise to elevate brand visibility and growth.",
+        // note: "The live preview only shows the frontend part but it is a full-Stack Project including real-time data transition mechanism. Please check the GitHub repo for more details.",
+        stack: ["HTML", "CSS", "JavaScript", "Python", "Django", "SQLite"],
+        image: "/work/thumb1.png",
+        live: "https://hadayetullah.pythonanywhere.com",
+        github: "https://github.com/Hadayetullah/KZT-Portfolio",
+    },
+    {
+        num: "02",
+        title: "POS Dashboard",
+        architecture: "Microservice Architecture",
+        category: "Frontend project",
         description: 
         "A modern point-of-sale (POS) dashboard enabling product, customer and transaction tracking, with live sales interface, inventory control and responsive analytics for rapid retail management.",
-        note: "The live preview only shows the frontend part but it is a full-stack project including real-time data transition mechanism. Please check the GitHub repo for more details.",
+        note: "The live preview only shows the frontend part but it has a full-stack version that includes real-time data transition mechanism. Please check the GitHub repo for more details.",
         stack: ["HTML", "CSS", "JavaScript", "React"],
-        image: "/work/thumb2.png",
+        image: "/work/thumb3.png",
         live: "https://simple-pos-application.vercel.app",
         github: "https://github.com/Hadayetullah/Medicine-Management-POS",
     },
     {
-        num: "02",
-        category: "Full-stack",
-        title: "Project one",
+        num: "03",
+        title: "Task Management App",
+        architecture: "Microservice Architecture",
+        category: "Full-Stack Project",
         description: 
         "A lightweight task management web app where users can add tasks, upload single or multiple attachments, and view file details.",
         note: "",
         stack: ["HTML", "CSS", "Tailwind CSS", "JavaScript", "TypeScript", "React.js", "Next.js", "Python", "Django Rest Framework", "SQLite"],
-        image: "/work/thumb1.png",
+        image: "/work/thumb2.png",
         live: "https://simple-todo-task-management.vercel.app",
         github: "https://github.com/Hadayetullah/SEOPage1",
     },
     {
-        num: "03",
-        category: "Frontend",
-        title: "Project three",
+        num: "04",
+        title: "Web Development Agency Website",
+        architecture: "Microservice Architecture",
+        category: "Full-Stack Project",
         description: 
         "A sleek digital solutions hub website built to empower businesses with web development, ERP automation, and strategic digital marketing.",
         note: "",
         stack: ["HTML", "CSS", "Tailwind CSS", "JavaScript", "TypeScript", "React.js", "Next.js", "Python", "Django Rest Framework", "SQLite"],
-        image: "/work/thumb3.png",
+        image: "/work/thumb4.png",
         live: "https://cybercraft-bangladesh.vercel.app",
         github: "https://github.com/Hadayetullah/cybercraft-bangladesh-frontend",
     },
@@ -66,6 +82,8 @@ const MyWork = (props: Props) => {
         const currentIndex = swiper.activeIndex;
         setProject(projects[currentIndex]);
     }
+
+    const starSpan = (<span className={`font-extrabold text-[17px] xxs:text-[22px] text-primarylight dark:text-secondary`}>*</span>)
 
   return (
     <motion.div 
@@ -122,11 +140,17 @@ const MyWork = (props: Props) => {
                     </div>
 
                     <h2 
-                        className='text-[20px] xxs:text-[30px] xs:text-[42px] font-medium transition-all duration-300 
+                        className='leading-none text-[20px] xxs:text-[30px] xs:text-[42px] font-medium transition-all duration-300 
                         capitalize '
                     >
-                        {project.category} project
+                        {project.title}
                     </h2>
+
+                    <div className='pt-2 flex flex-col gap-[5px] xxs:gap-[12px] leading-none text-[14px] xxs:text-[18px] font-semibold italic'>
+                        <h5>{starSpan} {project.category} {starSpan}</h5>
+
+                        <h5>{starSpan}{starSpan} {project.architecture} {starSpan}{starSpan}</h5>
+                    </div>
 
                     <h5 className='font-semibold'>*** Under Development ***</h5>
 
